@@ -194,7 +194,8 @@
         \"starts with\", or \"ends with\".
         To edit, delete, or move a contact to another list, make a long click
         on its line. If you want to temporarily disable blocking contacts
-        from the Blacklist, you can do this in the Settings.</string>
+        from the Blacklist, you can do this in the Settings.
+    </string>
 
     <string name="Info_white_list">
         This is the list of contacts with numbers, calls and SMS from which will
