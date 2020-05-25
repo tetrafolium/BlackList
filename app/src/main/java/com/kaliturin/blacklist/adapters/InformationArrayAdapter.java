@@ -53,10 +53,8 @@ public class InformationArrayAdapter extends ArrayAdapter<InformationArrayAdapte
             Model model = getItem(position);
             // get row layout
             int layoutId = R.layout.row_info;
-            if (model != null) {
-                if (model.type == Model.TITLE) {
-                    layoutId = R.layout.row_title;
-                }
+            if ((model != null) && (model.type == Model.TITLE)) {
+                layoutId = R.layout.row_title;
             }
             // create row
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -127,12 +125,10 @@ public class InformationArrayAdapter extends ArrayAdapter<InformationArrayAdapte
                     titleView.setVisibility(View.GONE);
                 }
             }
-            if (model.type == Model.TITLE) {
-                if (position == 0) {
-                    View borderView = rowView.findViewById(R.id.top_border);
-                    if (borderView != null) {
-                        borderView.setVisibility(View.GONE);
-                    }
+            if ((model.type == Model.TITLE) && (position == 0)) {
+                View borderView = rowView.findViewById(R.id.top_border);
+                if (borderView != null) {
+                    borderView.setVisibility(View.GONE);
                 }
             }
 
