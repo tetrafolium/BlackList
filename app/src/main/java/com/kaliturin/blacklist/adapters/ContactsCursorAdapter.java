@@ -49,12 +49,12 @@ public class ContactsCursorAdapter extends CursorAdapter {
     private RowOnClickListener rowOnClickListener = new RowOnClickListener();
     private RowOnLongClickListener rowOnLongClickListener = new RowOnLongClickListener();
 
-    public ContactsCursorAdapter(Context context) {
+    public ContactsCursorAdapter(final Context context) {
         super(context, null, 0);
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+    public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
         if (cursor == null) return null;
 
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -73,7 +73,7 @@ public class ContactsCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(final View view, final Context context, final Cursor cursor) {
         if (cursor == null) return;
 
         // get contact
@@ -86,18 +86,18 @@ public class ContactsCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void changeCursor(Cursor cursor) {
+    public void changeCursor(final Cursor cursor) {
         super.changeCursor(cursor);
         // rebuild checked items container
         int size = (cursor != null ? cursor.getCount() : 0);
         checkedItems = new IdentifiersContainer(size);
     }
 
-    public void setOnClickListener(View.OnClickListener onClickListener) {
+    public void setOnClickListener(final View.OnClickListener onClickListener) {
         this.outerOnClickListener = onClickListener;
     }
 
-    public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+    public void setOnLongClickListener(final View.OnLongClickListener onLongClickListener) {
         this.outerOnLongClickListener = onLongClickListener;
     }
 
@@ -107,7 +107,7 @@ public class ContactsCursorAdapter extends CursorAdapter {
     }
 
     // Sets all items checked/unchecked
-    public void setAllItemsChecked(boolean checked) {
+    public void setAllItemsChecked(final boolean checked) {
         if (checkedItems.setAll(checked)) {
             notifyDataSetChanged();
         }
@@ -139,7 +139,7 @@ public class ContactsCursorAdapter extends CursorAdapter {
     // Row on click listener
     private class RowOnClickListener implements View.OnClickListener {
         @Override
-        public void onClick(View view) {
+        public void onClick(final View view) {
             ViewHolder viewHolder = (ViewHolder) view.getTag();
             viewHolder.toggle();
             if (outerOnClickListener != null) {
@@ -151,13 +151,13 @@ public class ContactsCursorAdapter extends CursorAdapter {
     // Row on long click listener
     private class RowOnLongClickListener implements View.OnLongClickListener {
         @Override
-        public boolean onLongClick(View view) {
-            return (outerOnLongClickListener != null &&
-                    outerOnLongClickListener.onLongClick(view));
+        public boolean onLongClick(final View view) {
+            return (outerOnLongClickListener != null
+                    && outerOnLongClickListener.onLongClick(view));
         }
     }
 
-    public boolean isItemChecked(View row) {
+    public boolean isItemChecked(final View row) {
         if (row != null) {
             ViewHolder viewHolder = (ViewHolder) row.getTag();
             return viewHolder.isChecked();
@@ -166,7 +166,7 @@ public class ContactsCursorAdapter extends CursorAdapter {
     }
 
     @Nullable
-    public Contact getContact(View row) {
+    public Contact getContact(final View row) {
         if (row != null) {
             ViewHolder viewHolder = (ViewHolder) row.getTag();
             return viewHolder.contact;
@@ -185,15 +185,15 @@ public class ContactsCursorAdapter extends CursorAdapter {
         private TextView numbersTextView;
         private CheckBox checkBox;
 
-        ViewHolder(Context context, View row) {
+        ViewHolder(final Context context, final View row) {
             this(context, (CheckableLinearLayout) row,
                     (TextView) row.findViewById(R.id.contact_name),
                     (TextView) row.findViewById(R.id.contact_numbers),
                     (CheckBox) row.findViewById(R.id.contact_cb));
         }
 
-        ViewHolder(Context context, CheckableLinearLayout rowView, TextView nameTextView,
-                   TextView numbersTextView, CheckBox checkBox) {
+        ViewHolder(final Context context, final CheckableLinearLayout rowView, final TextView nameTextView,
+                   final TextView numbersTextView, final CheckBox checkBox) {
             this.contact = null;
             this.itemId = 0;
             this.rowView = rowView;
@@ -203,7 +203,7 @@ public class ContactsCursorAdapter extends CursorAdapter {
             Utils.scaleViewOnTablet(context, checkBox, R.dimen.iconScale);
         }
 
-        private void setModel(Context context, Contact contact) {
+        private void setModel(final Context context, final Contact contact) {
             this.contact = contact;
 
             itemId = (int) contact.id;
@@ -255,14 +255,14 @@ public class ContactsCursorAdapter extends CursorAdapter {
             return checkedItems.contains(itemId);
         }
 
-        private void setChecked(boolean checked) {
+        private void setChecked(final boolean checked) {
             checkedItems.set(itemId, checked);
             checkBox.setChecked(checked);
             rowView.setChecked(checked);
         }
     }
 
-    private String[] getSortedNumberTitles(Context context, List<ContactNumber> numbers) {
+    private String[] getSortedNumberTitles(final Context context, final List<ContactNumber> numbers) {
         Set<String> titles = new TreeSet<>();
         for (ContactNumber number : numbers) {
             titles.add(getNumberTypeTitle(context, number.type) + number.number);
@@ -270,7 +270,7 @@ public class ContactsCursorAdapter extends CursorAdapter {
         return titles.toArray(new String[titles.size()]);
     }
 
-    private String getNumberTypeTitle(Context context, int type) {
+    private String getNumberTypeTitle(final Context context, final int type) {
         switch (type) {
             case ContactNumber.TYPE_STARTS:
                 return context.getString(R.string.Starts_with) + " ";

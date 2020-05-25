@@ -72,7 +72,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(final @Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // set activity title
         Bundle arguments = getArguments();
@@ -83,14 +83,14 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             listPosition = savedInstanceState.getInt(LIST_POSITION, 0);
         }
@@ -100,7 +100,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE);
 
@@ -111,7 +111,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
                 getString(R.string.CANCEL),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         snackBar.dismiss();
                         clearCheckedItems();
                     }
@@ -121,7 +121,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
                 getString(R.string.DELETE),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         snackBar.dismiss();
                         deleteCheckedItems();
                     }
@@ -131,7 +131,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
                 getString(R.string.SELECT_ALL),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         setAllItemsChecked();
                     }
                 });
@@ -151,7 +151,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         cursorAdapter = new JournalCursorAdapter(getContext());
         cursorAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (cursorAdapter.hasCheckedItems()) {
                     snackBar.show();
                 } else {
@@ -184,7 +184,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.main, menu);
         itemSearch = menu.findItem(R.id.action_search);
         Utils.setMenuIconTint(getContext(), itemSearch, R.attr.colorAccent);
@@ -196,12 +196,12 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         // set on text change listener
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(final String query) {
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(final String newText) {
                 reloadItems(newText, false);
                 return true;
             }
@@ -212,12 +212,12 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         MenuItemCompat.setOnActionExpandListener(itemSearch,
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
+                    public boolean onMenuItemActionExpand(final MenuItem item) {
                         return true;
                     }
 
                     @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                    public boolean onMenuItemActionCollapse(final MenuItem item) {
                         reloadItems("", false);
                         return true;
                     }
@@ -227,7 +227,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(LIST_POSITION, listView.getFirstVisiblePosition());
     }
@@ -241,7 +241,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
 //-------------------------------------------------------------------
 
     // Moves contact to the the Black/White list
-    private void moveContact(int contactType, String caller, String number) {
+    private void moveContact(final int contactType, final String caller, final String number) {
         DatabaseAccessHelper db = DatabaseAccessHelper.getInstance(getContext());
         if (db != null) {
             db.addContact(contactType, caller, number);
@@ -249,7 +249,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     }
 
     // Deletes contact by id
-    private void deleteContact(long id) {
+    private void deleteContact(final long id) {
         DatabaseAccessHelper db = DatabaseAccessHelper.getInstance(getContext());
         if (db != null) {
             db.deleteContact(id);
@@ -257,7 +257,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     }
 
     // Shows SearchView with passed query
-    private void searchItems(String query) {
+    private void searchItems(final String query) {
         if (itemSearch != null && searchView != null) {
             MenuItemCompat.expandActionView(itemSearch);
             searchView.setQuery(query, true);
@@ -266,7 +266,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     }
 
     // Deletes contact by id
-    private void deleteItem(long recordId) {
+    private void deleteItem(final long recordId) {
         DatabaseAccessHelper db = DatabaseAccessHelper.getInstance(getContext());
         if (db != null) {
             db.deleteJournalRecord(recordId);
@@ -311,7 +311,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     }
 
     // Reloads items
-    private void reloadItems(@NonNull String itemsFilter, boolean force) {
+    private void reloadItems(final @NonNull String itemsFilter, final boolean force) {
         if (!force && this.itemsFilter.equals(itemsFilter)) {
             return;
         }
@@ -323,7 +323,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     }
 
     // Loads items to the list view
-    private void loadListViewItems(String itemsFilter, boolean deleteItems, int listPosition) {
+    private void loadListViewItems(final String itemsFilter, final boolean deleteItems, final int listPosition) {
         if (!isAdded()) {
             return;
         }
@@ -346,7 +346,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
     // On row long click listener
     private class OnLongClickListener implements View.OnLongClickListener {
         @Override
-        public boolean onLongClick(View view) {
+        public boolean onLongClick(final View view) {
             // get contact from the clicked row
             final JournalRecord record = cursorAdapter.getRecord(view);
             if (record == null) return true;
@@ -374,7 +374,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
             // add menu item of record deletion
             dialog.addItem(R.string.Delete_record, new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     deleteItem(record.id);
                     reloadItems(itemsFilter, true);
                 }
@@ -383,7 +383,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
             if (record.text != null && !record.text.isEmpty()) {
                 dialog.addItem(R.string.Copy_text, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         if (Utils.copyTextToClipboard(getContext(), record.text)) {
                             Toast.makeText(getContext(), R.string.Copied_to_clipboard,
                                     Toast.LENGTH_SHORT).show();
@@ -394,7 +394,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
             // add menu item of number copying
             dialog.addItem(R.string.Copy_number, new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     if (Utils.copyTextToClipboard(getContext(), number)) {
                         Toast.makeText(getContext(), R.string.Copied_to_clipboard,
                                 Toast.LENGTH_SHORT).show();
@@ -404,7 +404,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
             // add menu item records searching
             dialog.addItem(R.string.Find_similar_records, new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     // find all records by record's caller
                     searchItems(record.caller);
                 }
@@ -416,7 +416,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
                 final long contactId = blackContact.id;
                 dialog.addItem(R.string.Exclude_from_black_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         deleteContact(contactId);
                     }
                 });
@@ -424,7 +424,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
                 // add menu item of adding the contact to the black list
                 dialog.addItem(R.string.Move_to_black_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         moveContact(Contact.TYPE_BLACK_LIST, record.caller, record.number);
                     }
                 });
@@ -435,7 +435,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
                 // add menu item of adding contact to the white list
                 dialog.addItem(R.string.Move_to_white_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         moveContact(Contact.TYPE_WHITE_LIST, record.caller, record.number);
                     }
                 });
@@ -453,9 +453,9 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         private IdentifiersContainer deletingItems;
         private String itemsFilter;
 
-        JournalItemsLoader(Context context,
-                           @Nullable String itemsFilter,
-                           @Nullable IdentifiersContainer deletingItems) {
+        JournalItemsLoader(final Context context,
+                           final @Nullable String itemsFilter,
+                           final @Nullable IdentifiersContainer deletingItems) {
             super(context);
             this.itemsFilter = itemsFilter;
             this.deletingItems = deletingItems;
@@ -483,12 +483,12 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         private ListView listView;
         private int listPosition;
 
-        JournalItemsLoaderCallbacks(Context context,
-                                    JournalCursorAdapter cursorAdapter,
-                                    @Nullable String itemsFilter,
-                                    boolean deleteItems,
-                                    ListView listView,
-                                    int listPosition) {
+        JournalItemsLoaderCallbacks(final Context context,
+                                    final JournalCursorAdapter cursorAdapter,
+                                    final @Nullable String itemsFilter,
+                                    final boolean deleteItems,
+                                    final ListView listView,
+                                    final int listPosition) {
             this.context = context;
             this.cursorAdapter = cursorAdapter;
             this.itemsFilter = itemsFilter;
@@ -498,7 +498,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         }
 
         @Override
-        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
             IdentifiersContainer deletingItems = null;
             if (deleteItems) {
                 deletingItems = cursorAdapter.getCheckedItems().clone();
@@ -507,7 +507,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
             cursorAdapter.changeCursor(data);
 
             // scroll list to the saved position
@@ -520,7 +520,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         }
 
         @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
+        public void onLoaderReset(final Loader<Cursor> loader) {
             cursorAdapter.changeCursor(null);
         }
     }

@@ -30,7 +30,7 @@ public class CheckableLinearLayout extends LinearLayout implements Checkable {
 
     private boolean checked = false;
 
-    public CheckableLinearLayout(Context context, AttributeSet attrs) {
+    public CheckableLinearLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -38,7 +38,7 @@ public class CheckableLinearLayout extends LinearLayout implements Checkable {
         return checked;
     }
 
-    public void setChecked(boolean b) {
+    public void setChecked(final boolean b) {
         if (b != checked) {
             checked = b;
             refreshDrawableState();
@@ -50,7 +50,7 @@ public class CheckableLinearLayout extends LinearLayout implements Checkable {
     }
 
     @Override
-    public int[] onCreateDrawableState(int extraSpace) {
+    public int[] onCreateDrawableState(final int extraSpace) {
         final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
         if (isChecked()) {
             mergeDrawableStates(drawableState, CHECKED_STATE_SET);

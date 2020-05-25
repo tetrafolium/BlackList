@@ -38,7 +38,7 @@ import static android.support.v4.app.NotificationCompat.PRIORITY_MAX;
  */
 public class Notifications {
     // Notification on call blocked
-    public static void onCallBlocked(Context context, String address) {
+    public static void onCallBlocked(final Context context, final String address) {
         if (!Settings.getBooleanValue(context, Settings.BLOCKED_CALL_STATUS_NOTIFICATION)) {
             return;
         }
@@ -54,7 +54,7 @@ public class Notifications {
     }
 
     // Notification on SMS blocked
-    public static void onSmsBlocked(Context context, String address) {
+    public static void onSmsBlocked(final Context context, final String address) {
         if (!Settings.getBooleanValue(context, Settings.BLOCKED_SMS_STATUS_NOTIFICATION)) {
             return;
         }
@@ -70,7 +70,7 @@ public class Notifications {
     }
 
     // Notification on SMS received
-    public static void onSmsReceived(Context context, String address, String smsBody) {
+    public static void onSmsReceived(final Context context, final String address, final String smsBody) {
         String message = context.getString(R.string.message_is_received);
         int icon = R.drawable.ic_status_sms;
         String action = MainActivity.ACTION_SMS_CONVERSATIONS;
@@ -82,7 +82,7 @@ public class Notifications {
         notify(context, address, message, smsBody, icon, action, ringtone, vibration);
     }
 
-    public static void onSmsDelivery(Context context, String address, String message) {
+    public static void onSmsDelivery(final Context context, final String address, final String message) {
         if (!Settings.getBooleanValue(context, Settings.DELIVERY_SMS_NOTIFICATION)) {
             return;
         }
@@ -96,9 +96,9 @@ public class Notifications {
         notify(context, address, message, message, icon, action, ringtone, vibration);
     }
 
-    private static void notify(Context context, String title, String message, String ticker,
-                               @DrawableRes int icon, String action, Uri ringtone,
-                               boolean vibration) {
+    private static void notify(final Context context, final String title, final String message, final String ticker,
+                               final @DrawableRes int icon, final String action, final Uri ringtone,
+                               final boolean vibration) {
 
         // turn off sound and vibration if phone is in silent mode
         AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -143,8 +143,8 @@ public class Notifications {
     }
 
     // Returns notification ringtone uri (if settings do not allow it - returns null)
-    private static Uri getRingtoneUri(Context context, String notificationProperty,
-                                      String ringtoneProperty) {
+    private static Uri getRingtoneUri(final Context context, final String notificationProperty,
+                                      final String ringtoneProperty) {
         Uri ringtone = null;
         // if ringtone notification is allowed
         if (Settings.getBooleanValue(context, notificationProperty)) {
@@ -160,7 +160,7 @@ public class Notifications {
         return ringtone;
     }
 
-    private static int getColor(Context context, @AttrRes int attrRes) {
+    private static int getColor(final Context context, final @AttrRes int attrRes) {
         int styleRes = R.style.AppTheme_Dark;
         if (Settings.getBooleanValue(context, Settings.UI_THEME_DARK)) {
             styleRes = R.style.AppTheme_Light;

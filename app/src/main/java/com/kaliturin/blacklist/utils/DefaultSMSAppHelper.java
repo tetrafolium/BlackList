@@ -38,15 +38,15 @@ public class DefaultSMSAppHelper {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
 
-    public static void updateState(Context context) {
+    public static void updateState(final Context context) {
         boolean ready = isDefault(context);
         enableSMSReceiving(context, ready);
     }
 
-    public static void enableSMSReceiving(Context context, boolean enable) {
-        int state = (enable ?
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
+    public static void enableSMSReceiving(final Context context, final boolean enable) {
+        int state = (enable
+                ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                : PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
         PackageManager packageManager = context.getPackageManager();
         ComponentName componentName = new ComponentName(context, SMSBroadcastReceiver.class);
         packageManager.setComponentEnabledSetting(
@@ -56,7 +56,7 @@ public class DefaultSMSAppHelper {
     }
 
     @TargetApi(19)
-    public static boolean isDefault(Context context) {
+    public static boolean isDefault(final Context context) {
         if (!isAvailable()) return true;
         String myPackage = context.getPackageName();
         String smsPackage = Telephony.Sms.getDefaultSmsPackage(context);
@@ -64,7 +64,7 @@ public class DefaultSMSAppHelper {
     }
 
     @TargetApi(19)
-    public static void askForDefaultAppChange(Fragment fragment, int requestCode) {
+    public static void askForDefaultAppChange(final Fragment fragment, final int requestCode) {
         if (!isAvailable()) return;
         Context context = fragment.getContext().getApplicationContext();
         String packageName;
@@ -86,7 +86,7 @@ public class DefaultSMSAppHelper {
     }
 
     @TargetApi(19)
-    private static void askForDefaultAppChange(Fragment fragment, @Nullable String packageName, int requestCode) {
+    private static void askForDefaultAppChange(final Fragment fragment, final @Nullable String packageName, final int requestCode) {
         if (!isAvailable()) return;
         Intent intent;
         if (packageName == null) {

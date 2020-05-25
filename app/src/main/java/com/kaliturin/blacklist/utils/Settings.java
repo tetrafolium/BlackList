@@ -73,7 +73,7 @@ public class Settings {
         settingsMap.clear();
     }
 
-    public static boolean setStringValue(Context context, @NonNull String name, @NonNull String value) {
+    public static boolean setStringValue(final Context context, final @NonNull String name, final @NonNull String value) {
         DatabaseAccessHelper db = DatabaseAccessHelper.getInstance(context);
         if (db != null && db.setSettingsValue(name, value)) {
             settingsMap.put(name, value);
@@ -83,7 +83,7 @@ public class Settings {
     }
 
     @Nullable
-    public static String getStringValue(Context context, @NonNull String name) {
+    public static String getStringValue(final Context context, final @NonNull String name) {
         String value = settingsMap.get(name);
         if (value == null) {
             DatabaseAccessHelper db = DatabaseAccessHelper.getInstance(context);
@@ -97,23 +97,23 @@ public class Settings {
         return value;
     }
 
-    public static boolean setBooleanValue(Context context, @NonNull String name, boolean value) {
+    public static boolean setBooleanValue(final Context context, final @NonNull String name, final boolean value) {
         String v = (value ? TRUE : FALSE);
         return setStringValue(context, name, v);
     }
 
-    public static boolean getBooleanValue(Context context, @NonNull String name) {
+    public static boolean getBooleanValue(final Context context, final @NonNull String name) {
         String value = getStringValue(context, name);
         return (value != null && value.equals(TRUE));
     }
 
-    public static boolean setIntegerValue(Context context, @NonNull String name, int value) {
+    public static boolean setIntegerValue(final Context context, final @NonNull String name, final int value) {
         String v = String.valueOf(value);
         return setStringValue(context, name, v);
     }
 
     @Nullable
-    public static Integer getIntegerValue(Context context, @NonNull String name) {
+    public static Integer getIntegerValue(final Context context, final @NonNull String name) {
         String value = getStringValue(context, name);
         try {
             return (value != null ? Integer.valueOf(value) : null);
@@ -122,7 +122,7 @@ public class Settings {
         return null;
     }
 
-    public static void initDefaults(Context context) {
+    public static void initDefaults(final Context context) {
         Map<String, String> map = new HashMap<>();
         map.put(BLOCK_CALLS_FROM_BLACK_LIST, TRUE);
         map.put(BLOCK_ALL_CALLS, FALSE);
@@ -167,7 +167,7 @@ public class Settings {
     }
 
     // Applies the current UI theme depending on settings
-    public static void applyCurrentTheme(Activity activity) {
+    public static void applyCurrentTheme(final Activity activity) {
         if (getBooleanValue(activity, Settings.UI_THEME_DARK)) {
             activity.setTheme(R.style.AppTheme_Dark);
         } else {

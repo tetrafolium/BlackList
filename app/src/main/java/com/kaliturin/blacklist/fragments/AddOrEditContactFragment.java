@@ -63,8 +63,8 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         if (arguments != null) {
             contactType = arguments.getInt(CONTACT_TYPE, 0);
@@ -76,7 +76,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         numbersViewList = (LinearLayout) view.findViewById(R.id.numbers_list);
@@ -88,7 +88,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
                 getString(R.string.CANCEL),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         finishActivity(Activity.RESULT_CANCELED);
                     }
                 });
@@ -97,11 +97,11 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
                 getString(R.string.SAVE),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         if (!Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
-                            int result = (saveContact() ?
-                                    Activity.RESULT_OK :
-                                    Activity.RESULT_CANCELED);
+                            int result = (saveContact()
+                                    ? Activity.RESULT_OK
+                                    : Activity.RESULT_CANCELED);
                             finishActivity(result);
                         }
                     }
@@ -112,7 +112,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
         View button = view.findViewById(R.id.button_add_another);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 showAddContactsMenuDialog();
             }
         });
@@ -139,7 +139,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         // save numbers and types to the lists
         ArrayList<String> numbers = new ArrayList<>();
@@ -156,7 +156,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         // this is calling for receiving results from GetContactsFragment
         if (resultCode == Activity.RESULT_OK) {
             // add chosen resulting data to the list
@@ -165,7 +165,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    public void onViewStateRestored(final @Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         // restore numbers list from saved state
         addRowsToNumbersList(savedInstanceState);
@@ -174,7 +174,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
 //------------------------------------------------------------------------------------
 
     // Initializes the view with contact's data
-    private void addRowsToNumbersList(Contact contact) {
+    private void addRowsToNumbersList(final Contact contact) {
         // contact name edit
         setName(contact.name);
         // add rows
@@ -184,7 +184,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
     }
 
     // Initializes the view with bundle data
-    private void addRowsToNumbersList(Bundle data) {
+    private void addRowsToNumbersList(final Bundle data) {
         if (data == null) {
             return;
         }
@@ -271,7 +271,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
     }
 
     // Adds row to the numbers list
-    private boolean addRowToNumbersList(@NonNull String number, int type) {
+    private boolean addRowToNumbersList(final @NonNull String number, final int type) {
         // create and add the new row
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View row = inflater.inflate(R.layout.row_contact_number, numbersViewList, false);
@@ -286,7 +286,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
         buttonRemove.setTag(row);
         buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 numbersViewList.removeView((View) v.getTag());
             }
         });
@@ -319,7 +319,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
         return "";
     }
 
-    private void setName(String name) {
+    private void setName(final String name) {
         View view = getView();
         if (view != null) {
             EditText nameEdit = (EditText) view.findViewById(R.id.edit_name);
@@ -327,12 +327,12 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
         }
     }
 
-    private String getNumber(View row) {
+    private String getNumber(final View row) {
         EditText numberEdit = (EditText) row.findViewById(R.id.edit_number);
         return numberEdit.getText().toString().trim();
     }
 
-    private void setNumber(View row, String number) {
+    private void setNumber(final View row, final String number) {
         final EditText numberEdit = (EditText) row.findViewById(R.id.edit_number);
         numberEdit.setText(number);
         if (number == null || number.isEmpty()) {
@@ -345,7 +345,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
         }
     }
 
-    private int getNumberType(View row) {
+    private int getNumberType(final View row) {
         Spinner numberTypeSpinner = (Spinner) row.findViewById(R.id.spinner_number_type);
         switch (numberTypeSpinner.getSelectedItemPosition()) {
             case 1:
@@ -359,7 +359,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
         return ContactNumber.TYPE_EQUALS;
     }
 
-    private void setNumberType(View row, int type) {
+    private void setNumberType(final View row, final int type) {
         int position = 0;
         switch (type) {
             case ContactNumber.TYPE_CONTAINS:
@@ -376,7 +376,7 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
         numberTypeSpinner.setSelection(position);
     }
 
-    private void finishActivity(int result) {
+    private void finishActivity(final int result) {
         getActivity().setResult(result);
         getActivity().finish();
     }
@@ -388,44 +388,44 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
         dialog.setTitle(R.string.Add_number).
                 addItem(R.string.From_contacts_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showGetContactsFragment(ContactSourceType.FROM_CONTACTS);
                     }
                 }).
                 addItem(R.string.From_calls_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showGetContactsFragment(ContactSourceType.FROM_CALLS_LOG);
                     }
                 }).
                 addItem(R.string.From_SMS_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showGetContactsFragment(ContactSourceType.FROM_SMS_LIST);
                     }
                 }).
                 addItem(R.string.From_Black_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showGetContactsFragment(ContactSourceType.FROM_BLACK_LIST);
                     }
                 }).
                 addItem(R.string.From_White_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showGetContactsFragment(ContactSourceType.FROM_WHITE_LIST);
                     }
                 }).
                 addItem(R.string.Manually, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         addRowToNumbersList("", ContactNumber.TYPE_EQUALS);
                     }
                 }).
                 show();
     }
 
-    private void showGetContactsFragment(ContactSourceType sourceType) {
+    private void showGetContactsFragment(final ContactSourceType sourceType) {
         GetContactsFragment.show(this, sourceType, true);
     }
 }

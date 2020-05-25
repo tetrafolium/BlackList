@@ -32,29 +32,29 @@ public class FlowLayout extends ViewGroup {
         final int hSpacing;
         final int vSpacing;
 
-        FlowLayoutParams(int hSpacing, int vSpacing, ViewGroup.LayoutParams viewGroupLayout) {
+        FlowLayoutParams(final int hSpacing, final int vSpacing, final ViewGroup.LayoutParams viewGroupLayout) {
             super(viewGroupLayout);
             this.hSpacing = hSpacing;
             this.vSpacing = vSpacing;
         }
 
-        FlowLayoutParams(int hSpacing, int vSpacing) {
+        FlowLayoutParams(final int hSpacing, final int vSpacing) {
             super(0, 0);
             this.hSpacing = hSpacing;
             this.vSpacing = vSpacing;
         }
     }
 
-    public FlowLayout(Context context) {
+    public FlowLayout(final Context context) {
         super(context);
     }
 
-    public FlowLayout(Context context, AttributeSet attrs) {
+    public FlowLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         if (MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.UNSPECIFIED) {
             throw new AssertionError("Measure mode isn't specified");
         }
@@ -110,17 +110,17 @@ public class FlowLayout extends ViewGroup {
     }
 
     @Override
-    protected LayoutParams generateLayoutParams(LayoutParams params) {
+    protected LayoutParams generateLayoutParams(final LayoutParams params) {
         return new FlowLayoutParams(1, 1, params);
     }
 
     @Override
-    protected boolean checkLayoutParams(ViewGroup.LayoutParams params) {
+    protected boolean checkLayoutParams(final ViewGroup.LayoutParams params) {
         return (params instanceof FlowLayoutParams);
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    protected void onLayout(final boolean changed, final int l, final int t, final int r, final int b) {
         final int count = getChildCount();
         final int width = r - l;
         int xPos = getPaddingLeft();

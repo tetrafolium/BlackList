@@ -53,7 +53,7 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
     private final int currentYear;
     private final int currentDay;
 
-    public SMSConversationsListCursorAdapter(Context context) {
+    public SMSConversationsListCursorAdapter(final Context context) {
         super(context, null, 0);
 
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -62,7 +62,7 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+    public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.row_sms_conversations_list, parent, false);
 
@@ -79,7 +79,7 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(final View view, final Context context, final Cursor cursor) {
         // try to get a model from the cache
         long itemId = getItemId(cursor.getPosition());
         SMSConversation model = smsConversationCache.get(itemId);
@@ -98,7 +98,7 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void changeCursor(Cursor cursor) {
+    public void changeCursor(final Cursor cursor) {
         invalidateCache();
         super.changeCursor(cursor);
     }
@@ -111,7 +111,7 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
     }
 
     // Removes particular item from the cache (if exists)
-    public boolean invalidateCache(int itemId) {
+    public boolean invalidateCache(final int itemId) {
         if (smsConversationCache.get(itemId) == null) {
             return false;
         }
@@ -121,7 +121,7 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
 
     // Returns sms conversation by passed row
     @Nullable
-    public SMSConversation getSMSConversation(View row) {
+    public SMSConversation getSMSConversation(final View row) {
         if (row != null) {
             ViewHolder holder = (ViewHolder) row.getTag();
             return holder.model;
@@ -129,27 +129,27 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
         return null;
     }
 
-    public void setOnClickListener(View.OnClickListener onClickListener) {
+    public void setOnClickListener(final View.OnClickListener onClickListener) {
         this.outerOnClickListener = onClickListener;
     }
 
-    public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+    public void setOnLongClickListener(final View.OnLongClickListener onLongClickListener) {
         this.outerOnLongClickListener = onLongClickListener;
     }
 
     // Row on long click listener
     private class RowOnLongClickListener implements View.OnLongClickListener {
         @Override
-        public boolean onLongClick(View view) {
-            return (outerOnLongClickListener != null &&
-                    outerOnLongClickListener.onLongClick(view));
+        public boolean onLongClick(final View view) {
+            return (outerOnLongClickListener != null
+                    && outerOnLongClickListener.onLongClick(view));
         }
     }
 
     // Row on click listener
     private class RowOnClickListener implements View.OnClickListener {
         @Override
-        public void onClick(View view) {
+        public void onClick(final View view) {
             if (outerOnClickListener != null) {
                 outerOnClickListener.onClick(view);
             }
@@ -165,7 +165,7 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
         private TextView dateTextView;
         private TextView unreadTextView;
 
-        ViewHolder(View rowView) {
+        ViewHolder(final View rowView) {
             this(rowView,
                     (TextView) rowView.findViewById(R.id.address),
                     (TextView) rowView.findViewById(R.id.snippet),
@@ -173,11 +173,11 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
                     (TextView) rowView.findViewById(R.id.unread_sms));
         }
 
-        ViewHolder(View rowView,
-                   TextView addressTextView,
-                   TextView snippetTextView,
-                   TextView dateTextView,
-                   TextView unreadTextView) {
+        ViewHolder(final View rowView,
+                   final TextView addressTextView,
+                   final TextView snippetTextView,
+                   final TextView dateTextView,
+                   final TextView unreadTextView) {
             this.model = null;
             this.rowView = rowView;
             this.addressTextView = addressTextView;
@@ -186,7 +186,7 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
             this.unreadTextView = unreadTextView;
         }
 
-        void setModel(@Nullable SMSConversation model) {
+        void setModel(final @Nullable SMSConversation model) {
             this.model = model;
             if (model == null) {
                 rowView.setVisibility(View.GONE);
@@ -206,9 +206,9 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
             Date date = toDate(model.date);
             calendar.setTimeInMillis(model.date);
             // if current year
-            if(calendar.get(Calendar.YEAR) == currentYear) {
+            if (calendar.get(Calendar.YEAR) == currentYear) {
                 // if current day
-                if(calendar.get(Calendar.DAY_OF_YEAR) == currentDay) {
+                if (calendar.get(Calendar.DAY_OF_YEAR) == currentDay) {
                     // day-less format
                     text = timeFormat.format(date);
                 } else {
@@ -229,7 +229,7 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
             }
         }
 
-        private Date toDate(long time) {
+        private Date toDate(final long time) {
             datetime.setTime(time);
             return datetime;
         }

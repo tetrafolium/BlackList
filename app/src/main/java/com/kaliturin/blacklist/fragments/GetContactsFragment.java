@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class GetContactsFragment extends AddContactsFragment {
     @Override
-    protected void addContacts(List<Contact> contacts, LongSparseArray<ContactNumber> singleContactNumbers) {
+    protected void addContacts(final List<Contact> contacts, final LongSparseArray<ContactNumber> singleContactNumbers) {
         // prepare returning arguments - data of the chosen contacts
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> numbers = new ArrayList<>();
@@ -71,7 +71,7 @@ public class GetContactsFragment extends AddContactsFragment {
     }
 
     // Shows custom activity with the fragment
-    public static void show(Fragment parent, ContactSourceType sourceType, boolean singleNumberMode) {
+    public static void show(final Fragment parent, final ContactSourceType sourceType, final boolean singleNumberMode) {
         Context context = parent.getContext();
 
         // check permission
@@ -91,7 +91,7 @@ public class GetContactsFragment extends AddContactsFragment {
                 GetContactsFragment.class, arguments, 0);
     }
 
-    private static String getTitleId(Context context, ContactSourceType sourceType) {
+    private static String getTitleId(final Context context, final ContactSourceType sourceType) {
         switch (sourceType) {
             case FROM_CONTACTS:
                 return context.getString(R.string.List_of_contacts);

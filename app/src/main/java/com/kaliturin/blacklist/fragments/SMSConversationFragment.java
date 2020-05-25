@@ -71,20 +71,20 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sms_conversation, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // notify user if permission isn't granted
@@ -100,7 +100,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
         messageEdit.addTextChangedListener(new MessageLengthCounter(counterTextView));
         messageEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+            public void onFocusChange(final View v, final boolean hasFocus) {
                 if (hasFocus) {
                     // increase edit
                     messageEdit.setMinLines(2);
@@ -114,7 +114,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
         ImageButton sendButton = (ImageButton) view.findViewById(R.id.button_send);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 sendSMSMessage();
             }
         });
@@ -135,7 +135,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
         // init internal broadcast event receiver
         internalEventBroadcast = new InternalEventBroadcast() {
             @Override
-            public void onSMSWasWritten(@NonNull String phoneNumber) {
+            public void onSMSWasWritten(final @NonNull String phoneNumber) {
                 if (contactNumber.equals(phoneNumber)) {
                     // reload sms messages in the list
                     loadListViewItems(END_OF_LIST, 1);
@@ -164,7 +164,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.main, menu);
 
         MenuItem menuItem = menu.findItem(R.id.write_message);
@@ -172,7 +172,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
         menuItem.setVisible(true);
         menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public boolean onMenuItemClick(final MenuItem item) {
                 // open activity with fragment of sending SMS
                 openSMSSendActivity(contactName, contactNumber, messageEdit.getText().toString());
                 messageEdit.setText("");
@@ -186,7 +186,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
 //----------------------------------------------------
 
     // Opens activity with SMS-sending fragment
-    void openSMSSendActivity(String person, String number, String body) {
+    void openSMSSendActivity(final String person, final String number, final String body) {
         // put arguments for the SMS sending fragment
         Bundle arguments = new Bundle();
         arguments.putString(CONTACT_NAME, person);
@@ -199,7 +199,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
     }
 
     // Loads SMS conversation to the list view and scrolls to passed position
-    private void loadListViewItems(int listPosition, int unreadCount) {
+    private void loadListViewItems(final int listPosition, final int unreadCount) {
         Bundle arguments = getArguments();
         if (arguments != null) {
             int threadId = arguments.getInt(THREAD_ID);
@@ -209,7 +209,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
     }
 
     // Loads SMS conversation to the list view
-    private void loadListViewItems(int threadId, int unreadCount, int listPosition) {
+    private void loadListViewItems(final int threadId, final int unreadCount, final int listPosition) {
         if (!isAdded()) {
             return;
         }
@@ -234,7 +234,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
     private static class ConversationLoader extends CursorLoader {
         private int threadId;
 
-        ConversationLoader(Context context, int threadId) {
+        ConversationLoader(final Context context, final int threadId) {
             super(context);
             this.threadId = threadId;
         }
@@ -256,8 +256,8 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
         private ListView listView;
         private int listPosition;
 
-        ConversationLoaderCallbacks(Context context, int threadId, int unreadCount, ListView listView,
-                                    int listPosition, SMSConversationCursorAdapter cursorAdapter) {
+        ConversationLoaderCallbacks(final Context context, final int threadId, final int unreadCount, final ListView listView,
+                                    final int listPosition, final SMSConversationCursorAdapter cursorAdapter) {
             this.context = context;
             this.threadId = threadId;
             this.unreadCount = unreadCount;
@@ -267,12 +267,12 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
         }
 
         @Override
-        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
             return new ConversationLoader(context, threadId);
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        public void onLoadFinished(final Loader<Cursor> loader, final Cursor cursor) {
             // apply loaded data to cursor adapter
             cursorAdapter.changeCursor(cursor);
 
@@ -300,7 +300,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
         }
 
         @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
+        public void onLoaderReset(final Loader<Cursor> loader) {
             cursorAdapter.changeCursor(null);
         }
     }
@@ -309,12 +309,12 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
     private static class SMSReadMarker extends AsyncTask<Integer, Void, Void> {
         private Context context;
 
-        SMSReadMarker(Context context) {
+        SMSReadMarker(final Context context) {
             this.context = context;
         }
 
         @Override
-        protected Void doInBackground(Integer... params) {
+        protected Void doInBackground(final Integer... params) {
             // mark all messages from thread as read
             int threadId = params[0];
             ContactsAccessHelper db = ContactsAccessHelper.getInstance(context);
@@ -329,7 +329,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
     // On row long click listener
     private class RowOnLongClickListener implements View.OnLongClickListener {
         @Override
-        public boolean onLongClick(View view) {
+        public boolean onLongClick(final View view) {
             // view here may be itself as a row as a some child view of a row
             final ContactsAccessHelper.SMSMessage sms = cursorAdapter.getSMSMessage(view);
             if (sms == null) {
@@ -343,7 +343,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
             // 'copy text' to clipboard
             dialog.addItem(R.string.Copy_message, new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     if (Utils.copyTextToClipboard(getContext(), sms.body)) {
                         Toast.makeText(getContext(), R.string.Copied_to_clipboard,
                                 Toast.LENGTH_SHORT).show();
@@ -353,7 +353,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
             // 'delete message'
             dialog.addItem(R.string.Delete_message, new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     if (!DefaultSMSAppHelper.isDefault(getContext())) {
                         Toast.makeText(getContext(), R.string.Need_default_SMS_app,
                                 Toast.LENGTH_SHORT).show();
@@ -372,7 +372,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
             // 'forward message'
             dialog.addItem(R.string.Forward_message, new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     openSMSSendActivity(null, null, sms.body);
                 }
             });
@@ -384,7 +384,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
                 if (contact == null || contact.type != Contact.TYPE_BLACK_LIST) {
                     dialog.addItem(R.string.Move_to_black_list, new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             db.addContact(Contact.TYPE_BLACK_LIST, contactName, contactNumber);
                         }
                     });
@@ -394,7 +394,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
                 if (contact == null || contact.type != Contact.TYPE_WHITE_LIST) {
                     dialog.addItem(R.string.Move_to_white_list, new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             db.addContact(Contact.TYPE_WHITE_LIST, contactName, contactNumber);
                         }
                     });
@@ -409,8 +409,8 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
 
     // Sends SMS message
     boolean sendSMSMessage() {
-        if (Permissions.notifyIfNotGranted(getContext(), Permissions.SEND_SMS) ||
-                Permissions.notifyIfNotGranted(getContext(), Permissions.READ_PHONE_STATE)) {
+        if (Permissions.notifyIfNotGranted(getContext(), Permissions.SEND_SMS)
+                || Permissions.notifyIfNotGranted(getContext(), Permissions.READ_PHONE_STATE)) {
             return false;
         }
 

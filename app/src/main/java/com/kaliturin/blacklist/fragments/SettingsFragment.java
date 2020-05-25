@@ -73,7 +73,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(final @Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // set activity title
         Bundle arguments = getArguments();
@@ -84,8 +84,8 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             listPosition = savedInstanceState.getInt(LIST_POSITION, 0);
         } else {
@@ -100,7 +100,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE);
 
@@ -109,7 +109,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(LIST_POSITION, listView.getFirstVisiblePosition());
     }
@@ -122,7 +122,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
 
     // Is used for getting result of ringtone picker dialog & default sms app dialog
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
@@ -169,7 +169,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
             adapter.addCheckbox(R.string.Default_SMS_app, R.string.Set_as_default_SMS_app,
                     isDefaultSmsApp, new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             DefaultSMSAppHelper.askForDefaultAppChange(
                                     SettingsFragment.this, DEFAULT_SMS_APP);
                         }
@@ -182,7 +182,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
             adapter.addButton(getString(R.string.Chosen_SIM), getCurrentSimName(),
                     new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             // check permissions
                             if (Permissions.notifyIfNotGranted(getContext(), Permissions.READ_PHONE_STATE)) {
                                 return;
@@ -263,7 +263,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
                 Settings.DONT_EXIT_ON_BACK_PRESSED);
         adapter.addCheckbox(R.string.UI_theme_dark, 0, Settings.UI_THEME_DARK, new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 restartApp();
             }
         });
@@ -274,7 +274,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
         adapter.addButton(R.string.Export_data, R.string.Write_data_into_external,
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         // check permissions
                         if (Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
                             return;
@@ -282,7 +282,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
                         // open the dialog for getting the exporting DB file path
                         showFilePathDialog(R.string.Export_data, new TextView.OnEditorActionListener() {
                             @Override
-                            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                            public boolean onEditorAction(final TextView textView, final int actionId, final KeyEvent event) {
                                 // export data file
                                 exportDataFile(textView.getText().toString());
                                 return true;
@@ -294,7 +294,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
         adapter.addButton(R.string.Import_data, R.string.Load_data_from_external,
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         // check permissions
                         if (Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
                             return;
@@ -302,7 +302,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
                         // open the dialog for getting the importing DB file path
                         showFilePathDialog(R.string.Import_data, new TextView.OnEditorActionListener() {
                             @Override
-                            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                            public boolean onEditorAction(final TextView textView, final int actionId, final KeyEvent event) {
                                 // import data file
                                 if (importDataFile(textView.getText().toString())) {
                                     // import complete - restart
@@ -326,7 +326,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     }
 
     // Saves ringtone url as settings property value
-    private void setRingtoneUri(int requestCode, @Nullable Uri uri) {
+    private void setRingtoneUri(final int requestCode, final @Nullable Uri uri) {
         String ringtoneProperty, soundProperty, statusProperty = null;
         switch (requestCode) {
             case BLOCKED_CALL:
@@ -361,7 +361,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
 
     // Returns ringtone url from settings property
     @Nullable
-    private Uri getRingtoneUri(int requestCode) {
+    private Uri getRingtoneUri(final int requestCode) {
         String uriString = null;
         switch (requestCode) {
             case BLOCKED_CALL:
@@ -382,12 +382,12 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     private class RingtonePickerOnClickListener implements View.OnClickListener {
         int requestCode;
 
-        RingtonePickerOnClickListener(int requestCode) {
+        RingtonePickerOnClickListener(final int requestCode) {
             this.requestCode = requestCode;
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(final View view) {
             if (isAdded()) {
                 if (adapter.isRowChecked(view)) {
                     // open ringtone picker dialog
@@ -406,7 +406,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     // On row click listener for updating dependent rows
     private class DependentRowOnClickListener implements View.OnClickListener {
         @Override
-        public void onClick(View view) {
+        public void onClick(final View view) {
             String property = adapter.getRowProperty(view);
             if (property == null) {
                 return;
@@ -441,10 +441,10 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     }
 
     // Shows the dialog of database file path definition
-    private void showFilePathDialog(@StringRes int titleId, final TextView.OnEditorActionListener listener) {
+    private void showFilePathDialog(final @StringRes int titleId, final TextView.OnEditorActionListener listener) {
         if (!isAdded()) return;
-        String filePath = Environment.getExternalStorageDirectory().getPath() +
-                "/Download/" + DatabaseAccessHelper.DATABASE_NAME;
+        String filePath = Environment.getExternalStorageDirectory().getPath()
+                + "/Download/" + DatabaseAccessHelper.DATABASE_NAME;
 
         @IdRes final int editId = 1;
         // create dialog
@@ -454,7 +454,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
         dialog.addButtonLeft(getString(R.string.CANCEL), null);
         dialog.addButtonRight(getString(R.string.OK), new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(final DialogInterface dialog, final int which) {
                 Window window = ((Dialog) dialog).getWindow();
                 if (window != null) {
                     TextView textView = (TextView) window.findViewById(editId);
@@ -468,7 +468,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     }
 
     // Exports data file to the passed path
-    private boolean exportDataFile(String dstFilePath) {
+    private boolean exportDataFile(final String dstFilePath) {
         if (!Permissions.isGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
             return false;
         }
@@ -503,7 +503,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     }
 
     // Imports data file from the passed path
-    private boolean importDataFile(String srcFilePath) {
+    private boolean importDataFile(final String srcFilePath) {
         if (!Permissions.isGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
             return false;
         }
@@ -541,7 +541,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     }
 
     // Shows toast
-    private void toast(@StringRes int messageId) {
+    private void toast(final @StringRes int messageId) {
         Toast.makeText(getContext(), messageId, Toast.LENGTH_SHORT).show();
     }
 
@@ -574,7 +574,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
                 if (name != null) {
                     dialog.addItem(0, name, info, new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             SubscriptionInfo info2 = (SubscriptionInfo) v.getTag();
                             Integer id = SubscriptionHelper.getId(info2);
                             if (id != null) {
@@ -588,7 +588,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
         }
         dialog.addItem(R.string.By_default, new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 Settings.setIntegerValue(getContext(), Settings.SIM_SUBSCRIPTION_ID, -1);
                 reloadListViewItems();
             }

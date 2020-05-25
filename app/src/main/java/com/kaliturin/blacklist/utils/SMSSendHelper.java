@@ -45,7 +45,7 @@ public class SMSSendHelper {
     public static final String DELIVERY = "DELIVERY";
 
     // Sends SMS
-    public boolean sendSMS(Context context, @NonNull String phoneNumber, @NonNull String message) {
+    public boolean sendSMS(final Context context, final @NonNull String phoneNumber, final @NonNull String message) {
         if (phoneNumber.isEmpty() || message.isEmpty()) {
             return false;
         }
@@ -96,12 +96,12 @@ public class SMSSendHelper {
     }
 
     // Writes the sending SMS to the Outbox
-    private long writeSMSMessageToOutbox(Context context, String phoneNumber, String message) {
+    private long writeSMSMessageToOutbox(final Context context, final String phoneNumber, final String message) {
         long id = -1;
 
         // if older than KITKAT or if app is default
-        if (!DefaultSMSAppHelper.isAvailable() ||
-                DefaultSMSAppHelper.isDefault(context)) {
+        if (!DefaultSMSAppHelper.isAvailable()
+                || DefaultSMSAppHelper.isDefault(context)) {
             // write SMS to the outbox
             ContactsAccessHelper db = ContactsAccessHelper.getInstance(context);
             id = db.writeSMSMessageToOutbox(context, phoneNumber, message);
@@ -112,9 +112,9 @@ public class SMSSendHelper {
     }
 
     // Creates pending intent for getting result of SMS sending/delivery
-    private PendingIntent createPendingIntent(Context context, String action, long messageId,
-                                              String phoneNumber, String messagePart,
-                                              int messagePartId, int messageParts, boolean delivery) {
+    private PendingIntent createPendingIntent(final Context context, final String action, final long messageId,
+                                              final String phoneNumber, final String messagePart,
+                                              final int messagePartId, final int messageParts, final boolean delivery) {
         // attaches static broadcast receiver for processing the results
         Intent intent = new Intent(context, SMSSendResultBroadcastReceiver.class);
         intent.setAction(action);
@@ -129,7 +129,7 @@ public class SMSSendHelper {
     }
 
     // Returns current SmsManager
-    private SmsManager getSmsManager(Context context) {
+    private SmsManager getSmsManager(final Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             Integer subscriptionId = SubscriptionHelper.getCurrentSubscriptionId(context);
             if (subscriptionId != null) {

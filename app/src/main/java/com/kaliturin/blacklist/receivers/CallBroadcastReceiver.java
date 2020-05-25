@@ -47,9 +47,9 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = CallBroadcastReceiver.class.getName();
 
     @Override
-    public void onReceive(final Context context, Intent intent) {
-        if (!Permissions.isGranted(context, Permissions.READ_PHONE_STATE) ||
-                !Permissions.isGranted(context, Permissions.CALL_PHONE)) {
+    public void onReceive(final Context context, final Intent intent) {
+        if (!Permissions.isGranted(context, Permissions.READ_PHONE_STATE)
+                || !Permissions.isGranted(context, Permissions.CALL_PHONE)) {
             return;
         }
 
@@ -81,8 +81,8 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
         // private number detected
         if (ContactsAccessHelper.isPrivatePhoneNumber(number)) {
             // if block private numbers
-            if (Settings.getBooleanValue(context, Settings.BLOCK_PRIVATE_CALLS) ||
-                    // or if block all calls
+            if (Settings.getBooleanValue(context, Settings.BLOCK_PRIVATE_CALLS)
+                    || // or if block all calls
                     Settings.getBooleanValue(context, Settings.BLOCK_ALL_CALLS)) {
                 String name = context.getString(R.string.Private_number);
                 // break call and notify user
@@ -133,8 +133,8 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
         boolean abort = false;
 
         // if block numbers that are not in the contact list
-        if (Settings.getBooleanValue(context, Settings.BLOCK_CALLS_NOT_FROM_CONTACTS) &&
-                Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+        if (Settings.getBooleanValue(context, Settings.BLOCK_CALLS_NOT_FROM_CONTACTS)
+                && Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             ContactsAccessHelper db = ContactsAccessHelper.getInstance(context);
             if (db.getContact(context, number) != null) {
                 return;
@@ -145,8 +145,8 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
         }
 
         // if block numbers that are not in the sms content list
-        if (Settings.getBooleanValue(context, Settings.BLOCK_CALLS_NOT_FROM_SMS_CONTENT) &&
-                Permissions.isGranted(context, Permissions.READ_SMS)) {
+        if (Settings.getBooleanValue(context, Settings.BLOCK_CALLS_NOT_FROM_SMS_CONTENT)
+                && Permissions.isGranted(context, Permissions.READ_SMS)) {
             ContactsAccessHelper db = ContactsAccessHelper.getInstance(context);
             if (db.containsNumberInSMSContent(context, number)) {
                 return;
@@ -160,7 +160,7 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-    private void breakCallNougatAndLower(Context context) {
+    private void breakCallNougatAndLower(final Context context) {
         Log.d(TAG, "Trying to break call for Nougat and lower with TelephonyManager.");
         TelephonyManager telephony = (TelephonyManager)
                 context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -178,7 +178,7 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
     }
 
     @SuppressLint("NewApi")
-    private void breakCallPieAndHigher(Context context) {
+    private void breakCallPieAndHigher(final Context context) {
         Log.d(TAG, "Trying to break call for Pie and higher with TelecomManager.");
         TelecomManager telecomManager = (TelecomManager)
                 context.getSystemService(Context.TELECOM_SERVICE);
@@ -193,7 +193,7 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
 
     // Ends phone call
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private void breakCall(Context context) {
+    private void breakCall(final Context context) {
         if (!Permissions.isGranted(context, Permissions.CALL_PHONE)) {
             return;
         }
@@ -206,7 +206,7 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
     }
 
     // Finds contact by type
-    private Contact findContactByType(List<Contact> contacts, int contactType) {
+    private Contact findContactByType(final List<Contact> contacts, final int contactType) {
         for (Contact contact : contacts) {
             if (contact.type == contactType) {
                 return contact;
@@ -217,13 +217,13 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
 
     // Finds contacts by number
     @Nullable
-    private List<Contact> getContacts(Context context, String number) {
+    private List<Contact> getContacts(final Context context, final String number) {
         DatabaseAccessHelper db = DatabaseAccessHelper.getInstance(context);
         return (db == null ? null : db.getContacts(number, false));
     }
 
     // Breaks the call and notifies the user
-    private void breakCallAndNotify(Context context, String number, String name) {
+    private void breakCallAndNotify(final Context context, final String number, final String name) {
         // end phone call
         breakCall(context);
         // process the event of blocking in the service

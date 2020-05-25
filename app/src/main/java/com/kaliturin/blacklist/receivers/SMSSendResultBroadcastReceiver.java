@@ -44,7 +44,7 @@ public class SMSSendResultBroadcastReceiver extends BroadcastReceiver {
     public static final String SMS_DELIVERY = "com.kaliturin.blacklist.SMS_DELIVERY";
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, final Intent intent) {
         // check action
         String action = intent.getAction();
         if (action != null) {
@@ -60,7 +60,7 @@ public class SMSSendResultBroadcastReceiver extends BroadcastReceiver {
     }
 
     // Is calling on SMS sending result received
-    private void onSMSSent(Context context, Intent intent, int result) {
+    private void onSMSSent(final Context context, final Intent intent, final int result) {
         boolean failed = true;
         int stringId = R.string.Unknown_error;
         switch (result) {
@@ -109,7 +109,7 @@ public class SMSSendResultBroadcastReceiver extends BroadcastReceiver {
     }
 
     // Is calling on SMS delivery result received
-    private void onSMSDelivery(Context context, Intent intent, int result) {
+    private void onSMSDelivery(final Context context, final Intent intent, final int result) {
         boolean failed = true;
         int stringId = R.string.Unknown_error;
         switch (result) {

@@ -36,7 +36,7 @@ public class SubscriptionHelper {
     }
 
     @Nullable
-    public static List<SubscriptionInfo> getSubscriptions(Context context) {
+    public static List<SubscriptionInfo> getSubscriptions(final Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             SubscriptionManager sm = SubscriptionManager.from(context);
             return sm.getActiveSubscriptionInfoList();
@@ -49,7 +49,7 @@ public class SubscriptionHelper {
      * @return id of the current subscription (id of SIM)
      */
     @Nullable
-    public static Integer getCurrentSubscriptionId(Context context) {
+    public static Integer getCurrentSubscriptionId(final Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             SubscriptionInfo info = getCurrentSubscription(context);
             if (info != null) return info.getSubscriptionId();
@@ -59,7 +59,7 @@ public class SubscriptionHelper {
     }
 
     @Nullable
-    public static String getCurrentSubscriptionName(Context context) {
+    public static String getCurrentSubscriptionName(final Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             SubscriptionInfo info = getCurrentSubscription(context);
             if (info != null) return info.getDisplayName().toString();
@@ -69,7 +69,7 @@ public class SubscriptionHelper {
     }
 
     @Nullable
-    public static SubscriptionInfo getCurrentSubscription(Context context) {
+    public static SubscriptionInfo getCurrentSubscription(final Context context) {
         Integer subscriptionId = Settings.getIntegerValue(context, Settings.SIM_SUBSCRIPTION_ID);
         if (subscriptionId != null && subscriptionId >= 0) {
             return getSubscriptionById(context, subscriptionId);
@@ -79,7 +79,7 @@ public class SubscriptionHelper {
     }
 
     @Nullable
-    public static SubscriptionInfo getSubscriptionById(Context context, int subscriptionId) {
+    public static SubscriptionInfo getSubscriptionById(final Context context, final int subscriptionId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             List<SubscriptionInfo> list = getSubscriptions(context);
             if (list != null) {
@@ -95,7 +95,7 @@ public class SubscriptionHelper {
     }
 
     @Nullable
-    public static String getName(SubscriptionInfo info) {
+    public static String getName(final SubscriptionInfo info) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && info != null) {
             return info.getDisplayName().toString();
         }
@@ -103,7 +103,7 @@ public class SubscriptionHelper {
     }
 
     @Nullable
-    public static Integer getId(SubscriptionInfo info) {
+    public static Integer getId(final SubscriptionInfo info) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && info != null) {
             return info.getSubscriptionId();
         }

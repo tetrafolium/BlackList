@@ -45,7 +45,7 @@ public class BlockEventProcessService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
+    protected void onHandleIntent(final @Nullable Intent intent) {
         if (intent != null) {
             String number = intent.getStringExtra(NUMBER);
             String name = intent.getStringExtra(NAME);
@@ -55,7 +55,7 @@ public class BlockEventProcessService extends IntentService {
     }
 
     // Processes the event
-    private void processEvent(Context context, String number, String name, String body) {
+    private void processEvent(final Context context, final String number, final String name, final String body) {
         // everything can't be null
         if (name == null && number == null) {
             Log.w(TAG, "number and name can't be null");
@@ -87,7 +87,7 @@ public class BlockEventProcessService extends IntentService {
     }
 
     // Writes record to the journal
-    private void writeToJournal(Context context, String number, @NonNull String name, String body) {
+    private void writeToJournal(final Context context, final String number, final @NonNull String name, final String body) {
         if (ContactsAccessHelper.isPrivatePhoneNumber(number)) {
             number = null;
         }
@@ -100,7 +100,7 @@ public class BlockEventProcessService extends IntentService {
     }
 
     // Removes passed number from the Call log
-    private void removeFromCallLog(Context context, String number) {
+    private void removeFromCallLog(final Context context, final String number) {
         // wait for the call be written to the Call log
         try {
             Thread.sleep(2000);
@@ -112,7 +112,7 @@ public class BlockEventProcessService extends IntentService {
     }
 
     // Starts the service
-    public static void start(Context context, String number, String name, String body) {
+    public static void start(final Context context, final String number, final String name, final String body) {
         Intent intent = new Intent(context, BlockEventProcessService.class);
         intent.putExtra(NUMBER, number);
         intent.putExtra(NAME, name);

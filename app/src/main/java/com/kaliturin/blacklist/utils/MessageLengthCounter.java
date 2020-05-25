@@ -32,24 +32,24 @@ public class MessageLengthCounter implements TextWatcher {
 
     private TextView counterTextView;
 
-    public MessageLengthCounter(TextView counterTextView) {
+    public MessageLengthCounter(final TextView counterTextView) {
         this.counterTextView = counterTextView;
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
     }
 
     @Override
-    public void afterTextChanged(Editable s) {
+    public void afterTextChanged(final Editable s) {
         update(s);
     }
 
-    private void update(Editable messageText) {
+    private void update(final Editable messageText) {
         int messageLength = messageText.length();
 
         // is there unicode character in the message?

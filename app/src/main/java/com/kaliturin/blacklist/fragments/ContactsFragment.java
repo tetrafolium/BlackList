@@ -70,7 +70,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(final @Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // set activity title
         Bundle arguments = getArguments();
@@ -81,14 +81,14 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         if (arguments != null) {
             contactType = arguments.getInt(CONTACT_TYPE, 0);
@@ -103,7 +103,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE);
 
@@ -114,7 +114,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
                 getString(R.string.CANCEL),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         snackBar.dismiss();
                         clearCheckedItems();
                     }
@@ -124,7 +124,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
                 getString(R.string.DELETE),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         snackBar.dismiss();
                         deleteCheckedItems();
                     }
@@ -134,7 +134,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
                 getString(R.string.SELECT_ALL),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         setAllItemsChecked();
                     }
                 });
@@ -145,7 +145,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         // on row click listener
         cursorAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View row) {
+            public void onClick(final View row) {
                 if (cursorAdapter.hasCheckedItems()) {
                     snackBar.show();
                 } else {
@@ -157,7 +157,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         // on row long click listener (receives clicked row)
         cursorAdapter.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View row) {
+            public boolean onLongClick(final View row) {
                 // get contact from the clicked row
                 final Contact contact = cursorAdapter.getContact(row);
                 if (contact != null) {
@@ -167,7 +167,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
                             // add menu item of contact editing
                                     addItem(R.string.Edit_contact, new View.OnClickListener() {
                                 @Override
-                                public void onClick(View v) {
+                                public void onClick(final View v) {
                                     // edit contact
                                     editContact(contact.id);
                                 }
@@ -175,18 +175,18 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
                             // add menu item of contact deletion
                                     addItem(R.string.Remove_contact, new View.OnClickListener() {
                                 @Override
-                                public void onClick(View v) {
+                                public void onClick(final View v) {
                                     deleteContact(contact.id);
                                     reloadItems(itemsFilter);
                                 }
                             });
                     // add menu item of contact moving to opposite list
-                    String itemTitle = (contact.type == Contact.TYPE_WHITE_LIST ?
-                            getString(R.string.Move_to_black_list) :
-                            getString(R.string.Move_to_white_list));
+                    String itemTitle = (contact.type == Contact.TYPE_WHITE_LIST
+                            ? getString(R.string.Move_to_black_list)
+                            : getString(R.string.Move_to_white_list));
                     dialog.addItem(itemTitle, new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             moveContactToOppositeList(contact);
                             reloadItems(itemsFilter);
                         }
@@ -218,7 +218,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.main, menu);
 
         // tune menu options
@@ -235,12 +235,12 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         // set on text change listener
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(final String query) {
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(final String newText) {
                 reloadItems(newText);
                 return true;
             }
@@ -251,12 +251,12 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         MenuItemCompat.setOnActionExpandListener(itemSearch,
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
+                    public boolean onMenuItemActionExpand(final MenuItem item) {
                         return true;
                     }
 
                     @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                    public boolean onMenuItemActionCollapse(final MenuItem item) {
                         reloadItems(null);
                         return true;
                     }
@@ -265,7 +265,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         // item's 'add contact' on click listener
         itemAdd.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public boolean onMenuItemClick(final MenuItem item) {
                 // show menu dialog
                 showAddContactsMenuDialog();
 
@@ -277,7 +277,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(LIST_POSITION, listView.getFirstVisiblePosition());
     }
@@ -291,7 +291,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
 //----------------------------------------------------
 
     // Deletes contact by id
-    private void deleteContact(long id) {
+    private void deleteContact(final long id) {
         DatabaseAccessHelper db = DatabaseAccessHelper.getInstance(getContext());
         if (db != null) {
             db.deleteContact(id);
@@ -299,7 +299,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
     }
 
     // Move contact to opposite type list
-    private void moveContactToOppositeList(Contact contact) {
+    private void moveContactToOppositeList(final Contact contact) {
         DatabaseAccessHelper db = DatabaseAccessHelper.getInstance(getContext());
         if (db != null) {
             db.moveContact(contact);
@@ -333,7 +333,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
     }
 
     // Reloads items
-    private void reloadItems(String itemsFilter) {
+    private void reloadItems(final String itemsFilter) {
         this.itemsFilter = itemsFilter;
         dismissSnackBar();
 
@@ -342,7 +342,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
     }
 
     // Loads SMS conversations to the list view
-    private void loadListViewItems(String itemsFilter, boolean deleteItems, int listPosition) {
+    private void loadListViewItems(final String itemsFilter, final boolean deleteItems, final int listPosition) {
         if (!isAdded()) {
             return;
         }
@@ -361,7 +361,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
     }
 
     // Opens fragment for contact editing
-    private void editContact(long id) {
+    private void editContact(final long id) {
         Bundle arguments = new Bundle();
         arguments.putInt(CONTACT_ID, (int) id);
         arguments.putInt(CONTACT_TYPE, contactType);
@@ -377,10 +377,10 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         private int contactType;
         private String itemsFilter;
 
-        ContactsLoader(Context context,
-                       int contactType,
-                       String itemsFilter,
-                       @Nullable IdentifiersContainer deletingItems) {
+        ContactsLoader(final Context context,
+                       final int contactType,
+                       final String itemsFilter,
+                       final @Nullable IdentifiersContainer deletingItems) {
             super(context);
             this.contactType = contactType;
             this.itemsFilter = itemsFilter;
@@ -410,13 +410,13 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         private ListView listView;
         private int listPosition;
 
-        ContactsLoaderCallbacks(Context context,
-                                int contactType,
-                                ContactsCursorAdapter cursorAdapter,
-                                String itemsFilter,
-                                boolean deleteItems,
-                                ListView listView,
-                                int listPosition) {
+        ContactsLoaderCallbacks(final Context context,
+                                final int contactType,
+                                final ContactsCursorAdapter cursorAdapter,
+                                final String itemsFilter,
+                                final boolean deleteItems,
+                                final ListView listView,
+                                final int listPosition) {
             this.context = context;
             this.itemsFilter = itemsFilter;
             this.contactType = contactType;
@@ -427,7 +427,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         }
 
         @Override
-        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
             IdentifiersContainer deletingItems = null;
             if (deleteItems) {
                 deletingItems = cursorAdapter.getCheckedItems().clone();
@@ -436,7 +436,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, final Cursor data) {
+        public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
             cursorAdapter.changeCursor(data);
 
             // scroll list to the saved position
@@ -449,7 +449,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         }
 
         @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
+        public void onLoaderReset(final Loader<Cursor> loader) {
             cursorAdapter.changeCursor(null);
         }
     }
@@ -463,7 +463,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         dialog.setTitle(R.string.Add_contact).
                 addItem(R.string.From_contacts_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showAddContactsActivity(Permissions.READ_CONTACTS,
                                 ContactSourceType.FROM_CONTACTS,
                                 R.string.List_of_contacts);
@@ -471,7 +471,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
                 }).
                 addItem(R.string.From_calls_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showAddContactsActivity(Permissions.READ_CALL_LOG,
                                 ContactSourceType.FROM_CALLS_LOG,
                                 R.string.List_of_calls);
@@ -479,7 +479,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
                 }).
                 addItem(R.string.From_SMS_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showAddContactsActivity(Permissions.READ_SMS,
                                 ContactSourceType.FROM_SMS_LIST,
                                 R.string.List_of_SMS);
@@ -488,7 +488,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         if (contactType == Contact.TYPE_WHITE_LIST) {
             dialog.addItem(R.string.From_Black_list, new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     showAddContactsActivity(Permissions.WRITE_EXTERNAL_STORAGE,
                             ContactSourceType.FROM_BLACK_LIST,
                             R.string.Black_list);
@@ -497,7 +497,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         } else {
             dialog.addItem(R.string.From_White_list, new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     showAddContactsActivity(Permissions.WRITE_EXTERNAL_STORAGE,
                             ContactSourceType.FROM_WHITE_LIST,
                             R.string.White_list);
@@ -506,7 +506,7 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
         }
         dialog.addItem(R.string.Manually, new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 showAddContactsActivity(Permissions.WRITE_EXTERNAL_STORAGE,
                         null, R.string.Adding_contact);
             }
@@ -514,8 +514,8 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
     }
 
     // Shows activity of of contacts adding
-    private void showAddContactsActivity(String permission,
-                                         ContactSourceType sourceType, @StringRes int titleId) {
+    private void showAddContactsActivity(final String permission,
+                                         final ContactSourceType sourceType, final @StringRes int titleId) {
         // if permission isn't granted
         if (Permissions.notifyIfNotGranted(getContext(), permission)) {
             return;

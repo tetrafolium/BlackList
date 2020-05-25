@@ -60,7 +60,7 @@ public class JournalCursorAdapter extends CursorAdapter {
     private boolean foldSMSText = false;
     private final int currentYear;
 
-    public JournalCursorAdapter(Context context) {
+    public JournalCursorAdapter(final Context context) {
         super(context, null, 0);
 
         foldSMSText = Settings.getBooleanValue(context, Settings.FOLD_SMS_TEXT_IN_JOURNAL);
@@ -69,7 +69,7 @@ public class JournalCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+    public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.row_journal, parent, false);
 
@@ -80,7 +80,7 @@ public class JournalCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(final View view, final Context context, final Cursor cursor) {
         // get cursor wrapper
         JournalRecordCursorWrapper cursorWrapper = (JournalRecordCursorWrapper) cursor;
         // get journal item
@@ -113,18 +113,18 @@ public class JournalCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void changeCursor(Cursor cursor) {
+    public void changeCursor(final Cursor cursor) {
         super.changeCursor(cursor);
         // rebuild checked items container
         int size = (cursor != null ? cursor.getCount() : 0);
         checkedItems = new IdentifiersContainer(size);
     }
 
-    public void setOnClickListener(View.OnClickListener onClickListener) {
+    public void setOnClickListener(final View.OnClickListener onClickListener) {
         this.outerOnClickListener = onClickListener;
     }
 
-    public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+    public void setOnLongClickListener(final View.OnLongClickListener onLongClickListener) {
         this.outerOnLongClickListener = onLongClickListener;
     }
 
@@ -134,7 +134,7 @@ public class JournalCursorAdapter extends CursorAdapter {
     }
 
     // Sets all items checked/unchecked
-    public void setAllItemsChecked(boolean checked) {
+    public void setAllItemsChecked(final boolean checked) {
         if (checkedItems.setAll(checked)) {
             notifyDataSetChanged();
         }
@@ -148,7 +148,7 @@ public class JournalCursorAdapter extends CursorAdapter {
     // Row on click listener
     private class OnClickListener implements View.OnClickListener {
         @Override
-        public void onClick(View view) {
+        public void onClick(final View view) {
             ViewHolder viewHolder = (ViewHolder) view.getTag();
             viewHolder.toggle();
             if (outerOnClickListener != null) {
@@ -160,16 +160,16 @@ public class JournalCursorAdapter extends CursorAdapter {
     // Row on long click listener
     private class OnLongClickListener implements View.OnLongClickListener {
         @Override
-        public boolean onLongClick(View view) {
-            return (outerOnLongClickListener != null &&
-                    outerOnLongClickListener.onLongClick(view));
+        public boolean onLongClick(final View view) {
+            return (outerOnLongClickListener != null
+                    && outerOnLongClickListener.onLongClick(view));
         }
     }
 
     // Returns record linked to the passed view if it is available
     public
     @Nullable
-    JournalRecord getRecord(View view) {
+    JournalRecord getRecord(final View view) {
         ViewHolder viewHolder = null;
         if (view != null) {
             viewHolder = (ViewHolder) view.getTag();
@@ -190,7 +190,7 @@ public class JournalCursorAdapter extends CursorAdapter {
         private View dateLayout;
         private CheckableLinearLayout contentLayout;
 
-        ViewHolder(Context context, View rowView) {
+        ViewHolder(final Context context, final View rowView) {
             this(context, (ImageView) rowView.findViewById(R.id.icon),
                     (TextView) rowView.findViewById(R.id.sender),
                     (TextView) rowView.findViewById(R.id.text),
@@ -201,10 +201,10 @@ public class JournalCursorAdapter extends CursorAdapter {
                     (CheckableLinearLayout) rowView.findViewById(R.id.content_layout));
         }
 
-        ViewHolder(Context context, ImageView iconImageView, TextView senderTextView,
-                   TextView textTextView, TextView dateTextView,
-                   TextView timeTextView, CheckBox checkBox, View dateLayout,
-                   CheckableLinearLayout contentLayout) {
+        ViewHolder(final Context context, final ImageView iconImageView, final TextView senderTextView,
+                   final TextView textTextView, final TextView dateTextView,
+                   final TextView timeTextView, final CheckBox checkBox, final View dateLayout,
+                   final CheckableLinearLayout contentLayout) {
             this.record = null;
             this.itemId = 0;
             this.iconImageView = iconImageView;
@@ -229,14 +229,14 @@ public class JournalCursorAdapter extends CursorAdapter {
                 textTextView.setOnLongClickListener(onLongClickListener);
                 textTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         setTextUnfolded(!isTextUnfolded());
                     }
                 });
             }
         }
 
-        private void setModel(JournalRecord record, DateFormat dateFormat) {
+        private void setModel(final JournalRecord record, final DateFormat dateFormat) {
             this.record = record;
             itemId = (int) record.id;
             Date date = toDate(record.time);
@@ -249,8 +249,8 @@ public class JournalCursorAdapter extends CursorAdapter {
             timeTextView.setText(timeFormat.format(date));
 
             String sender = record.caller;
-            if (record.number != null &&
-                    !record.caller.equals(record.number)) {
+            if (record.number != null
+                    && !record.caller.equals(record.number)) {
                 sender += "\n" + record.number;
             }
             senderTextView.setText(sender);
@@ -281,7 +281,7 @@ public class JournalCursorAdapter extends CursorAdapter {
             return checkedItems.contains(itemId);
         }
 
-        private void setChecked(boolean checked) {
+        private void setChecked(final boolean checked) {
             checkedItems.set(itemId, checked);
             checkBox.setChecked(checked);
             contentLayout.setChecked(checked);
@@ -291,7 +291,7 @@ public class JournalCursorAdapter extends CursorAdapter {
             return unfoldedTextItems.get(itemId);
         }
 
-        private void setTextUnfolded(boolean unfolded) {
+        private void setTextUnfolded(final boolean unfolded) {
             if (unfolded) {
                 textTextView.setSingleLine(false);
                 textTextView.setMaxLines(Integer.MAX_VALUE);
@@ -306,7 +306,7 @@ public class JournalCursorAdapter extends CursorAdapter {
             }
         }
 
-        private Date toDate(long time) {
+        private Date toDate(final long time) {
             datetime.setTime(time);
             return datetime;
         }

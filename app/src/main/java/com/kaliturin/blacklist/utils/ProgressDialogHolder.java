@@ -35,20 +35,20 @@ public class ProgressDialogHolder {
     private Dialog dialog = null;
     private TextView messageTextView = null;
 
-    public void show(Context context, @StringRes int messageId) {
+    public void show(final Context context, final @StringRes int messageId) {
         show(context, 0, messageId);
     }
 
-    public void show(Context context, @StringRes int titleId, @StringRes int messageId) {
+    public void show(final Context context, final @StringRes int titleId, final @StringRes int messageId) {
         show(context, titleId, messageId, null);
     }
 
-    public void show(Context context, DialogInterface.OnCancelListener listener) {
+    public void show(final Context context, final DialogInterface.OnCancelListener listener) {
         show(context, 0, 0, listener);
     }
 
-    public void show(Context context, @StringRes int titleId, @StringRes int messageId,
-                     DialogInterface.OnCancelListener listener) {
+    public void show(final Context context, final @StringRes int titleId, final @StringRes int messageId,
+                     final DialogInterface.OnCancelListener listener) {
         dismiss();
         DialogBuilder builder = new DialogBuilder(context);
         if (titleId > 0) {
@@ -65,7 +65,7 @@ public class ProgressDialogHolder {
         dialog = builder.show();
     }
 
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         if (messageTextView != null) {
             messageTextView.setText(message);
         }

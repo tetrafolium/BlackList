@@ -60,7 +60,7 @@ public class Utils {
     /**
      * Tints menu icon
      **/
-    public static void setMenuIconTint(Context context, MenuItem item, @AttrRes int colorAttrRes) {
+    public static void setMenuIconTint(final Context context, final MenuItem item, final @AttrRes int colorAttrRes) {
         Drawable drawable = DrawableCompat.wrap(item.getIcon());
         drawable.mutate();
         setDrawableTint(context, drawable, colorAttrRes);
@@ -69,7 +69,7 @@ public class Utils {
     /**
      * Sets the tint color of the drawable
      **/
-    public static void setDrawableTint(Context context, Drawable drawable, @AttrRes int colorAttrRes) {
+    public static void setDrawableTint(final Context context, final Drawable drawable, final @AttrRes int colorAttrRes) {
         int colorRes = getResourceId(context, colorAttrRes);
         int color = ContextCompat.getColor(context, colorRes);
         DrawableCompat.setTint(drawable, color);
@@ -78,7 +78,7 @@ public class Utils {
     /**
      * Sets the background color of the drawable
      **/
-    public static void setDrawableColor(Context context, Drawable drawable, @AttrRes int colorAttrRes) {
+    public static void setDrawableColor(final Context context, final Drawable drawable, final @AttrRes int colorAttrRes) {
         int colorRes = getResourceId(context, colorAttrRes);
         int color = ContextCompat.getColor(context, colorRes);
         if (drawable instanceof ShapeDrawable) {
@@ -98,7 +98,7 @@ public class Utils {
      * Sets drawable for the view
      **/
     @SuppressWarnings("deprecation")
-    public static void setDrawable(Context context, View view, @DrawableRes int drawableRes) {
+    public static void setDrawable(final Context context, final View view, final @DrawableRes int drawableRes) {
         Drawable drawable = ContextCompat.getDrawable(context, drawableRes);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             view.setBackgroundDrawable(drawable);
@@ -110,7 +110,7 @@ public class Utils {
     /**
      * Resolves attribute of passed theme returning referenced resource id
      **/
-    public static int getResourceId(@AttrRes int attrRes, Resources.Theme theme) {
+    public static int getResourceId(final @AttrRes int attrRes, final Resources.Theme theme) {
         TypedValue typedValue = new TypedValue();
         theme.resolveAttribute(attrRes, typedValue, true);
         return typedValue.resourceId;
@@ -119,14 +119,14 @@ public class Utils {
     /**
      * Resolves current theme's attribute returning referenced resource id
      **/
-    public static int getResourceId(Context context, @AttrRes int attrRes) {
+    public static int getResourceId(final Context context, final @AttrRes int attrRes) {
         return getResourceId(attrRes, context.getTheme());
     }
 
     /**
      * Resolves attribute of passed theme returning referenced resource id
      **/
-    public static int getResourceId(Context context, @AttrRes int attrRes, @StyleRes int styleRes) {
+    public static int getResourceId(final Context context, final @AttrRes int attrRes, final @StyleRes int styleRes) {
         Resources.Theme theme = context.getResources().newTheme();
         theme.applyStyle(styleRes, true);
         return getResourceId(attrRes, theme);
@@ -138,7 +138,7 @@ public class Utils {
      * Copies passed text to clipboard
      **/
     @SuppressWarnings("deprecation")
-    public static boolean copyTextToClipboard(Context context, String text) {
+    public static boolean copyTextToClipboard(final Context context, final String text) {
         try {
             if (Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
                 android.text.ClipboardManager clipboard =
@@ -163,7 +163,7 @@ public class Utils {
     /**
      * Copies file from source to destination
      **/
-    public static boolean copyFile(File src, File dst) {
+    public static boolean copyFile(final File src, final File dst) {
         InputStream in = null;
         OutputStream out = null;
         try {
@@ -185,7 +185,7 @@ public class Utils {
         return true;
     }
 
-    public static void close(Closeable closeable) {
+    public static void close(final Closeable closeable) {
         try {
             if (closeable != null) {
                 closeable.close();
@@ -198,7 +198,7 @@ public class Utils {
     /**
      * Makes file path if it doesn't exist
      **/
-    public static boolean makeFilePath(File file) {
+    public static boolean makeFilePath(final File file) {
         String parent = file.getParent();
         if (parent != null) {
             File dir = new File(parent);
@@ -231,7 +231,7 @@ public class Utils {
     /**
      * Scales passed view with passed dimension on Tablets only
      */
-    public static void scaleViewOnTablet(Context context, View view, @DimenRes int dimenRes) {
+    public static void scaleViewOnTablet(final Context context, final View view, final @DimenRes int dimenRes) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             boolean isTablet = context.getResources().getBoolean(R.bool.isTablet);
             if (isTablet) {
@@ -248,10 +248,10 @@ public class Utils {
      * Returns year-less date format
      */
     @SuppressWarnings("SimpleDateFormat")
-    public static DateFormat getYearLessDateFormat(DateFormat dateFormat) {
+    public static DateFormat getYearLessDateFormat(final DateFormat dateFormat) {
         if (dateFormat instanceof SimpleDateFormat) {
             // creating year less date format
-            String fullPattern = ((SimpleDateFormat)dateFormat).toPattern();
+            String fullPattern = ((SimpleDateFormat) dateFormat).toPattern();
             // checking 'de' we omit problems with Spain locale
             String regex = fullPattern.contains("de") ? "[^Mm]*[Yy]+[^Mm]*" : "[^DdMm]*[Yy]+[^DdMm]*";
             String yearLessPattern = fullPattern.replaceAll(regex, "");

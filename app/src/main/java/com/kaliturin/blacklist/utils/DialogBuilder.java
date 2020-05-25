@@ -43,7 +43,7 @@ public class DialogBuilder {
     private LinearLayout listLayout;
     private ButtonsBar buttonsBar;
 
-    public DialogBuilder(@NonNull Context context) {
+    public DialogBuilder(final @NonNull Context context) {
         this.context = context;
         this.listLayout = (LinearLayout) getView().findViewById(R.id.items_list);
     }
@@ -51,7 +51,7 @@ public class DialogBuilder {
     /**
      * Sets the title of the dialog
      **/
-    public DialogBuilder setTitle(@StringRes int titleId) {
+    public DialogBuilder setTitle(final @StringRes int titleId) {
         String title = context.getString(titleId);
         return setTitle(title);
     }
@@ -59,7 +59,7 @@ public class DialogBuilder {
     /**
      * Sets the title of the dialog
      **/
-    public DialogBuilder setTitle(String title) {
+    public DialogBuilder setTitle(final String title) {
         TextView titleView = (TextView) getView().findViewById(R.id.dialog_title);
         titleView.setText(title);
         titleView.setVisibility(View.VISIBLE);
@@ -71,7 +71,7 @@ public class DialogBuilder {
     /**
      * Sets the title of the dialog
      **/
-    public DialogBuilder setTitle(String title, int maxLines) {
+    public DialogBuilder setTitle(final String title, final int maxLines) {
         TextView titleView = (TextView) getView().findViewById(R.id.dialog_title);
         titleView.setText(title);
         titleView.setMaxLines(maxLines);
@@ -88,28 +88,28 @@ public class DialogBuilder {
     /**
      * Adds the new item to the list with title only
      **/
-    public DialogBuilder addItem(@StringRes int titleId) {
+    public DialogBuilder addItem(final @StringRes int titleId) {
         return addItem(-1, titleId, null, null);
     }
 
     /**
      * Adds the new item to the list with title and click listener
      **/
-    public DialogBuilder addItem(@StringRes int titleId, View.OnClickListener listener) {
+    public DialogBuilder addItem(final @StringRes int titleId, final View.OnClickListener listener) {
         return addItem(-1, titleId, null, listener);
     }
 
     /**
      * Adds the new item to the list with id, title, and click listener
      **/
-    public DialogBuilder addItem(int id, @StringRes int titleId, View.OnClickListener listener) {
+    public DialogBuilder addItem(final int id, final @StringRes int titleId, final View.OnClickListener listener) {
         return addItem(id, titleId, null, listener);
     }
 
     /**
      * Adds the new item to the list with id, title, tag, and click listener
      **/
-    public DialogBuilder addItem(int id, @StringRes int titleId, Object tag, View.OnClickListener listener) {
+    public DialogBuilder addItem(final int id, final @StringRes int titleId, final Object tag, final View.OnClickListener listener) {
         String title = context.getString(titleId);
         return addItem(id, title, tag, listener);
     }
@@ -117,21 +117,21 @@ public class DialogBuilder {
     /**
      * Adds the new item to the list with title and click listener
      **/
-    public DialogBuilder addItem(String title, final View.OnClickListener listener) {
+    public DialogBuilder addItem(final String title, final View.OnClickListener listener) {
         return addItem(-1, title, null, listener);
     }
 
     /**
      * Adds the new item to the list with id, title and click listener
      **/
-    public DialogBuilder addItem(int id, String title, final View.OnClickListener listener) {
+    public DialogBuilder addItem(final int id, final String title, final View.OnClickListener listener) {
         return addItem(id, title, null, listener);
     }
 
     /**
      * Adds the new item to the list with id, title, tag and click listener
      **/
-    public DialogBuilder addItem(int id, String title, Object tag, final View.OnClickListener listener) {
+    public DialogBuilder addItem(final int id, final String title, final Object tag, final View.OnClickListener listener) {
         // inflate row using default layout
         LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.row_item_dialog, null);
@@ -156,7 +156,7 @@ public class DialogBuilder {
         // wrap on click listener
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 getDialog().dismiss();
                 if (listener != null) {
                     listener.onClick(v);
@@ -173,7 +173,7 @@ public class DialogBuilder {
     /**
      * Adds the new item to the list
      **/
-    public DialogBuilder addItem(View itemView) {
+    public DialogBuilder addItem(final View itemView) {
         listLayout.addView(itemView);
         return this;
     }
@@ -181,7 +181,7 @@ public class DialogBuilder {
     /**
      * Adds the new edit to the list with id, text and hint
      **/
-    public DialogBuilder addEdit(int id, String text, String hint) {
+    public DialogBuilder addEdit(final int id, final String text, final String hint) {
         // inflate row using default layout
         LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.row_edit_dialog, null);
@@ -206,28 +206,28 @@ public class DialogBuilder {
     /**
      * Adds bottom-left button to the dialog
      **/
-    public DialogBuilder addButtonLeft(String title,
-                                       DialogInterface.OnClickListener listener) {
+    public DialogBuilder addButtonLeft(final String title,
+                                       final DialogInterface.OnClickListener listener) {
         return addButton(R.id.button_left, title, listener);
     }
 
     /**
      * Adds bottom-right button to the dialog
      **/
-    public DialogBuilder addButtonRight(String title,
-                                        DialogInterface.OnClickListener listener) {
+    public DialogBuilder addButtonRight(final String title,
+                                        final DialogInterface.OnClickListener listener) {
         return addButton(R.id.button_right, title, listener);
     }
 
     /**
      * Adds bottom-center button to the dialog
      **/
-    public DialogBuilder addButtonCenter(String title,
-                                         DialogInterface.OnClickListener listener) {
+    public DialogBuilder addButtonCenter(final String title,
+                                         final DialogInterface.OnClickListener listener) {
         return addButton(R.id.button_center, title, listener);
     }
 
-    private DialogBuilder addButton(@IdRes int buttonId, String title,
+    private DialogBuilder addButton(final @IdRes int buttonId, final String title,
                                     final DialogInterface.OnClickListener listener) {
         View view = getView();
         if (buttonsBar == null) {
@@ -237,7 +237,7 @@ public class DialogBuilder {
 
         buttonsBar.setButton(buttonId, title, new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (listener != null) {
                     listener.onClick(getDialog(), 0);
                 }
@@ -273,7 +273,7 @@ public class DialogBuilder {
         return dialog;
     }
 
-    public DialogBuilder setOnCancelListener(DialogInterface.OnCancelListener listener) {
+    public DialogBuilder setOnCancelListener(final DialogInterface.OnCancelListener listener) {
         getDialog().setOnCancelListener(listener);
         return this;
     }

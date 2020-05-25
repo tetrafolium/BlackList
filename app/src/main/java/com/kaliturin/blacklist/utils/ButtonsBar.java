@@ -26,13 +26,13 @@ import android.widget.TextView;
 public class ButtonsBar {
     private View view;
 
-    public ButtonsBar(View parentView, @IdRes int layoutId) {
+    public ButtonsBar(final View parentView, final @IdRes int layoutId) {
         view = parentView.findViewById(layoutId);
         dismiss();
     }
 
     // Sets button's parameters
-    public boolean setButton(@IdRes int buttonId, String title, View.OnClickListener listener) {
+    public boolean setButton(final @IdRes int buttonId, final String title, final View.OnClickListener listener) {
         TextView button = (TextView) view.findViewById(buttonId);
         if (button != null) {
             button.setText(title);

@@ -37,7 +37,7 @@ public class InternalEventBroadcast extends BroadcastReceiver {
     private static final String THREAD_ID = "THREAD_ID";
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, final Intent intent) {
         // get action type
         String actionType = intent.getStringExtra(EVENT_TYPE);
         if (actionType == null) {
@@ -69,12 +69,12 @@ public class InternalEventBroadcast extends BroadcastReceiver {
         }
     }
 
-    public void register(Context context) {
+    public void register(final Context context) {
         IntentFilter filter = new IntentFilter(TAG);
         context.registerReceiver(this, filter);
     }
 
-    public void unregister(Context context) {
+    public void unregister(final Context context) {
         context.unregisterReceiver(this);
     }
 
@@ -87,26 +87,26 @@ public class InternalEventBroadcast extends BroadcastReceiver {
     /**
      * Method is called if SMS was written to the content provider
      **/
-    public void onSMSWasWritten(String phoneNumber) {
+    public void onSMSWasWritten(final String phoneNumber) {
     }
 
     /**
      * Method is called if SMS was deleted from the content provider
      **/
-    public void onSMSWasDeleted(String phoneNumber) {
+    public void onSMSWasDeleted(final String phoneNumber) {
     }
 
     /**
      * Method is called if SMS with thread id was read from the content provider
      **/
-    public void onSMSThreadWasRead(int threadId) {
+    public void onSMSThreadWasRead(final int threadId) {
     }
 
     /**
      * Sends internal event which will be received by corresponding
      * callback of registered receiver
      **/
-    public static void send(Context context, String eventType) {
+    public static void send(final Context context, final String eventType) {
         Intent intent = new Intent(TAG);
         intent.putExtra(EVENT_TYPE, eventType);
         context.sendBroadcast(intent, null);
@@ -116,7 +116,7 @@ public class InternalEventBroadcast extends BroadcastReceiver {
      * Sends internal event of writing SMS to the content provider, which causes
      * onSMSWasWritten invocation of registered receivers.
      **/
-    public static void sendSMSWasWritten(Context context, @NonNull String phoneNumber) {
+    public static void sendSMSWasWritten(final Context context, final @NonNull String phoneNumber) {
         Intent intent = new Intent(TAG);
         intent.putExtra(EVENT_TYPE, SMS_WAS_WRITTEN);
         intent.putExtra(CONTACT_NUMBER, phoneNumber);
@@ -127,7 +127,7 @@ public class InternalEventBroadcast extends BroadcastReceiver {
      * Sends internal event of deleting the SMS from content provider, which causes
      * onSMSWasDeleted invocation of registered receivers.
      **/
-    public static void sendSMSWasDeleted(Context context, @NonNull String phoneNumber) {
+    public static void sendSMSWasDeleted(final Context context, final @NonNull String phoneNumber) {
         Intent intent = new Intent(TAG);
         intent.putExtra(EVENT_TYPE, SMS_WAS_DELETED);
         intent.putExtra(CONTACT_NUMBER, phoneNumber);
@@ -138,7 +138,7 @@ public class InternalEventBroadcast extends BroadcastReceiver {
      * Sends internal event of reading the thread from the SMS Inbox, which causes
      * onSMSThreadWasRead invocation of registered receivers.
      **/
-    public static void sendSMSThreadWasRead(Context context, int threadId) {
+    public static void sendSMSThreadWasRead(final Context context, final int threadId) {
         Intent intent = new Intent(TAG);
         intent.putExtra(EVENT_TYPE, SMS_WAS_READ);
         intent.putExtra(THREAD_ID, threadId);

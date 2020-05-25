@@ -35,7 +35,7 @@ public class SMSSendService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
+    protected void onHandleIntent(final @Nullable Intent intent) {
         if (intent == null) {
             return;
         }
@@ -55,7 +55,7 @@ public class SMSSendService extends IntentService {
     }
 
     // Starts the service
-    public static void start(Context context, String message, String[] addresses) {
+    public static void start(final Context context, final String message, final String[] addresses) {
         Intent intent = new Intent(context, SMSSendService.class);
         intent.putExtra(MESSAGE, message);
         intent.putExtra(ADDRESSES, addresses);

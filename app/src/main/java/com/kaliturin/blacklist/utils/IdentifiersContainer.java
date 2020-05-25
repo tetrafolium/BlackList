@@ -29,7 +29,7 @@ public class IdentifiersContainer implements Cloneable {
     private int capacity;
 
     // Creates container with specified capacity
-    public IdentifiersContainer(int capacity) {
+    public IdentifiersContainer(final int capacity) {
         this.capacity = (capacity > 0 ? capacity : 0);
     }
 
@@ -44,7 +44,7 @@ public class IdentifiersContainer implements Cloneable {
     }
 
     // Returns true if contains the identifier
-    public boolean contains(int id) {
+    public boolean contains(final int id) {
         return (all != ids.get(id));
     }
 
@@ -69,12 +69,12 @@ public class IdentifiersContainer implements Cloneable {
     }
 
     // Sets all identifiers added/removed
-    public boolean setAll(boolean all) {
+    public boolean setAll(final boolean all) {
         return (all ? addAll() : removeAll());
     }
 
     // Adds the identifier
-    public void add(int id) {
+    public void add(final int id) {
         if (capacity == 0) return;
         if (all) {
             ids.delete(id);
@@ -85,7 +85,7 @@ public class IdentifiersContainer implements Cloneable {
     }
 
     // Removes the identifier
-    public void remove(int id) {
+    public void remove(final int id) {
         if (capacity == 0) return;
         if (all) {
             ids.append(id, true);
@@ -96,7 +96,7 @@ public class IdentifiersContainer implements Cloneable {
     }
 
     // Sets specified identifier added/removed
-    public void set(int id, boolean added) {
+    public void set(final int id, final boolean added) {
         if (added) {
             add(id);
         } else {
@@ -118,7 +118,7 @@ public class IdentifiersContainer implements Cloneable {
     }
 
     // Returns the list of identifiers
-    public List<String> getIdentifiers(List<String> list) {
+    public List<String> getIdentifiers(final List<String> list) {
         for (int i = 0; i < ids.size(); i++) {
             int id = ids.keyAt(i);
             list.add(String.valueOf(id));

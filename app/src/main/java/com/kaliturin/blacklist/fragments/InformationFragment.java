@@ -47,7 +47,7 @@ public class InformationFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(final @Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // set activity title
         Bundle arguments = getArguments();
@@ -58,8 +58,8 @@ public class InformationFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             listPosition = savedInstanceState.getInt(LIST_POSITION, 0);
         }
@@ -69,7 +69,7 @@ public class InformationFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         listView = (ListView) view.findViewById(R.id.help_list);
@@ -115,7 +115,7 @@ public class InformationFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(LIST_POSITION, listView.getFirstVisiblePosition());
     }

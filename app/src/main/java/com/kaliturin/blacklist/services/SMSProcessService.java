@@ -45,7 +45,7 @@ public class SMSProcessService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
+    protected void onHandleIntent(final @Nullable Intent intent) {
         try {
             Map<String, String> data = extractMessageData(intent);
             processMessageData(this, data);
@@ -54,7 +54,7 @@ public class SMSProcessService extends IntentService {
         }
     }
 
-    private void processMessageData(Context context, Map<String, String> data) {
+    private void processMessageData(final Context context, final Map<String, String> data) {
         String number = data.get(ContactsAccessHelper.ADDRESS);
 
         boolean isPrivate = ContactsAccessHelper.isPrivatePhoneNumber(number);
@@ -65,8 +65,8 @@ public class SMSProcessService extends IntentService {
         }
 
         // if before API 19
-        if (!DefaultSMSAppHelper.isAvailable() ||
-                // or if not "default SMS app"
+        if (!DefaultSMSAppHelper.isAvailable()
+                || // or if not "default SMS app"
                 !DefaultSMSAppHelper.isDefault(context)) {
             // SMS will be written by default app
             try {
@@ -103,7 +103,7 @@ public class SMSProcessService extends IntentService {
 
     // Extracts message's data from intent.
     // Throws exception on data intent is illegal.
-    private Map<String, String> extractMessageData(@Nullable Intent intent) throws IllegalArgumentException {
+    private Map<String, String> extractMessageData(final @Nullable Intent intent) throws IllegalArgumentException {
         Map<String, String> data = new HashMap<>();
         if (intent != null) {
             String[] keys = intent.getStringArrayExtra(KEYS);
@@ -124,7 +124,7 @@ public class SMSProcessService extends IntentService {
     }
 
     // Starts the service
-    public static void start(Context context, Map<String, String> data) {
+    public static void start(final Context context, final Map<String, String> data) {
         Intent intent = new Intent(context, SMSProcessService.class);
         intent.putExtra(KEYS, data.keySet().toArray(new String[data.size()]));
         intent.putExtra(VALUES, data.values().toArray(new String[data.size()]));

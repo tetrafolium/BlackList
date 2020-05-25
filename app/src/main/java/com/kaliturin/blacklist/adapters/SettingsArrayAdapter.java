@@ -40,13 +40,13 @@ import com.kaliturin.blacklist.utils.Utils;
 public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Model> {
     private SparseArray<ViewHolder> rowsArray = new SparseArray<>();
 
-    public SettingsArrayAdapter(Context context) {
+    public SettingsArrayAdapter(final Context context) {
         super(context, 0);
     }
 
     @Override
     @NonNull
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, final @Nullable View convertView, final @NonNull ViewGroup parent) {
         // get created row by position
         View rowView;
         ViewHolder viewHolder = rowsArray.get(position);
@@ -75,13 +75,13 @@ public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Mode
     }
 
     // Returns true if row is checked
-    public boolean isRowChecked(View view) {
+    public boolean isRowChecked(final View view) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         return (viewHolder != null && viewHolder.isChecked());
     }
 
     // Sets row checked
-    public void setRowChecked(View view, boolean checked) {
+    public void setRowChecked(final View view, final boolean checked) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         if (viewHolder != null) {
             viewHolder.setChecked(checked);
@@ -89,11 +89,11 @@ public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Mode
     }
 
     // Sets row checked by property name
-    public void setRowChecked(String property, boolean checked) {
+    public void setRowChecked(final String property, final boolean checked) {
         for (int i = 0; i < rowsArray.size(); i++) {
             ViewHolder viewHolder = rowsArray.valueAt(i);
-            if (viewHolder.model.property != null &&
-                    viewHolder.model.property.equals(property)) {
+            if (viewHolder.model.property != null
+                    && viewHolder.model.property.equals(property)) {
                 viewHolder.setChecked(checked);
                 break;
             }
@@ -102,51 +102,51 @@ public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Mode
 
     // Returns property name from row's model
     @Nullable
-    public String getRowProperty(View view) {
+    public String getRowProperty(final View view) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         return (viewHolder != null ? viewHolder.model.property : null);
     }
 
-    private void addModel(int type, String title, String comment, String property, boolean isChecked,
-                          View.OnClickListener listener) {
+    private void addModel(final int type, final String title, final String comment, final String property, final boolean isChecked,
+                          final View.OnClickListener listener) {
         Model model = new Model(type, title, comment, property, isChecked, listener);
         add(model);
     }
 
-    private void addModel(int type, String title, String comment, String property,
-                          View.OnClickListener listener) {
+    private void addModel(final int type, final String title, final String comment, final String property,
+                          final View.OnClickListener listener) {
         boolean isChecked = (property != null && Settings.getBooleanValue(getContext(), property));
         addModel(type, title, comment, property, isChecked, listener);
     }
 
-    public void addTitle(@StringRes int titleId) {
+    public void addTitle(final @StringRes int titleId) {
         addModel(Model.TITLE, getString(titleId), null, null, null);
     }
 
-    public void addCheckbox(@StringRes int titleId, @StringRes int commentId, boolean isChecked,
-                            View.OnClickListener listener) {
+    public void addCheckbox(final @StringRes int titleId, final @StringRes int commentId, final boolean isChecked,
+                            final View.OnClickListener listener) {
         addModel(Model.CHECKBOX, getString(titleId), getString(commentId), null, isChecked, listener);
     }
 
-    public void addCheckbox(@StringRes int titleId, @StringRes int commentId, String property,
-                            View.OnClickListener listener) {
+    public void addCheckbox(final @StringRes int titleId, final @StringRes int commentId, final String property,
+                            final View.OnClickListener listener) {
         addModel(Model.CHECKBOX, getString(titleId), getString(commentId), property, listener);
     }
 
-    public void addCheckbox(@StringRes int titleId, @StringRes int commentId, String property) {
+    public void addCheckbox(final @StringRes int titleId, final @StringRes int commentId, final String property) {
         addCheckbox(titleId, commentId, property, null);
     }
 
-    public void addButton(@StringRes int titleId, @StringRes int commentId, View.OnClickListener listener) {
+    public void addButton(final @StringRes int titleId, final @StringRes int commentId, final View.OnClickListener listener) {
         addButton(getString(titleId), getString(commentId), listener);
     }
 
-    public void addButton(String title, String comment, View.OnClickListener listener) {
+    public void addButton(final String title, final String comment, final View.OnClickListener listener) {
         addModel(Model.BUTTON, title, comment, null, false, listener);
     }
 
     @Nullable
-    private String getString(@StringRes int stringRes) {
+    private String getString(final @StringRes int stringRes) {
         return (stringRes != 0 ? getContext().getString(stringRes) : null);
     }
 
@@ -163,8 +163,8 @@ public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Mode
         final View.OnClickListener listener;
         private boolean checked;
 
-        Model(int type, String title, String comment, String property,
-              boolean checked, View.OnClickListener listener) {
+        Model(final int type, final String title, final String comment, final String property,
+              final boolean checked, final View.OnClickListener listener) {
             this.type = type;
             this.title = title;
             this.comment = comment;
@@ -177,10 +177,10 @@ public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Mode
             return checked;
         }
 
-        boolean setChecked(boolean checked) {
+        boolean setChecked(final boolean checked) {
             if (this.checked != checked) {
-                if (property != null &&
-                        !Settings.setBooleanValue(getContext(), property, checked)) {
+                if (property != null
+                        && !Settings.setBooleanValue(getContext(), property, checked)) {
                     return false;
                 }
                 this.checked = checked;
@@ -197,7 +197,7 @@ public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Mode
 
         final View.OnClickListener listener = new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 applyChecked();
                 if (model.listener != null) {
                     model.listener.onClick(rowView);
@@ -205,7 +205,7 @@ public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Mode
             }
         };
 
-        ViewHolder(View rowView, Model model, int position) {
+        ViewHolder(final View rowView, final Model model, final int position) {
             Context context = getContext();
             this.rowView = rowView;
             this.model = model;
@@ -265,7 +265,7 @@ public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Mode
             }
         }
 
-        void setChecked(boolean checked) {
+        void setChecked(final boolean checked) {
             if (checkBox != null) {
                 if (model.setChecked(checked)) {
                     checkBox.setChecked(checked);

@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     private int selectedMenuItemId = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         Settings.applyCurrentTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(CURRENT_ITEM_ID, selectedMenuItemId);
     }
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(final @NonNull MenuItem item) {
         int itemId = item.getItemId();
 
         // exit item was clicked
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check for result code from the child activity (it could be a dialog-activity)
         if (requestCode == 0 && resultCode == RESULT_OK) {
@@ -197,9 +197,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode,
+                                           final @NonNull String permissions[],
+                                           final @NonNull int[] grantResults) {
         // process permissions results
         Permissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // check granted permissions and notify about not granted
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    public boolean onKeyUp(final int keyCode, final KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity
 
 //----------------------------------------------------------------------------
 
-    private void selectNavigationMenuItem(int itemId) {
+    private void selectNavigationMenuItem(final int itemId) {
         navigationView.getMenu().clear();
         navigationView.inflateMenu(R.menu.activity_main_drawer);
         navigationView.getMenu().findItem(itemId).setChecked(true);
@@ -241,13 +241,13 @@ public class MainActivity extends AppCompatActivity
         private SMSConversationsListFragment smsFragment = new SMSConversationsListFragment();
 
         boolean onBackPressed() {
-            return journalFragment.dismissSnackBar() ||
-                    blackListFragment.dismissSnackBar() ||
-                    whiteListFragment.dismissSnackBar();
+            return journalFragment.dismissSnackBar()
+                    || blackListFragment.dismissSnackBar()
+                    || whiteListFragment.dismissSnackBar();
         }
 
         // Switches fragment by navigation menu item
-        void switchFragment(@IdRes int itemId) {
+        void switchFragment(final @IdRes int itemId) {
             Intent intent = getIntent();
             // passing intent's extra to the fragment
             Bundle extras = intent.getExtras();
@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         // Switches to passed fragment
-        private void switchFragment(Fragment fragment, Bundle arguments) {
+        private void switchFragment(final Fragment fragment, final Bundle arguments) {
             // replace the current showed fragment
             Fragment current = getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT);
             if (current != fragment) {

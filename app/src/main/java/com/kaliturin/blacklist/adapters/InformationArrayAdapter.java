@@ -36,13 +36,13 @@ import com.kaliturin.blacklist.R;
 public class InformationArrayAdapter extends ArrayAdapter<InformationArrayAdapter.Model> {
     private SparseArray<ViewHolder> rowsArray = new SparseArray<>();
 
-    public InformationArrayAdapter(Context context) {
+    public InformationArrayAdapter(final Context context) {
         super(context, 0);
     }
 
     @Override
     @NonNull
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, final @Nullable View convertView, final @NonNull ViewGroup parent) {
         // get created row by position
         View rowView;
         ViewHolder viewHolder = rowsArray.get(position);
@@ -70,24 +70,24 @@ public class InformationArrayAdapter extends ArrayAdapter<InformationArrayAdapte
         return rowView;
     }
 
-    private void addModel(int type, @StringRes int titleId, @StringRes int commentId) {
+    private void addModel(final int type, final @StringRes int titleId, final @StringRes int commentId) {
         add(new Model(type, getString(titleId), getString(commentId)));
     }
 
-    public void addTitle(@StringRes int titleId) {
+    public void addTitle(final @StringRes int titleId) {
         addModel(Model.TITLE, titleId, 0);
     }
 
-    public void addText(@StringRes int commentId) {
+    public void addText(final @StringRes int commentId) {
         addText(null, getString(commentId));
     }
 
-    public void addText(String title, String comment) {
+    public void addText(final String title, final String comment) {
         add(new Model(Model.TEXT, title, comment));
     }
 
     @Nullable
-    private String getString(@StringRes int stringRes) {
+    private String getString(final @StringRes int stringRes) {
         return (stringRes != 0 ? getContext().getString(stringRes) : null);
     }
 
@@ -100,7 +100,7 @@ public class InformationArrayAdapter extends ArrayAdapter<InformationArrayAdapte
         final String title;
         final String comment;
 
-        Model(int type, String title, String comment) {
+        Model(final int type, final String title, final String comment) {
             this.type = type;
             this.title = title;
             this.comment = comment;
@@ -112,7 +112,7 @@ public class InformationArrayAdapter extends ArrayAdapter<InformationArrayAdapte
         final Model model;
         final View rowView;
 
-        ViewHolder(View rowView, Model model, int position) {
+        ViewHolder(final View rowView, final Model model, final int position) {
             this.rowView = rowView;
             this.model = model;
             rowView.setTag(this);

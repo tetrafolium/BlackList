@@ -58,7 +58,7 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
     private final int currentYear;
     private final int currentDay;
 
-    public SMSConversationCursorAdapter(Context context) {
+    public SMSConversationCursorAdapter(final Context context) {
         super(context, null, 0);
         paddingStart = new Padding(context, Gravity.START, 5, 50);
         paddingEnd = new Padding(context, Gravity.END, 5, 50);
@@ -69,7 +69,7 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+    public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.row_sms_conversation, parent, false);
 
@@ -82,7 +82,7 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(final View view, final Context context, final Cursor cursor) {
         // get cursor wrapper
         SMSMessageCursorWrapper2 cursorWrapper = (SMSMessageCursorWrapper2) cursor;
         // get message
@@ -97,7 +97,7 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
 
     // Extracts SMS message data from the passed view if contains
     @Nullable
-    public SMSMessage getSMSMessage(View view) {
+    public SMSMessage getSMSMessage(final View view) {
         ViewHolder holder = null;
         if (view != null) {
             holder = (ViewHolder) view.getTag();
@@ -105,16 +105,16 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
         return (holder == null ? null : holder.message);
     }
 
-    public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+    public void setOnLongClickListener(final View.OnLongClickListener onLongClickListener) {
         this.outerOnLongClickListener = onLongClickListener;
     }
 
     // Row on long click listener
     private class RowOnLongClickListener implements View.OnLongClickListener {
         @Override
-        public boolean onLongClick(View view) {
-            return (outerOnLongClickListener != null &&
-                    outerOnLongClickListener.onLongClick(view));
+        public boolean onLongClick(final View view) {
+            return (outerOnLongClickListener != null
+                    && outerOnLongClickListener.onLongClick(view));
         }
     }
 
@@ -127,7 +127,7 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
         final int top;
         final int bottom;
 
-        Padding(Context context, int gravity, int min, int max) {
+        Padding(final Context context, final int gravity, final int min, final int max) {
             if (gravity == Gravity.START) {
                 left = dpToPx(context, min);
                 right = dpToPx(context, max);
@@ -139,7 +139,7 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
             bottom = 0;
         }
 
-        private int dpToPx(Context context, int dp) {
+        private int dpToPx(final Context context, final int dp) {
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
             return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         }
@@ -153,17 +153,17 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
         private TextView dateTextView;
         private View contentView;
 
-        ViewHolder(View rowView) {
+        ViewHolder(final View rowView) {
             this(rowView,
                     rowView.findViewById(R.id.content_shape),
                     (TextView) rowView.findViewById(R.id.body),
                     (TextView) rowView.findViewById(R.id.date));
         }
 
-        ViewHolder(View rowView,
-                   View contentView,
-                   TextView snippetTextView,
-                   TextView dateTextView) {
+        ViewHolder(final View rowView,
+                   final View contentView,
+                   final TextView snippetTextView,
+                   final TextView dateTextView) {
             this.message = null;
             this.rowView = rowView;
             this.contentView = contentView;
@@ -177,7 +177,7 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
             bodyTextView.setOnLongClickListener(rowOnLongClickListener);
         }
 
-        void setModel(Context context, SMSMessage message) {
+        void setModel(final Context context, final SMSMessage message) {
             this.message = message;
             bodyTextView.setText(message.body);
 
@@ -232,7 +232,7 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
             Utils.setDrawableColor(context, drawable, color);
         }
 
-        private Date toDate(long time) {
+        private Date toDate(final long time) {
             datetime.setTime(time);
             return datetime;
         }

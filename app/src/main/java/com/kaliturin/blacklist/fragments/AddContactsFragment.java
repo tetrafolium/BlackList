@@ -72,14 +72,14 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(final @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -93,7 +93,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // snack bar
@@ -103,7 +103,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
                 getString(R.string.CANCEL),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         finishActivity(Activity.RESULT_CANCELED);
                     }
                 });
@@ -112,7 +112,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
                 getString(R.string.ADD),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         snackBar.dismiss();
                         // write checked contacts to the DB
                         addCheckedContacts();
@@ -123,7 +123,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
                 getString(R.string.SELECT_ALL),
                 new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         setCheckedAllItems();
                     }
                 });
@@ -132,7 +132,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         cursorAdapter = new ContactsCursorAdapter(getContext());
         cursorAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View row) {
+            public void onClick(final View row) {
                 if (cursorAdapter.hasCheckedItems()) {
                     snackBar.show();
                 } else {
@@ -167,7 +167,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.main, menu);
         MenuItem itemSearch = menu.findItem(R.id.action_search);
         Utils.setMenuIconTint(getContext(), itemSearch, R.attr.colorAccent);
@@ -179,12 +179,12 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         // set on text change listener
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(final String query) {
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(final String newText) {
                 reloadItems(newText);
                 return true;
             }
@@ -195,12 +195,12 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         MenuItemCompat.setOnActionExpandListener(itemSearch,
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
+                    public boolean onMenuItemActionExpand(final MenuItem item) {
                         return true;
                     }
 
                     @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                    public boolean onMenuItemActionCollapse(final MenuItem item) {
                         reloadItems(null);
                         return true;
                     }
@@ -218,7 +218,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         for (ContactNumber contactNumber : contact.numbers) {
             dialog.addItem(0, contactNumber.number, contactNumber, new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     ContactNumber contactNumber = (ContactNumber) v.getTag();
                     if (contactNumber != null) {
                         singleContactNumbers.put(contact.id, contactNumber);
@@ -229,7 +229,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         if (contact.numbers.size() > 1) {
             dialog.addItem(0, R.string.Select_all, null, new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     singleContactNumbers.remove(contact.id);
                 }
             });
@@ -260,7 +260,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
     }
 
     // Reloads items
-    private void reloadItems(String itemsFilter) {
+    private void reloadItems(final String itemsFilter) {
         singleContactNumbers.clear();
         dismissSnackBar();
         if (isAdded()) {
@@ -269,7 +269,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
     }
 
     // Creates new contacts loader
-    private ContactsLoaderCallbacks newLoaderCallbacks(String itemsFilter) {
+    private ContactsLoaderCallbacks newLoaderCallbacks(final String itemsFilter) {
         return new ContactsLoaderCallbacks(getContext(), sourceType, cursorAdapter, itemsFilter);
     }
 
@@ -280,9 +280,9 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         private ContactSourceType sourceType;
         private String itemsFilter;
 
-        ContactsLoader(Context context,
-                       ContactSourceType sourceType,
-                       String itemsFilter) {
+        ContactsLoader(final Context context,
+                       final ContactSourceType sourceType,
+                       final String itemsFilter) {
             super(context);
             this.sourceType = sourceType;
             this.itemsFilter = itemsFilter;
@@ -303,10 +303,10 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         private ContactsCursorAdapter cursorAdapter;
         private String itemsFilter;
 
-        ContactsLoaderCallbacks(Context context,
-                                ContactSourceType sourceType,
-                                ContactsCursorAdapter cursorAdapter,
-                                String itemsFilter) {
+        ContactsLoaderCallbacks(final Context context,
+                                final ContactSourceType sourceType,
+                                final ContactsCursorAdapter cursorAdapter,
+                                final String itemsFilter) {
             this.context = context;
             this.sourceType = sourceType;
             this.cursorAdapter = cursorAdapter;
@@ -314,19 +314,19 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         }
 
         @Override
-        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
             progress.show(context, 0, R.string.Loading_);
             return new ContactsLoader(context, sourceType, itemsFilter);
         }
 
         @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
             cursorAdapter.changeCursor(data);
             progress.dismiss();
         }
 
         @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
+        public void onLoaderReset(final Loader<Cursor> loader) {
             cursorAdapter.changeCursor(null);
             progress.dismiss();
         }
@@ -334,7 +334,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
 
 //-------------------------------------------------------------------
 
-    private void finishActivity(int result) {
+    private void finishActivity(final int result) {
         getActivity().setResult(result);
         getActivity().finish();
     }
@@ -347,7 +347,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
     }
 
     // Writes checked contacts to the database
-    protected void addContacts(List<Contact> contacts, LongSparseArray<ContactNumber> singleContactNumbers) {
+    protected void addContacts(final List<Contact> contacts, final LongSparseArray<ContactNumber> singleContactNumbers) {
         // if permission is granted
         if (!Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
             ContactsWriter writer = new ContactsWriter(contactType, contacts, singleContactNumbers.clone());
@@ -362,15 +362,15 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         LongSparseArray<ContactNumber> singleContactNumbers;
         private int contactType;
 
-        ContactsWriter(int contactType, List<Contact> contacts,
-                       LongSparseArray<ContactNumber> singleContactNumbers) {
+        ContactsWriter(final int contactType, final List<Contact> contacts,
+                       final LongSparseArray<ContactNumber> singleContactNumbers) {
             this.contactType = contactType;
             this.contacts = contacts;
             this.singleContactNumbers = singleContactNumbers;
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(final Void... params) {
             DatabaseAccessHelper db = DatabaseAccessHelper.getInstance(getContext());
             if (db != null) {
                 int count = 1;
@@ -399,7 +399,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(final Void result) {
             progress.dismiss();
             finishActivity(Activity.RESULT_OK);
         }
@@ -408,7 +408,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         protected void onPreExecute() {
             progress.show(getContext(), new DialogInterface.OnCancelListener() {
                 @Override
-                public void onCancel(DialogInterface dialog) {
+                public void onCancel(final DialogInterface dialog) {
                     ContactsWriter.this.cancel(true);
                 }
             });
@@ -416,7 +416,7 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values) {
+        protected void onProgressUpdate(final Integer... values) {
             progress.setMessage(getString(R.string.Saving_) + " " + values[0] + "%");
         }
     }

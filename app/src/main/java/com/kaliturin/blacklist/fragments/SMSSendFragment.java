@@ -57,14 +57,14 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_send_sms, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // message counter view
@@ -80,7 +80,7 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
         ImageButton addContactView = (ImageButton) view.findViewById(R.id.button_add_contact);
         addContactView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 String number = getNumberFromEdit(numberEdit);
                 if (!number.isEmpty()) {
                     // add number to contacts list
@@ -97,7 +97,7 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
         ImageButton sendButton = (ImageButton) view.findViewById(R.id.button_send);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (sendSMSMessage()) {
                     finishActivity(Activity.RESULT_OK);
                 }
@@ -128,7 +128,7 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         ArrayList<String> numbers = new ArrayList<>(number2NameMap.keySet());
         ArrayList<String> names = new ArrayList<>(number2NameMap.values());
@@ -137,7 +137,7 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         // this is calling for receiving results from GetContactsFragment
         if (resultCode == Activity.RESULT_OK) {
             // add resulting data the list
@@ -146,13 +146,13 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    public void onViewStateRestored(final @Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         // restore contacts list from saved state
         addRowsToContactsList(savedInstanceState);
     }
 
-    private void finishActivity(int result) {
+    private void finishActivity(final int result) {
         getActivity().setResult(result);
         getActivity().finish();
     }
@@ -198,7 +198,7 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
     }
 
     // Creates and adds rows to the contacts list
-    private void addRowsToContactsList(Bundle data) {
+    private void addRowsToContactsList(final Bundle data) {
         if (data == null) {
             return;
         }
@@ -214,7 +214,7 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
     }
 
     // Creates and adds a row to the contacts list
-    private boolean addRowToContactsList(@NonNull String number, @NonNull String name) {
+    private boolean addRowToContactsList(final @NonNull String number, final @NonNull String name) {
         View view = getView();
         if (view == null) {
             return false;
@@ -247,7 +247,7 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
         buttonRemove.setTag(row);
         buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 View row = (View) v.getTag();
                 String number = (String) row.getTag();
                 // remove contact from the container
@@ -282,36 +282,36 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
         dialog.setTitle(R.string.Add_number).
                 addItem(R.string.From_contacts_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showGetContactsFragment(ContactSourceType.FROM_CONTACTS);
                     }
                 }).
                 addItem(R.string.From_calls_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showGetContactsFragment(ContactSourceType.FROM_CALLS_LOG);
                     }
                 }).
                 addItem(R.string.From_SMS_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showGetContactsFragment(ContactSourceType.FROM_SMS_LIST);
                     }
                 }).
                 addItem(R.string.From_White_list, new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         showGetContactsFragment(ContactSourceType.FROM_WHITE_LIST);
                     }
                 }).
                 show();
     }
 
-    private void showGetContactsFragment(ContactSourceType sourceType) {
+    private void showGetContactsFragment(final ContactSourceType sourceType) {
         GetContactsFragment.show(this, sourceType, true);
     }
 
-    private String getNumberFromEdit(EditText numberEdit) {
+    private String getNumberFromEdit(final EditText numberEdit) {
         String number = numberEdit.getText().toString().trim();
         // normalize number
         return ContactsAccessHelper.normalizePhoneNumber(number);

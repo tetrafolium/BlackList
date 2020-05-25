@@ -85,7 +85,7 @@ public class Permissions {
     /**
      * Checks for permission
      **/
-    public static boolean isGranted(@NonNull Context context, @NonNull String permission) {
+    public static boolean isGranted(final @NonNull Context context, final @NonNull String permission) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
@@ -101,7 +101,7 @@ public class Permissions {
     /**
      * Checks for permissions and notifies the user if they aren't granted
      **/
-    public static void notifyIfNotGranted(@NonNull Context context) {
+    public static void notifyIfNotGranted(final @NonNull Context context) {
         StringBuilder sb = new StringBuilder();
         int count = 0;
         for (String permission : PERMISSIONS) {
@@ -133,7 +133,7 @@ public class Permissions {
     /**
      * Checks for permission and notifies if it isn't granted
      **/
-    public static boolean notifyIfNotGranted(@NonNull Context context, @NonNull String permission) {
+    public static boolean notifyIfNotGranted(final @NonNull Context context, final @NonNull String permission) {
         if (!isGranted(context, permission)) {
             notify(context, permission);
             return true;
@@ -145,7 +145,7 @@ public class Permissions {
      * Returns information string about permission
      **/
     @Nullable
-    private static String getPermissionInfo(@NonNull Context context, @NonNull String permission) {
+    private static String getPermissionInfo(final @NonNull Context context, final @NonNull String permission) {
         context = context.getApplicationContext();
         PackageManager pm = context.getPackageManager();
         PermissionInfo info = null;
@@ -169,11 +169,11 @@ public class Permissions {
     /**
      * Notifies the user if permission isn't granted
      **/
-    private static void notify(@NonNull Context context, @NonNull String permission) {
+    private static void notify(final @NonNull Context context, final @NonNull String permission) {
         String info = getPermissionInfo(context, permission);
         if (info != null) {
-            String message = context.getString(R.string.app_name) + " " +
-                    context.getString(R.string.needs_permission) + ":\n" + info + ";";
+            String message = context.getString(R.string.app_name) + " "
+                    + context.getString(R.string.needs_permission) + ":\n" + info + ";";
             Utils.showToast(context, message, Toast.LENGTH_SHORT);
         }
     }
@@ -181,7 +181,7 @@ public class Permissions {
     /**
      * Checks for permissions and shows a dialog for permission granting
      **/
-    public static void checkAndRequest(@NonNull Activity context) {
+    public static void checkAndRequest(final @NonNull Activity context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             List<String> permissions = new LinkedList<>();
             for (String permission : PERMISSIONS) {
@@ -206,11 +206,11 @@ public class Permissions {
     /**
      * Saves the results of permission granting request
      **/
-    public static void onRequestPermissionsResult(int requestCode,
-                                                  @NonNull String permissions[],
-                                                  @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CODE &&
-                permissions.length == grantResults.length) {
+    public static void onRequestPermissionsResult(final int requestCode,
+                                                  final @NonNull String permissions[],
+                                                  final @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE
+                && permissions.length == grantResults.length) {
             for (int i = 0; i < permissions.length; i++) {
                 boolean result = (grantResults[i] == PackageManager.PERMISSION_GRANTED);
                 permissionsResults.put(permissions[i], result);

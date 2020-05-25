@@ -51,11 +51,11 @@ public class ContactsAccessHelper {
     private static volatile ContactsAccessHelper sInstance = null;
     private ContentResolver contentResolver = null;
 
-    private ContactsAccessHelper(Context context) {
+    private ContactsAccessHelper(final Context context) {
         contentResolver = context.getApplicationContext().getContentResolver();
     }
 
-    public static ContactsAccessHelper getInstance(Context context) {
+    public static ContactsAccessHelper getInstance(final Context context) {
         if (sInstance == null) {
             synchronized (ContactsAccessHelper.class) {
                 if (sInstance == null) {
@@ -66,7 +66,7 @@ public class ContactsAccessHelper {
         return sInstance;
     }
 
-    private boolean validate(Cursor cursor) {
+    private boolean validate(final Cursor cursor) {
         if (cursor == null || cursor.isClosed()) return false;
         if (cursor.getCount() == 0) {
             cursor.close();
@@ -85,7 +85,7 @@ public class ContactsAccessHelper {
     }
 
     @Nullable
-    public static String getPermission(ContactSourceType sourceType) {
+    public static String getPermission(final ContactSourceType sourceType) {
         switch (sourceType) {
             case FROM_CONTACTS:
                 return Permissions.READ_CONTACTS;
@@ -102,7 +102,7 @@ public class ContactsAccessHelper {
 
     // Returns contacts from specified source
     @Nullable
-    public Cursor getContacts(Context context, ContactSourceType sourceType, @Nullable String filter) {
+    public Cursor getContacts(final Context context, final ContactSourceType sourceType, final @Nullable String filter) {
         // check permission
         final String permission = getPermission(sourceType);
         if (permission == null || !Permissions.isGranted(context, permission)) {
@@ -134,15 +134,15 @@ public class ContactsAccessHelper {
 
     // Selects contacts from contacts list
     @Nullable
-    private ContactCursorWrapper getContacts(@Nullable String filter) {
+    private ContactCursorWrapper getContacts(final @Nullable String filter) {
         filter = (filter == null ? "%%" : "%" + filter + "%");
         Cursor cursor = contentResolver.query(
                 Contacts.CONTENT_URI,
                 new String[]{Contacts._ID, Contacts.DISPLAY_NAME},
-                Contacts.IN_VISIBLE_GROUP + " != 0 AND " +
-                        Contacts.HAS_PHONE_NUMBER + " != 0 AND " +
-                        Contacts.DISPLAY_NAME + " IS NOT NULL AND " +
-                        Contacts.DISPLAY_NAME + " LIKE ? ",
+                Contacts.IN_VISIBLE_GROUP + " != 0 AND "
+                        + Contacts.HAS_PHONE_NUMBER + " != 0 AND "
+                        + Contacts.DISPLAY_NAME + " IS NOT NULL AND "
+                        + Contacts.DISPLAY_NAME + " LIKE ? ",
                 new String[]{filter},
                 Contacts.DISPLAY_NAME + " ASC");
 
@@ -151,14 +151,14 @@ public class ContactsAccessHelper {
 
     // Selects contact from contacts list by id
     @Nullable
-    private ContactCursorWrapper getContactCursor(long contactId) {
+    private ContactCursorWrapper getContactCursor(final long contactId) {
         Cursor cursor = contentResolver.query(
                 Contacts.CONTENT_URI,
                 new String[]{Contacts._ID, Contacts.DISPLAY_NAME},
-                Contacts.DISPLAY_NAME + " IS NOT NULL AND " +
-                        Contacts.IN_VISIBLE_GROUP + " != 0 AND " +
-                        Contacts.HAS_PHONE_NUMBER + " != 0 AND " +
-                        Contacts._ID + " = " + contactId,
+                Contacts.DISPLAY_NAME + " IS NOT NULL AND "
+                        + Contacts.IN_VISIBLE_GROUP + " != 0 AND "
+                        + Contacts.HAS_PHONE_NUMBER + " != 0 AND "
+                        + Contacts._ID + " = " + contactId,
                 null,
                 null);
 
@@ -166,7 +166,7 @@ public class ContactsAccessHelper {
     }
 
     @Nullable
-    private Contact getContact(long contactId) {
+    private Contact getContact(final long contactId) {
         Contact contact = null;
         ContactCursorWrapper cursor = getContactCursor(contactId);
         if (cursor != null) {
@@ -179,7 +179,7 @@ public class ContactsAccessHelper {
 
     // Selects contact from contacts list by phone number
     @Nullable
-    private ContactCursorWrapper getContactCursor(String number) {
+    private ContactCursorWrapper getContactCursor(final String number) {
         Uri lookupUri = Uri.withAppendedPath(
                 ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
                 Uri.encode(number));
@@ -193,7 +193,7 @@ public class ContactsAccessHelper {
     }
 
     @Nullable
-    private Contact getContact(String number) {
+    private Contact getContact(final String number) {
         Contact contact = null;
         ContactCursorWrapper cursor = getContactCursor(number);
         if (cursor != null) {
@@ -205,7 +205,7 @@ public class ContactsAccessHelper {
     }
 
     @Nullable
-    public Contact getContact(Context context, String number) {
+    public Contact getContact(final Context context, final String number) {
         if (!Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             return null;
         }
@@ -218,7 +218,7 @@ public class ContactsAccessHelper {
         private final int ID;
         private final int NAME;
 
-        private ContactCursorWrapper(Cursor cursor) {
+        private ContactCursorWrapper(final Cursor cursor) {
             super(cursor);
             cursor.moveToFirst();
             ID = getColumnIndex(Contacts._ID);
@@ -230,7 +230,7 @@ public class ContactsAccessHelper {
             return getContact(true);
         }
 
-        Contact getContact(boolean withNumbers) {
+        Contact getContact(final boolean withNumbers) {
             long id = getLong(ID);
             String name = getString(NAME);
             List<ContactNumber> numbers = new LinkedList<>();
@@ -257,7 +257,7 @@ public class ContactsAccessHelper {
     private static class ContactNumberCursorWrapper extends CursorWrapper {
         private final int NUMBER;
 
-        private ContactNumberCursorWrapper(Cursor cursor) {
+        private ContactNumberCursorWrapper(final Cursor cursor) {
             super(cursor);
             cursor.moveToFirst();
             NUMBER = cursor.getColumnIndex(Phone.NUMBER);
@@ -270,12 +270,12 @@ public class ContactsAccessHelper {
 
     // Selects all numbers of specified contact
     @Nullable
-    private ContactNumberCursorWrapper getContactNumbers(long contactId) {
+    private ContactNumberCursorWrapper getContactNumbers(final long contactId) {
         Cursor cursor = contentResolver.query(
                 Phone.CONTENT_URI,
                 new String[]{Phone.NUMBER},
-                Phone.NUMBER + " IS NOT NULL AND " +
-                        Phone.CONTACT_ID + " = " + contactId,
+                Phone.NUMBER + " IS NOT NULL AND "
+                        + Phone.CONTACT_ID + " = " + contactId,
                 null,
                 null);
 
@@ -313,7 +313,7 @@ public class ContactsAccessHelper {
 //-------------------------------------------------------------------------------------
 
     // Returns true if passed phone number contains in SMS content list
-    public boolean containsNumberInSMSContent(Context context, @NonNull String number) {
+    public boolean containsNumberInSMSContent(final Context context, final @NonNull String number) {
         if (!Permissions.isGranted(context, Permissions.READ_SMS)) {
             return false;
         }
@@ -347,15 +347,15 @@ public class ContactsAccessHelper {
 
     // Selects contacts from SMS list filtering by contact name or number
     @Nullable
-    private ContactFromSMSCursorWrapper getContactsFromSMSList(@Nullable String filter) {
+    private ContactFromSMSCursorWrapper getContactsFromSMSList(final @Nullable String filter) {
         filter = (filter == null ? "" : filter.toLowerCase());
 
         // filter by address (number) if person (contact id) is null
         Cursor cursor = contentResolver.query(
                 URI_CONTENT_SMS,
                 new String[]{"DISTINCT " + ID, ADDRESS, PERSON},
-                ADDRESS + " IS NOT NULL " +
-                        ") GROUP BY (" + ADDRESS,
+                ADDRESS + " IS NOT NULL "
+                        + ") GROUP BY (" + ADDRESS,
                 null,
                 DATE + " DESC");
 
@@ -408,7 +408,7 @@ public class ContactsAccessHelper {
         private final int _ADDRESS;
         private final int _PERSON;
 
-        private ContactFromSMSCursorWrapper(Cursor cursor) {
+        private ContactFromSMSCursorWrapper(final Cursor cursor) {
             super(cursor);
             cursor.moveToFirst();
             _ID = getColumnIndex(ID);
@@ -432,19 +432,19 @@ public class ContactsAccessHelper {
 
     // Selects contacts from calls log
     @Nullable
-    private ContactFromCallsCursorWrapper getContactsFromCallsLog(@Nullable String filter) {
+    private ContactFromCallsCursorWrapper getContactsFromCallsLog(final @Nullable String filter) {
         filter = (filter == null ? "%%" : "%" + filter + "%");
 
         // filter by name or by number
         Cursor cursor = contentResolver.query(
                 URI_CONTENT_CALLS,
                 new String[]{Calls._ID, Calls.NUMBER, Calls.CACHED_NAME},
-                Calls.NUMBER + " IS NOT NULL AND (" +
-                        Calls.CACHED_NAME + " IS NULL AND " +
-                        // leave out private numbers
-                        Calls.NUMBER + " NOT LIKE '-%' AND " +
-                        Calls.NUMBER + " LIKE ? OR " +
-                        Calls.CACHED_NAME + " LIKE ? )",
+                Calls.NUMBER + " IS NOT NULL AND ("
+                        + Calls.CACHED_NAME + " IS NULL AND "
+                        + // leave out private numbers
+                        Calls.NUMBER + " NOT LIKE '-%' AND "
+                        + Calls.NUMBER + " LIKE ? OR "
+                        + Calls.CACHED_NAME + " LIKE ? )",
                 new String[]{filter, filter},
                 Calls.DATE + " DESC");
 
@@ -483,7 +483,7 @@ public class ContactsAccessHelper {
         private final int NUMBER;
         private final int NAME;
 
-        private ContactFromCallsCursorWrapper(Cursor cursor) {
+        private ContactFromCallsCursorWrapper(final Cursor cursor) {
             super(cursor);
             cursor.moveToFirst();
             ID = cursor.getColumnIndex(Calls._ID);
@@ -504,7 +504,7 @@ public class ContactsAccessHelper {
     }
 
     // Deletes last Call log record that was written since "duration" time
-    public boolean deleteLastRecordFromCallLog(Context context, String number, long duration) {
+    public boolean deleteLastRecordFromCallLog(final Context context, final String number, final long duration) {
         if (!Permissions.isGranted(context, Permissions.WRITE_CALL_LOG)) {
             return false;
         }
@@ -525,7 +525,7 @@ public class ContactsAccessHelper {
     }
 
     // Returns last call record from the Call log that was written since "duration" time
-    private long getLastRecordIdFromCallLog(Context context, String number, long duration) {
+    private long getLastRecordIdFromCallLog(final Context context, final String number, final long duration) {
         if (!Permissions.isGranted(context, Permissions.READ_CALL_LOG)) {
             return -1;
         }
@@ -587,8 +587,8 @@ public class ContactsAccessHelper {
         public final String snippet;
         public final int unread;
 
-        SMSConversation(int threadId, long date, String person,
-                        String number, String snippet, int unread) {
+        SMSConversation(final int threadId, final long date, final String person,
+                        final String number, final String snippet, final int unread) {
             this.threadId = threadId;
             this.date = date;
             this.person = person;
@@ -602,14 +602,14 @@ public class ContactsAccessHelper {
     public class SMSConversationWrapper extends CursorWrapper {
         private final int _THREAD_ID;
 
-        private SMSConversationWrapper(Cursor cursor) {
+        private SMSConversationWrapper(final Cursor cursor) {
             super(cursor);
             cursor.moveToFirst();
             _THREAD_ID = cursor.getColumnIndex(THREAD_ID);
         }
 
         @Nullable
-        public SMSConversation getConversation(Context context) {
+        public SMSConversation getConversation(final Context context) {
             int threadId = getInt(_THREAD_ID);
             return getSMSConversationByThreadId(context, threadId);
         }
@@ -617,9 +617,9 @@ public class ContactsAccessHelper {
 
     // Returns SMS conversation cursor wrapper
     @Nullable
-    public SMSConversationWrapper getSMSConversations(Context context) {
-        if (!Permissions.isGranted(context, Permissions.READ_SMS) ||
-                !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+    public SMSConversationWrapper getSMSConversations(final Context context) {
+        if (!Permissions.isGranted(context, Permissions.READ_SMS)
+                || !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             return null;
         }
 
@@ -636,9 +636,9 @@ public class ContactsAccessHelper {
 
     // Returns SMS conversation by thread id
     @Nullable
-    private SMSConversation getSMSConversationByThreadId(Context context, int threadId) {
-        if (!Permissions.isGranted(context, Permissions.READ_SMS) ||
-                !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+    private SMSConversation getSMSConversationByThreadId(final Context context, final int threadId) {
+        if (!Permissions.isGranted(context, Permissions.READ_SMS)
+                || !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             return null;
         }
 
@@ -660,10 +660,10 @@ public class ContactsAccessHelper {
 
     // Selects SMS messages by thread id
     @Nullable
-    private SMSMessageCursorWrapper getSMSMessagesByThreadId(Context context, int threadId,
-                                                             boolean desc, int limit) {
-        if (!Permissions.isGranted(context, Permissions.READ_SMS) ||
-                !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+    private SMSMessageCursorWrapper getSMSMessagesByThreadId(final Context context, final int threadId,
+                                                             final boolean desc, final int limit) {
+        if (!Permissions.isGranted(context, Permissions.READ_SMS)
+                || !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             return null;
         }
 
@@ -672,8 +672,8 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                 URI_CONTENT_SMS,
                 null,
-                THREAD_ID + " = ? " +
-                        // we don't support drafts yet
+                THREAD_ID + " = ? "
+                        + // we don't support drafts yet
                         " AND " + ADDRESS + " NOT NULL ",
                 new String[]{String.valueOf(threadId)},
                 orderClause + limitClause);
@@ -685,10 +685,10 @@ public class ContactsAccessHelper {
     // Reads SMS in two steps: at first an index, at second all others data.
     // This approach is efficient for memory saving.
     @Nullable
-    public SMSMessageCursorWrapper2 getSMSMessagesByThreadId2(Context context, int threadId,
-                                                              boolean desc, int limit) {
-        if (!Permissions.isGranted(context, Permissions.READ_SMS) ||
-                !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+    public SMSMessageCursorWrapper2 getSMSMessagesByThreadId2(final Context context, final int threadId,
+                                                              final boolean desc, final int limit) {
+        if (!Permissions.isGranted(context, Permissions.READ_SMS)
+                || !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             return null;
         }
 
@@ -697,8 +697,8 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                 URI_CONTENT_SMS,
                 new String[]{ID},
-                THREAD_ID + " = ? " +
-                        // we don't support drafts yet
+                THREAD_ID + " = ? "
+                        + // we don't support drafts yet
                         " AND " + ADDRESS + " NOT NULL ",
                 new String[]{String.valueOf(threadId)},
                 orderClause + limitClause);
@@ -707,7 +707,7 @@ public class ContactsAccessHelper {
     }
 
     // Returns count of unread SMS messages by thread id
-    public int getSMSMessagesUnreadCountByThreadId(Context context, int threadId) {
+    public int getSMSMessagesUnreadCountByThreadId(final Context context, final int threadId) {
         if (!Permissions.isGranted(context, Permissions.READ_SMS)) {
             return 0;
         }
@@ -715,8 +715,8 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                 URI_CONTENT_SMS_INBOX,
                 new String[]{"COUNT(" + ID + ")"},
-                THREAD_ID + " = ? AND " +
-                        READ + " = ? ",
+                THREAD_ID + " = ? AND "
+                        + READ + " = ? ",
                 new String[]{
                         String.valueOf(threadId),
                         String.valueOf(0)
@@ -734,7 +734,7 @@ public class ContactsAccessHelper {
     }
 
     // Marks SMS messages are read by thread id
-    public boolean setSMSMessagesReadByThreadId(Context context, int threadId) {
+    public boolean setSMSMessagesReadByThreadId(final Context context, final int threadId) {
         if (!Permissions.isGranted(context, Permissions.WRITE_SMS)) {
             return false;
         }
@@ -744,8 +744,8 @@ public class ContactsAccessHelper {
         return contentResolver.update(
                 URI_CONTENT_SMS_INBOX,
                 values,
-                THREAD_ID + " = ? AND " +
-                        READ + " = ? ",
+                THREAD_ID + " = ? AND "
+                        + READ + " = ? ",
                 new String[]{
                         String.valueOf(threadId),
                         String.valueOf(0)
@@ -753,7 +753,7 @@ public class ContactsAccessHelper {
     }
 
     // Deletes SMS messages by thread id
-    public boolean deleteSMSMessagesByThreadId(Context context, int threadId) {
+    public boolean deleteSMSMessagesByThreadId(final Context context, final int threadId) {
         if (!Permissions.isGranted(context, Permissions.WRITE_SMS)) {
             return false;
         }
@@ -767,7 +767,7 @@ public class ContactsAccessHelper {
     }
 
     // Deletes SMS message by id
-    public boolean deleteSMSMessageById(Context context, long id) {
+    public boolean deleteSMSMessageById(final Context context, final long id) {
         if (!Permissions.isGranted(context, Permissions.WRITE_SMS)) {
             return false;
         }
@@ -781,7 +781,7 @@ public class ContactsAccessHelper {
     }
 
     // Marks all SMS messages are seen
-    public boolean setSMSMessagesSeen(Context context) {
+    public boolean setSMSMessagesSeen(final Context context) {
         if (!Permissions.isGranted(context, Permissions.WRITE_SMS)) {
             return false;
         }
@@ -796,7 +796,7 @@ public class ContactsAccessHelper {
     }
 
     // Returns SMS thread id by phone number or -1 on error
-    public int getSMSThreadIdByNumber(Context context, String number) {
+    public int getSMSThreadIdByNumber(final Context context, final String number) {
         if (!Permissions.isGranted(context, Permissions.READ_SMS)) {
             return -1;
         }
@@ -831,8 +831,8 @@ public class ContactsAccessHelper {
         public final String number;
         public final String body;
 
-        SMSMessage(long id, int type, int status, long date, long deliveryDate,
-                   String person, String number, String body) {
+        SMSMessage(final long id, final int type, final int status, final long date, final long deliveryDate,
+                   final String person, final String number, final String body) {
             this.id = id;
             this.type = type;
             this.status = status;
@@ -856,7 +856,7 @@ public class ContactsAccessHelper {
         private final int _NUMBER;
         private final int _BODY;
 
-        private SMSMessageCursorWrapper(Cursor cursor) {
+        private SMSMessageCursorWrapper(final Cursor cursor) {
             super(cursor);
             cursor.moveToFirst();
             _ID = cursor.getColumnIndex(ID);
@@ -870,7 +870,7 @@ public class ContactsAccessHelper {
             _BODY = cursor.getColumnIndex(BODY);
         }
 
-        SMSMessage getSMSMessage(boolean withContact) {
+        SMSMessage getSMSMessage(final boolean withContact) {
             long id = getLong(_ID);
             int type = getInt(_TYPE);
             int status = getInt(_STATUS);
@@ -910,21 +910,21 @@ public class ContactsAccessHelper {
     public class SMSMessageCursorWrapper2 extends CursorWrapper {
         private final int _ID;
 
-        private SMSMessageCursorWrapper2(Cursor cursor) {
+        private SMSMessageCursorWrapper2(final Cursor cursor) {
             super(cursor);
             cursor.moveToFirst();
             _ID = cursor.getColumnIndex(ID);
         }
 
         @Nullable
-        public SMSMessage getSMSMessage(boolean withContact) {
+        public SMSMessage getSMSMessage(final boolean withContact) {
             long id = getLong(_ID);
             return getSMSMessagesById(id, withContact);
         }
     }
 
     @Nullable
-    private SMSMessage getSMSMessagesById(long id, boolean withContact) {
+    private SMSMessage getSMSMessagesById(final long id, final boolean withContact) {
 //        if (!Permissions.isGranted(context, Permissions.READ_SMS) ||
 //                !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
 //            return null;
@@ -950,7 +950,7 @@ public class ContactsAccessHelper {
     // Writes SMS message to the Inbox. This method is needed only since API19 -
     // where only default SMS app can write to the content resolver.
     @TargetApi(19)
-    public boolean writeSMSMessageToInbox(Context context, @Nullable Contact contact, Map<String, String> data) {
+    public boolean writeSMSMessageToInbox(final Context context, final @Nullable Contact contact, final Map<String, String> data) {
         if (!Permissions.isGranted(context, Permissions.WRITE_SMS)) {
             return false;
         }
@@ -994,7 +994,7 @@ public class ContactsAccessHelper {
 //--------------------------------------------------------------------------------
 
     // Writes SMS message to the Outbox
-    public long writeSMSMessageToOutbox(Context context, String number, String message) {
+    public long writeSMSMessageToOutbox(final Context context, final String number, final String message) {
         if (!Permissions.isGranted(context, Permissions.WRITE_SMS)) {
             return -1;
         }
@@ -1025,7 +1025,7 @@ public class ContactsAccessHelper {
     }
 
     // Updates SMS message on sent
-    public boolean updateSMSMessageOnSent(Context context, long messageId, boolean delivery, boolean failed) {
+    public boolean updateSMSMessageOnSent(final Context context, final long messageId, final boolean delivery, final boolean failed) {
         int type, status;
         if (failed) {
             type = MESSAGE_TYPE_FAILED;
@@ -1042,7 +1042,7 @@ public class ContactsAccessHelper {
     }
 
     // Updates SMS message on delivery
-    public boolean updateSMSMessageOnDelivery(Context context, long messageId, boolean failed) {
+    public boolean updateSMSMessageOnDelivery(final Context context, final long messageId, final boolean failed) {
         int type, status;
         if (failed) {
             type = MESSAGE_TYPE_FAILED;
@@ -1055,7 +1055,7 @@ public class ContactsAccessHelper {
     }
 
     // Updates SMS message
-    private boolean updateSMSMessage(Context context, long messageId, int type, int status, long deliveryDate) {
+    private boolean updateSMSMessage(final Context context, final long messageId, final int type, final int status, final long deliveryDate) {
         if (!Permissions.isGranted(context, Permissions.WRITE_SMS)) {
             return false;
         }
@@ -1080,7 +1080,7 @@ public class ContactsAccessHelper {
     }
 
     // Returns the set of columns names
-    private Set<String> getColumns(Uri uri) {
+    private Set<String> getColumns(final Uri uri) {
         Set<String> set = new HashSet<>();
         Cursor cursor = contentResolver.query(uri, null, null, null, null);
         if (cursor != null) {
@@ -1105,7 +1105,7 @@ public class ContactsAccessHelper {
      * If passed phone number is digital and not symbolic then normalizes
      * it, removing brackets, dashes and spaces.
      */
-    public static String normalizePhoneNumber(@NonNull String number) {
+    public static String normalizePhoneNumber(final @NonNull String number) {
         number = number.trim();
         if (digitalPhoneNumberPattern.matcher(number).matches()) {
             number = normalizePhoneNumberPattern.matcher(number).replaceAll("");
@@ -1116,7 +1116,7 @@ public class ContactsAccessHelper {
     /**
      * Checks whether passed phone number is private
      */
-    public static boolean isPrivatePhoneNumber(@Nullable String number) {
+    public static boolean isPrivatePhoneNumber(final @Nullable String number) {
         try {
             if (number == null) {
                 return true;
@@ -1132,7 +1132,7 @@ public class ContactsAccessHelper {
 
 //---------------------------------------------------------------------
 
-    private static void debug(Cursor cursor) {
+    private static void debug(final Cursor cursor) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < cursor.getColumnCount(); i++) {
             String s = cursor.getString(i);

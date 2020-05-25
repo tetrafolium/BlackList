@@ -43,7 +43,7 @@ public class CustomFragmentActivity extends AppCompatActivity {
     private static final String FRAGMENT_CLASS = "FRAGMENT_CLASS";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         Settings.applyCurrentTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_bar_main);
@@ -94,7 +94,7 @@ public class CustomFragmentActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -103,32 +103,32 @@ public class CustomFragmentActivity extends AppCompatActivity {
     }
 
     // Opens activity with fragment and waiting for result
-    public static void show(Activity context, String activityTitle,
-                            Class<? extends Fragment> fragmentClass,
-                            Bundle fragmentArguments, int requestCode) {
+    public static void show(final Activity context, final String activityTitle,
+                            final Class<? extends Fragment> fragmentClass,
+                            final Bundle fragmentArguments, final int requestCode) {
         Intent intent = getIntent(context, activityTitle, fragmentClass, fragmentArguments);
         context.startActivityForResult(intent, requestCode);
     }
 
     // Opens activity with fragment and waiting for result
-    public static void show(Context context, Fragment parent, String activityTitle,
-                            Class<? extends Fragment> fragmentClass,
-                            Bundle fragmentArguments, int requestCode) {
+    public static void show(final Context context, final Fragment parent, final String activityTitle,
+                            final Class<? extends Fragment> fragmentClass,
+                            final Bundle fragmentArguments, final int requestCode) {
         Intent intent = getIntent(context, activityTitle, fragmentClass, fragmentArguments);
         parent.startActivityForResult(intent, requestCode);
     }
 
     // Opens activity with fragment
-    public static void show(Context context, String activityTitle,
-                            Class<? extends Fragment> fragmentClass,
-                            Bundle fragmentArguments) {
+    public static void show(final Context context, final String activityTitle,
+                            final Class<? extends Fragment> fragmentClass,
+                            final Bundle fragmentArguments) {
         Intent intent = getIntent(context, activityTitle, fragmentClass, fragmentArguments);
         context.startActivity(intent);
     }
 
-    private static Intent getIntent(Context context, String activityTitle,
-                                    Class<? extends Fragment> fragmentClass,
-                                    Bundle fragmentArguments) {
+    private static Intent getIntent(final Context context, final String activityTitle,
+                                    final Class<? extends Fragment> fragmentClass,
+                                    final Bundle fragmentArguments) {
         Intent intent = new Intent(context, CustomFragmentActivity.class);
         intent.putExtra(ACTIVITY_TITLE, activityTitle);
         intent.putExtra(FRAGMENT_CLASS, fragmentClass.getName());
