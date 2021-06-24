@@ -26,12 +26,11 @@ import android.support.annotation.Nullable;
  */
 
 public class SMSRespondService extends Service {
-    public SMSRespondService() {
-    }
+  public SMSRespondService() {}
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+  @Nullable
+  @Override
+  public IBinder onBind(Intent intent) {
+    return null;
+  }
 }
