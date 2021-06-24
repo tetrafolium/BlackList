@@ -5,6 +5,13 @@ inspecode:
     thresholds: { num-issues: 999 }
 
   checkstyle:
+    options:
+      --executeIgnoredModules:    # 3200 when no options
+        - FinalParameters         # 1016
+        - LineLength              #  649
+        - JavadocVariable         #  475
+        - MissingJavadocMethod    #  176
+        - DesignForExtension      #  170
     auto-fix: true
     thresholds: { num-issues: 999 }
 
