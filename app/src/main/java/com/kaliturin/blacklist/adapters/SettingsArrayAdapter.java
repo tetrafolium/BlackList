@@ -37,247 +37,253 @@ import com.kaliturin.blacklist.utils.Utils;
  */
 
 public class SettingsArrayAdapter
-    extends ArrayAdapter<SettingsArrayAdapter.Model> {
-  private SparseArray<ViewHolder> rowsArray = new SparseArray<>();
+	extends ArrayAdapter<SettingsArrayAdapter.Model> {
+private SparseArray<ViewHolder> rowsArray = new SparseArray<>();
 
-  public SettingsArrayAdapter(Context context) { super(context, 0); }
+public SettingsArrayAdapter(Context context) {
+	super(context, 0);
+}
 
-  @Override
-  @NonNull
-  public View getView(int position, @Nullable View convertView,
-                      @NonNull ViewGroup parent) {
-    // get created row by position
-    View rowView;
-    ViewHolder viewHolder = rowsArray.get(position);
-    if (viewHolder != null) {
-      rowView = viewHolder.rowView;
-    } else {
-      // get model by position
-      Model model = getItem(position);
-      // get row layout
-      int layoutId = R.layout.row_settings;
-      if ((model != null) && (model.type == Model.TITLE)) {
-        layoutId = R.layout.row_title;
-      }
-      // create row
-      LayoutInflater inflater = LayoutInflater.from(getContext());
-      rowView = inflater.inflate(layoutId, parent, false);
-      if (model != null) {
-        viewHolder = new ViewHolder(rowView, model, position);
-        rowsArray.put(position, viewHolder);
-      }
-    }
+@Override
+@NonNull
+public View getView(int position, @Nullable View convertView,
+                    @NonNull ViewGroup parent) {
+	// get created row by position
+	View rowView;
+	ViewHolder viewHolder = rowsArray.get(position);
+	if (viewHolder != null) {
+		rowView = viewHolder.rowView;
+	} else {
+		// get model by position
+		Model model = getItem(position);
+		// get row layout
+		int layoutId = R.layout.row_settings;
+		if ((model != null) && (model.type == Model.TITLE)) {
+			layoutId = R.layout.row_title;
+		}
+		// create row
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		rowView = inflater.inflate(layoutId, parent, false);
+		if (model != null) {
+			viewHolder = new ViewHolder(rowView, model, position);
+			rowsArray.put(position, viewHolder);
+		}
+	}
 
-    return rowView;
-  }
+	return rowView;
+}
 
-  // Returns true if row is checked
-  public boolean isRowChecked(View view) {
-    ViewHolder viewHolder = (ViewHolder)view.getTag();
-    return (viewHolder != null && viewHolder.isChecked());
-  }
+// Returns true if row is checked
+public boolean isRowChecked(View view) {
+	ViewHolder viewHolder = (ViewHolder)view.getTag();
+	return (viewHolder != null && viewHolder.isChecked());
+}
 
-  // Sets row checked
-  public void setRowChecked(View view, boolean checked) {
-    ViewHolder viewHolder = (ViewHolder)view.getTag();
-    if (viewHolder != null) {
-      viewHolder.setChecked(checked);
-    }
-  }
+// Sets row checked
+public void setRowChecked(View view, boolean checked) {
+	ViewHolder viewHolder = (ViewHolder)view.getTag();
+	if (viewHolder != null) {
+		viewHolder.setChecked(checked);
+	}
+}
 
-  // Sets row checked by property name
-  public void setRowChecked(String property, boolean checked) {
-    for (int i = 0; i < rowsArray.size(); i++) {
-      ViewHolder viewHolder = rowsArray.valueAt(i);
-      if (viewHolder.model.property != null &&
-          viewHolder.model.property.equals(property)) {
-        viewHolder.setChecked(checked);
-        break;
-      }
-    }
-  }
+// Sets row checked by property name
+public void setRowChecked(String property, boolean checked) {
+	for (int i = 0; i < rowsArray.size(); i++) {
+		ViewHolder viewHolder = rowsArray.valueAt(i);
+		if (viewHolder.model.property != null &&
+		    viewHolder.model.property.equals(property)) {
+			viewHolder.setChecked(checked);
+			break;
+		}
+	}
+}
 
-  // Returns property name from row's model
-  @Nullable
-  public String getRowProperty(View view) {
-    ViewHolder viewHolder = (ViewHolder)view.getTag();
-    return (viewHolder != null ? viewHolder.model.property : null);
-  }
+// Returns property name from row's model
+@Nullable
+public String getRowProperty(View view) {
+	ViewHolder viewHolder = (ViewHolder)view.getTag();
+	return (viewHolder != null ? viewHolder.model.property : null);
+}
 
-  private void addModel(int type, String title, String comment, String property,
+private void addModel(int type, String title, String comment, String property,
+                      boolean isChecked, View.OnClickListener listener) {
+	Model model =
+		new Model(type, title, comment, property, isChecked, listener);
+	add(model);
+}
+
+private void addModel(int type, String title, String comment, String property,
+                      View.OnClickListener listener) {
+	boolean isChecked =
+		(property != null && Settings.getBooleanValue(getContext(), property));
+	addModel(type, title, comment, property, isChecked, listener);
+}
+
+public void addTitle(@StringRes int titleId) {
+	addModel(Model.TITLE, getString(titleId), null, null, null);
+}
+
+public void addCheckbox(@StringRes int titleId, @StringRes int commentId,
                         boolean isChecked, View.OnClickListener listener) {
-    Model model =
-        new Model(type, title, comment, property, isChecked, listener);
-    add(model);
-  }
+	addModel(Model.CHECKBOX, getString(titleId), getString(commentId), null,
+	         isChecked, listener);
+}
 
-  private void addModel(int type, String title, String comment, String property,
-                        View.OnClickListener listener) {
-    boolean isChecked =
-        (property != null && Settings.getBooleanValue(getContext(), property));
-    addModel(type, title, comment, property, isChecked, listener);
-  }
+public void addCheckbox(@StringRes int titleId, @StringRes int commentId,
+                        String property, View.OnClickListener listener) {
+	addModel(Model.CHECKBOX, getString(titleId), getString(commentId), property,
+	         listener);
+}
 
-  public void addTitle(@StringRes int titleId) {
-    addModel(Model.TITLE, getString(titleId), null, null, null);
-  }
+public void addCheckbox(@StringRes int titleId, @StringRes int commentId,
+                        String property) {
+	addCheckbox(titleId, commentId, property, null);
+}
 
-  public void addCheckbox(@StringRes int titleId, @StringRes int commentId,
-                          boolean isChecked, View.OnClickListener listener) {
-    addModel(Model.CHECKBOX, getString(titleId), getString(commentId), null,
-             isChecked, listener);
-  }
+public void addButton(@StringRes int titleId, @StringRes int commentId,
+                      View.OnClickListener listener) {
+	addButton(getString(titleId), getString(commentId), listener);
+}
 
-  public void addCheckbox(@StringRes int titleId, @StringRes int commentId,
-                          String property, View.OnClickListener listener) {
-    addModel(Model.CHECKBOX, getString(titleId), getString(commentId), property,
-             listener);
-  }
+public void addButton(String title, String comment,
+                      View.OnClickListener listener) {
+	addModel(Model.BUTTON, title, comment, null, false, listener);
+}
 
-  public void addCheckbox(@StringRes int titleId, @StringRes int commentId,
-                          String property) {
-    addCheckbox(titleId, commentId, property, null);
-  }
+@Nullable
+private String getString(@StringRes int stringRes) {
+	return (stringRes != 0 ? getContext().getString(stringRes) : null);
+}
 
-  public void addButton(@StringRes int titleId, @StringRes int commentId,
-                        View.OnClickListener listener) {
-    addButton(getString(titleId), getString(commentId), listener);
-  }
+// Row item data
+class Model {
+private static final int TITLE = 1;
+private static final int CHECKBOX = 2;
+private static final int BUTTON = 3;
 
-  public void addButton(String title, String comment,
-                        View.OnClickListener listener) {
-    addModel(Model.BUTTON, title, comment, null, false, listener);
-  }
+final int type;
+final String title;
+final String comment;
+final String property;
+final View.OnClickListener listener;
+private boolean checked;
 
-  @Nullable
-  private String getString(@StringRes int stringRes) {
-    return (stringRes != 0 ? getContext().getString(stringRes) : null);
-  }
+Model(int type, String title, String comment, String property,
+      boolean checked, View.OnClickListener listener) {
+	this.type = type;
+	this.title = title;
+	this.comment = comment;
+	this.property = property;
+	this.checked = checked;
+	this.listener = listener;
+}
 
-  // Row item data
-  class Model {
-    private static final int TITLE = 1;
-    private static final int CHECKBOX = 2;
-    private static final int BUTTON = 3;
+boolean isChecked() {
+	return checked;
+}
 
-    final int type;
-    final String title;
-    final String comment;
-    final String property;
-    final View.OnClickListener listener;
-    private boolean checked;
+boolean setChecked(boolean checked) {
+	if (this.checked != checked) {
+		if (property != null &&
+		    !Settings.setBooleanValue(getContext(), property, checked)) {
+			return false;
+		}
+		this.checked = checked;
+	}
+	return true;
+}
+}
 
-    Model(int type, String title, String comment, String property,
-          boolean checked, View.OnClickListener listener) {
-      this.type = type;
-      this.title = title;
-      this.comment = comment;
-      this.property = property;
-      this.checked = checked;
-      this.listener = listener;
-    }
+// Row view holder
+private class ViewHolder {
+final Model model;
+final View rowView;
+final CheckBox checkBox;
 
-    boolean isChecked() { return checked; }
+final View.OnClickListener listener = new View.OnClickListener() {
+	@Override
+	public void onClick(View view) {
+		applyChecked();
+		if (model.listener != null) {
+			model.listener.onClick(rowView);
+		}
+	}
+};
 
-    boolean setChecked(boolean checked) {
-      if (this.checked != checked) {
-        if (property != null &&
-            !Settings.setBooleanValue(getContext(), property, checked)) {
-          return false;
-        }
-        this.checked = checked;
-      }
-      return true;
-    }
-  }
+ViewHolder(View rowView, Model model, int position) {
+	Context context = getContext();
+	this.rowView = rowView;
+	this.model = model;
 
-  // Row view holder
-  private class ViewHolder {
-    final Model model;
-    final View rowView;
-    final CheckBox checkBox;
+	rowView.setTag(this);
 
-    final View.OnClickListener listener = new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        applyChecked();
-        if (model.listener != null) {
-          model.listener.onClick(rowView);
-        }
-      }
-    };
+	// title
+	TextView titleView = (TextView)rowView.findViewById(R.id.text_title);
+	if (titleView != null) {
+		titleView.setText(model.title);
+	}
 
-    ViewHolder(View rowView, Model model, int position) {
-      Context context = getContext();
-      this.rowView = rowView;
-      this.model = model;
+	// comment
+	if (model.comment != null) {
+		TextView commentView =
+			(TextView)rowView.findViewById(R.id.text_comment);
+		if (commentView != null) {
+			commentView.setText(model.comment);
+			commentView.setVisibility(View.VISIBLE);
+		}
+	}
 
-      rowView.setTag(this);
+	// checkbox
+	if (model.type == Model.CHECKBOX) {
+		checkBox = (CheckBox)rowView.findViewById(R.id.cb);
+		if (checkBox != null) {
+			Utils.scaleViewOnTablet(context, checkBox, R.dimen.iconScale);
+			checkBox.setVisibility(View.VISIBLE);
+			checkBox.setChecked(model.isChecked());
+			checkBox.setOnClickListener(listener);
+		}
+	} else {
+		checkBox = null;
+	}
 
-      // title
-      TextView titleView = (TextView)rowView.findViewById(R.id.text_title);
-      if (titleView != null) {
-        titleView.setText(model.title);
-      }
+	// button
+	if (model.type == Model.BUTTON) {
+		rowView.setOnClickListener(listener);
+		// set row's background drawable
+		int drawableRes = Utils.getResourceId(context, R.attr.selector_control);
+		Utils.setDrawable(context, rowView, drawableRes);
+		// set row's image
+		ImageView imageView = (ImageView)rowView.findViewById(R.id.image);
+		if (imageView != null) {
+			Utils.scaleViewOnTablet(context, imageView, R.dimen.iconScale);
+			imageView.setVisibility(View.VISIBLE);
+		}
+	}
 
-      // comment
-      if (model.comment != null) {
-        TextView commentView =
-            (TextView)rowView.findViewById(R.id.text_comment);
-        if (commentView != null) {
-          commentView.setText(model.comment);
-          commentView.setVisibility(View.VISIBLE);
-        }
-      }
+	// title
+	if ((model.type == Model.TITLE) && (position == 0)) {
+		View borderView = rowView.findViewById(R.id.top_border);
+		if (borderView != null) {
+			borderView.setVisibility(View.GONE);
+		}
+	}
+}
 
-      // checkbox
-      if (model.type == Model.CHECKBOX) {
-        checkBox = (CheckBox)rowView.findViewById(R.id.cb);
-        if (checkBox != null) {
-          Utils.scaleViewOnTablet(context, checkBox, R.dimen.iconScale);
-          checkBox.setVisibility(View.VISIBLE);
-          checkBox.setChecked(model.isChecked());
-          checkBox.setOnClickListener(listener);
-        }
-      } else {
-        checkBox = null;
-      }
+void setChecked(boolean checked) {
+	if ((checkBox != null) && (model.setChecked(checked))) {
+		checkBox.setChecked(checked);
+	}
+}
 
-      // button
-      if (model.type == Model.BUTTON) {
-        rowView.setOnClickListener(listener);
-        // set row's background drawable
-        int drawableRes = Utils.getResourceId(context, R.attr.selector_control);
-        Utils.setDrawable(context, rowView, drawableRes);
-        // set row's image
-        ImageView imageView = (ImageView)rowView.findViewById(R.id.image);
-        if (imageView != null) {
-          Utils.scaleViewOnTablet(context, imageView, R.dimen.iconScale);
-          imageView.setVisibility(View.VISIBLE);
-        }
-      }
+boolean isChecked() {
+	return model.isChecked();
+}
 
-      // title
-      if ((model.type == Model.TITLE) && (position == 0)) {
-        View borderView = rowView.findViewById(R.id.top_border);
-        if (borderView != null) {
-          borderView.setVisibility(View.GONE);
-        }
-      }
-    }
-
-    void setChecked(boolean checked) {
-      if ((checkBox != null) && (model.setChecked(checked))) {
-        checkBox.setChecked(checked);
-      }
-    }
-
-    boolean isChecked() { return model.isChecked(); }
-
-    void applyChecked() {
-      if ((checkBox != null) && (!model.setChecked(checkBox.isChecked()))) {
-        checkBox.setChecked(model.isChecked());
-      }
-    }
-  }
+void applyChecked() {
+	if ((checkBox != null) && (!model.setChecked(checkBox.isChecked()))) {
+		checkBox.setChecked(model.isChecked());
+	}
+}
+}
 }

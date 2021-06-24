@@ -35,106 +35,106 @@ import com.kaliturin.blacklist.utils.Settings;
  * Activity with arbitrary fragment inside
  */
 public class CustomFragmentActivity extends AppCompatActivity {
-  private static final String TAG = CustomFragmentActivity.class.getName();
-  private static final String ACTIVITY_TITLE = "ACTIVITY_TITLE";
-  private static final String FRAGMENT_ARGUMENTS = "FRAGMENT_ARGUMENTS";
-  private static final String FRAGMENT_CLASS = "FRAGMENT_CLASS";
+private static final String TAG = CustomFragmentActivity.class.getName();
+private static final String ACTIVITY_TITLE = "ACTIVITY_TITLE";
+private static final String FRAGMENT_ARGUMENTS = "FRAGMENT_ARGUMENTS";
+private static final String FRAGMENT_CLASS = "FRAGMENT_CLASS";
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    Settings.applyCurrentTheme(this);
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.app_bar_main);
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	Settings.applyCurrentTheme(this);
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.app_bar_main);
 
-    // get toolbar's title
-    String title = getIntent().getStringExtra(ACTIVITY_TITLE);
-    if (title != null) {
-      // setup toolbar
-      Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-      setSupportActionBar(toolbar);
-      ActionBar actionBar = getSupportActionBar();
-      if (actionBar != null) {
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(title);
-      }
+	// get toolbar's title
+	String title = getIntent().getStringExtra(ACTIVITY_TITLE);
+	if (title != null) {
+		// setup toolbar
+		Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setTitle(title);
+		}
 
-      // show custom toolbar shadow on pre LOLLIPOP devices
-      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-        View view = findViewById(R.id.toolbar_shadow);
-        if (view != null) {
-          view.setVisibility(View.VISIBLE);
-        }
-      }
-    }
+		// show custom toolbar shadow on pre LOLLIPOP devices
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+			View view = findViewById(R.id.toolbar_shadow);
+			if (view != null) {
+				view.setVisibility(View.VISIBLE);
+			}
+		}
+	}
 
-    // there is not just a screen rotation
-    if (savedInstanceState == null) {
-      // create fragment
-      Fragment fragment;
-      String fragmentClass = getIntent().getStringExtra(FRAGMENT_CLASS);
-      try {
-        Class<?> clazz = Class.forName(fragmentClass);
-        fragment = (Fragment)clazz.newInstance();
-      } catch (Exception ex) {
-        Log.w(TAG, ex);
-        finish();
-        return;
-      }
-      // add arguments
-      Bundle arguments = getIntent().getBundleExtra(FRAGMENT_ARGUMENTS);
-      fragment.setArguments(arguments);
-      // put fragment int activity
-      getSupportFragmentManager()
-          .beginTransaction()
-          .replace(R.id.frame_layout, fragment)
-          .commit();
-    }
-  }
+	// there is not just a screen rotation
+	if (savedInstanceState == null) {
+		// create fragment
+		Fragment fragment;
+		String fragmentClass = getIntent().getStringExtra(FRAGMENT_CLASS);
+		try {
+			Class<?> clazz = Class.forName(fragmentClass);
+			fragment = (Fragment)clazz.newInstance();
+		} catch (Exception ex) {
+			Log.w(TAG, ex);
+			finish();
+			return;
+		}
+		// add arguments
+		Bundle arguments = getIntent().getBundleExtra(FRAGMENT_ARGUMENTS);
+		fragment.setArguments(arguments);
+		// put fragment int activity
+		getSupportFragmentManager()
+		.beginTransaction()
+		.replace(R.id.frame_layout, fragment)
+		.commit();
+	}
+}
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() == android.R.id.home) {
-      finish();
-      return true;
-    }
-    return super.onOptionsItemSelected(item);
-  }
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+	if (item.getItemId() == android.R.id.home) {
+		finish();
+		return true;
+	}
+	return super.onOptionsItemSelected(item);
+}
 
-  // Opens activity with fragment and waiting for result
-  public static void show(Activity context, String activityTitle,
-                          Class<? extends Fragment> fragmentClass,
-                          Bundle fragmentArguments, int requestCode) {
-    Intent intent =
-        getIntent(context, activityTitle, fragmentClass, fragmentArguments);
-    context.startActivityForResult(intent, requestCode);
-  }
+// Opens activity with fragment and waiting for result
+public static void show(Activity context, String activityTitle,
+                        Class<? extends Fragment> fragmentClass,
+                        Bundle fragmentArguments, int requestCode) {
+	Intent intent =
+		getIntent(context, activityTitle, fragmentClass, fragmentArguments);
+	context.startActivityForResult(intent, requestCode);
+}
 
-  // Opens activity with fragment and waiting for result
-  public static void show(Context context, Fragment parent,
-                          String activityTitle,
-                          Class<? extends Fragment> fragmentClass,
-                          Bundle fragmentArguments, int requestCode) {
-    Intent intent =
-        getIntent(context, activityTitle, fragmentClass, fragmentArguments);
-    parent.startActivityForResult(intent, requestCode);
-  }
+// Opens activity with fragment and waiting for result
+public static void show(Context context, Fragment parent,
+                        String activityTitle,
+                        Class<? extends Fragment> fragmentClass,
+                        Bundle fragmentArguments, int requestCode) {
+	Intent intent =
+		getIntent(context, activityTitle, fragmentClass, fragmentArguments);
+	parent.startActivityForResult(intent, requestCode);
+}
 
-  // Opens activity with fragment
-  public static void show(Context context, String activityTitle,
-                          Class<? extends Fragment> fragmentClass,
-                          Bundle fragmentArguments) {
-    Intent intent =
-        getIntent(context, activityTitle, fragmentClass, fragmentArguments);
-    context.startActivity(intent);
-  }
+// Opens activity with fragment
+public static void show(Context context, String activityTitle,
+                        Class<? extends Fragment> fragmentClass,
+                        Bundle fragmentArguments) {
+	Intent intent =
+		getIntent(context, activityTitle, fragmentClass, fragmentArguments);
+	context.startActivity(intent);
+}
 
-  private static Intent getIntent(Context context, String activityTitle,
-                                  Class<? extends Fragment> fragmentClass,
-                                  Bundle fragmentArguments) {
-    Intent intent = new Intent(context, CustomFragmentActivity.class);
-    intent.putExtra(ACTIVITY_TITLE, activityTitle);
-    intent.putExtra(FRAGMENT_CLASS, fragmentClass.getName());
-    intent.putExtra(FRAGMENT_ARGUMENTS, fragmentArguments);
-    return intent;
-  }
+private static Intent getIntent(Context context, String activityTitle,
+                                Class<? extends Fragment> fragmentClass,
+                                Bundle fragmentArguments) {
+	Intent intent = new Intent(context, CustomFragmentActivity.class);
+	intent.putExtra(ACTIVITY_TITLE, activityTitle);
+	intent.putExtra(FRAGMENT_CLASS, fragmentClass.getName());
+	intent.putExtra(FRAGMENT_ARGUMENTS, fragmentArguments);
+	return intent;
+}
 }
