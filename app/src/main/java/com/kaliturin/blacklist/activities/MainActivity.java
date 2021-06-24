@@ -158,11 +158,9 @@ public class MainActivity extends AppCompatActivity
     if (drawer.isDrawerOpen(GravityCompat.START)) {
       drawer.closeDrawer(GravityCompat.START);
     } else {
-      if (!fragmentSwitcher.onBackPressed()) {
-        if (!Settings.getBooleanValue(this,
-                                      Settings.DONT_EXIT_ON_BACK_PRESSED)) {
-          super.onBackPressed();
-        }
+      if ((!fragmentSwitcher.onBackPressed()) && (!Settings.getBooleanValue(this,
+                                      Settings.DONT_EXIT_ON_BACK_PRESSED))) {
+        super.onBackPressed();
       }
     }
   }

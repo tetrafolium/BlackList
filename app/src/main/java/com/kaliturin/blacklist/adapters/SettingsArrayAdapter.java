@@ -56,10 +56,8 @@ public class SettingsArrayAdapter
       Model model = getItem(position);
       // get row layout
       int layoutId = R.layout.row_settings;
-      if (model != null) {
-        if (model.type == Model.TITLE) {
-          layoutId = R.layout.row_title;
-        }
+      if ((model != null) && (model.type == Model.TITLE)) {
+        layoutId = R.layout.row_title;
       }
       // create row
       LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -260,31 +258,25 @@ public class SettingsArrayAdapter
       }
 
       // title
-      if (model.type == Model.TITLE) {
-        if (position == 0) {
-          View borderView = rowView.findViewById(R.id.top_border);
-          if (borderView != null) {
-            borderView.setVisibility(View.GONE);
-          }
+      if ((model.type == Model.TITLE) && (position == 0)) {
+        View borderView = rowView.findViewById(R.id.top_border);
+        if (borderView != null) {
+          borderView.setVisibility(View.GONE);
         }
       }
     }
 
     void setChecked(boolean checked) {
-      if (checkBox != null) {
-        if (model.setChecked(checked)) {
-          checkBox.setChecked(checked);
-        }
+      if ((checkBox != null) && (model.setChecked(checked))) {
+        checkBox.setChecked(checked);
       }
     }
 
     boolean isChecked() { return model.isChecked(); }
 
     void applyChecked() {
-      if (checkBox != null) {
-        if (!model.setChecked(checkBox.isChecked())) {
-          checkBox.setChecked(model.isChecked());
-        }
+      if ((checkBox != null) && (!model.setChecked(checkBox.isChecked()))) {
+        checkBox.setChecked(model.isChecked());
       }
     }
   }

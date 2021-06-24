@@ -46,12 +46,10 @@ public class DatabaseAccessHelper extends SQLiteOpenHelper {
   public static DatabaseAccessHelper getInstance(Context context) {
     if (sInstance == null) {
       synchronized (DatabaseAccessHelper.class) {
-        if (sInstance == null) {
-          if (Permissions.isGranted(context,
-                                    Permissions.WRITE_EXTERNAL_STORAGE)) {
-            sInstance =
-                new DatabaseAccessHelper(context.getApplicationContext());
-          }
+        if ((sInstance == null) && (Permissions.isGranted(context,
+                                    Permissions.WRITE_EXTERNAL_STORAGE))) {
+          sInstance =
+              new DatabaseAccessHelper(context.getApplicationContext());
         }
       }
     }
