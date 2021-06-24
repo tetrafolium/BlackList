@@ -48,8 +48,8 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, Intent intent) {
-        if (!Permissions.isGranted(context, Permissions.READ_PHONE_STATE) ||
-                !Permissions.isGranted(context, Permissions.CALL_PHONE)) {
+        if (!Permissions.isGranted(context, Permissions.READ_PHONE_STATE)
+                || !Permissions.isGranted(context, Permissions.CALL_PHONE)) {
             return;
         }
 
@@ -81,8 +81,8 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
         // private number detected
         if (ContactsAccessHelper.isPrivatePhoneNumber(number)) {
             // if block private numbers
-            if (Settings.getBooleanValue(context, Settings.BLOCK_PRIVATE_CALLS) ||
-                    // or if block all calls
+            if (Settings.getBooleanValue(context, Settings.BLOCK_PRIVATE_CALLS)
+                    || // or if block all calls
                     Settings.getBooleanValue(context, Settings.BLOCK_ALL_CALLS)) {
                 String name = context.getString(R.string.Private_number);
                 // break call and notify user
@@ -133,8 +133,8 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
         boolean abort = false;
 
         // if block numbers that are not in the contact list
-        if (Settings.getBooleanValue(context, Settings.BLOCK_CALLS_NOT_FROM_CONTACTS) &&
-                Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+        if (Settings.getBooleanValue(context, Settings.BLOCK_CALLS_NOT_FROM_CONTACTS)
+                && Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             ContactsAccessHelper db = ContactsAccessHelper.getInstance(context);
             if (db.getContact(context, number) != null) {
                 return;
@@ -145,8 +145,8 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
         }
 
         // if block numbers that are not in the sms content list
-        if (Settings.getBooleanValue(context, Settings.BLOCK_CALLS_NOT_FROM_SMS_CONTENT) &&
-                Permissions.isGranted(context, Permissions.READ_SMS)) {
+        if (Settings.getBooleanValue(context, Settings.BLOCK_CALLS_NOT_FROM_SMS_CONTENT)
+                && Permissions.isGranted(context, Permissions.READ_SMS)) {
             ContactsAccessHelper db = ContactsAccessHelper.getInstance(context);
             if (db.containsNumberInSMSContent(context, number)) {
                 return;

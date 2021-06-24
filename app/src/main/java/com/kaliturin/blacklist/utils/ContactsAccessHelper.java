@@ -139,10 +139,10 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                             Contacts.CONTENT_URI,
                             new String[] {Contacts._ID, Contacts.DISPLAY_NAME},
-                            Contacts.IN_VISIBLE_GROUP + " != 0 AND " +
-                            Contacts.HAS_PHONE_NUMBER + " != 0 AND " +
-                            Contacts.DISPLAY_NAME + " IS NOT NULL AND " +
-                            Contacts.DISPLAY_NAME + " LIKE ? ",
+                            Contacts.IN_VISIBLE_GROUP + " != 0 AND "
+                            + Contacts.HAS_PHONE_NUMBER + " != 0 AND "
+                            + Contacts.DISPLAY_NAME + " IS NOT NULL AND "
+                            + Contacts.DISPLAY_NAME + " LIKE ? ",
                             new String[] {filter},
                             Contacts.DISPLAY_NAME + " ASC");
 
@@ -155,10 +155,10 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                             Contacts.CONTENT_URI,
                             new String[] {Contacts._ID, Contacts.DISPLAY_NAME},
-                            Contacts.DISPLAY_NAME + " IS NOT NULL AND " +
-                            Contacts.IN_VISIBLE_GROUP + " != 0 AND " +
-                            Contacts.HAS_PHONE_NUMBER + " != 0 AND " +
-                            Contacts._ID + " = " + contactId,
+                            Contacts.DISPLAY_NAME + " IS NOT NULL AND "
+                            + Contacts.IN_VISIBLE_GROUP + " != 0 AND "
+                            + Contacts.HAS_PHONE_NUMBER + " != 0 AND "
+                            + Contacts._ID + " = " + contactId,
                             null,
                             null);
 
@@ -274,8 +274,8 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                             Phone.CONTENT_URI,
                             new String[] {Phone.NUMBER},
-                            Phone.NUMBER + " IS NOT NULL AND " +
-                            Phone.CONTACT_ID + " = " + contactId,
+                            Phone.NUMBER + " IS NOT NULL AND "
+                            + Phone.CONTACT_ID + " = " + contactId,
                             null,
                             null);
 
@@ -354,8 +354,8 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                             URI_CONTENT_SMS,
                             new String[] {"DISTINCT " + ID, ADDRESS, PERSON},
-                            ADDRESS + " IS NOT NULL " +
-                            ") GROUP BY (" + ADDRESS,
+                            ADDRESS + " IS NOT NULL "
+                            + ") GROUP BY (" + ADDRESS,
                             null,
                             DATE + " DESC");
 
@@ -439,12 +439,12 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                             URI_CONTENT_CALLS,
                             new String[] {Calls._ID, Calls.NUMBER, Calls.CACHED_NAME},
-                            Calls.NUMBER + " IS NOT NULL AND (" +
-                            Calls.CACHED_NAME + " IS NULL AND " +
-                            // leave out private numbers
-                            Calls.NUMBER + " NOT LIKE '-%' AND " +
-                            Calls.NUMBER + " LIKE ? OR " +
-                            Calls.CACHED_NAME + " LIKE ? )",
+                            Calls.NUMBER + " IS NOT NULL AND ("
+                            + Calls.CACHED_NAME + " IS NULL AND "
+                            + // leave out private numbers
+                            Calls.NUMBER + " NOT LIKE '-%' AND "
+                            + Calls.NUMBER + " LIKE ? OR "
+                            + Calls.CACHED_NAME + " LIKE ? )",
                             new String[] {filter, filter},
                             Calls.DATE + " DESC");
 
@@ -618,8 +618,8 @@ public class ContactsAccessHelper {
     // Returns SMS conversation cursor wrapper
     @Nullable
     public SMSConversationWrapper getSMSConversations(Context context) {
-        if (!Permissions.isGranted(context, Permissions.READ_SMS) ||
-                !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+        if (!Permissions.isGranted(context, Permissions.READ_SMS)
+                || !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             return null;
         }
 
@@ -637,8 +637,8 @@ public class ContactsAccessHelper {
     // Returns SMS conversation by thread id
     @Nullable
     private SMSConversation getSMSConversationByThreadId(Context context, int threadId) {
-        if (!Permissions.isGranted(context, Permissions.READ_SMS) ||
-                !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+        if (!Permissions.isGranted(context, Permissions.READ_SMS)
+                || !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             return null;
         }
 
@@ -662,8 +662,8 @@ public class ContactsAccessHelper {
     @Nullable
     private SMSMessageCursorWrapper getSMSMessagesByThreadId(Context context, int threadId,
             boolean desc, int limit) {
-        if (!Permissions.isGranted(context, Permissions.READ_SMS) ||
-                !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+        if (!Permissions.isGranted(context, Permissions.READ_SMS)
+                || !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             return null;
         }
 
@@ -672,8 +672,8 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                             URI_CONTENT_SMS,
                             null,
-                            THREAD_ID + " = ? " +
-                            // we don't support drafts yet
+                            THREAD_ID + " = ? "
+                            + // we don't support drafts yet
                             " AND " + ADDRESS + " NOT NULL ",
                             new String[] {String.valueOf(threadId)},
                             orderClause + limitClause);
@@ -687,8 +687,8 @@ public class ContactsAccessHelper {
     @Nullable
     public SMSMessageCursorWrapper2 getSMSMessagesByThreadId2(Context context, int threadId,
             boolean desc, int limit) {
-        if (!Permissions.isGranted(context, Permissions.READ_SMS) ||
-                !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+        if (!Permissions.isGranted(context, Permissions.READ_SMS)
+                || !Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             return null;
         }
 
@@ -697,8 +697,8 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                             URI_CONTENT_SMS,
                             new String[] {ID},
-                            THREAD_ID + " = ? " +
-                            // we don't support drafts yet
+                            THREAD_ID + " = ? "
+                            + // we don't support drafts yet
                             " AND " + ADDRESS + " NOT NULL ",
                             new String[] {String.valueOf(threadId)},
                             orderClause + limitClause);
@@ -715,8 +715,8 @@ public class ContactsAccessHelper {
         Cursor cursor = contentResolver.query(
                             URI_CONTENT_SMS_INBOX,
                             new String[] {"COUNT(" + ID + ")"},
-                            THREAD_ID + " = ? AND " +
-                            READ + " = ? ",
+                            THREAD_ID + " = ? AND "
+                            + READ + " = ? ",
                             new String[] {
                                 String.valueOf(threadId),
                                 String.valueOf(0)
@@ -744,8 +744,8 @@ public class ContactsAccessHelper {
         return contentResolver.update(
                    URI_CONTENT_SMS_INBOX,
                    values,
-                   THREAD_ID + " = ? AND " +
-                   READ + " = ? ",
+                   THREAD_ID + " = ? AND "
+                   + READ + " = ? ",
                    new String[] {
                        String.valueOf(threadId),
                        String.valueOf(0)

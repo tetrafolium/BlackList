@@ -241,9 +241,9 @@ public class MainActivity extends AppCompatActivity
         private SMSConversationsListFragment smsFragment = new SMSConversationsListFragment();
 
         boolean onBackPressed() {
-            return journalFragment.dismissSnackBar() ||
-                   blackListFragment.dismissSnackBar() ||
-                   whiteListFragment.dismissSnackBar();
+            return journalFragment.dismissSnackBar()
+                   || blackListFragment.dismissSnackBar()
+                   || whiteListFragment.dismissSnackBar();
         }
 
         // Switches fragment by navigation menu item

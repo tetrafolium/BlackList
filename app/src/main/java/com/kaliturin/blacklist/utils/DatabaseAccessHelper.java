@@ -167,8 +167,8 @@ public class DatabaseAccessHelper extends SQLiteOpenHelper {
 
         @Nullable
         static String getLikeClause(String column, String filter) {
-            return (filter == null ? null :
-                    column + " LIKE '%" + filter + "%' ");
+            return (filter == null ? null
+                    : column + " LIKE '%" + filter + "%' ");
         }
 
         /**
@@ -213,38 +213,38 @@ public class DatabaseAccessHelper extends SQLiteOpenHelper {
 
         static class Statement {
             static final String CREATE =
-                "CREATE TABLE " + JournalTable.NAME +
-                "(" +
-                Column.ID + " INTEGER PRIMARY KEY NOT NULL, " +
-                Column.TIME + " INTEGER NOT NULL, " +
-                Column.CALLER + " TEXT NOT NULL, " +
-                Column.NUMBER + " TEXT, " +
-                Column.TEXT + " TEXT " +
-                ")";
+                "CREATE TABLE " + JournalTable.NAME
+                + "("
+                + Column.ID + " INTEGER PRIMARY KEY NOT NULL, "
+                + Column.TIME + " INTEGER NOT NULL, "
+                + Column.CALLER + " TEXT NOT NULL, "
+                + Column.NUMBER + " TEXT, "
+                + Column.TEXT + " TEXT "
+                + ")";
 
             static final String SELECT_FIRST_PART =
-                "SELECT " +
-                Column.ID + ", " +
-                Column.TIME +
-                " FROM " + JournalTable.NAME +
-                " ORDER BY " + Column.TIME +
-                " DESC";
+                "SELECT "
+                + Column.ID + ", "
+                + Column.TIME
+                + " FROM " + JournalTable.NAME
+                + " ORDER BY " + Column.TIME
+                + " DESC";
 
             static final String SELECT_LAST_PART_BY_ID =
-                "SELECT " +
-                Column.CALLER + ", " +
-                Column.NUMBER + ", " +
-                Column.TEXT +
-                " FROM " + JournalTable.NAME +
-                " WHERE _id = ? ";
+                "SELECT "
+                + Column.CALLER + ", "
+                + Column.NUMBER + ", "
+                + Column.TEXT
+                + " FROM " + JournalTable.NAME
+                + " WHERE _id = ? ";
 
             static final String SELECT_FIRST_PART_BY_FILTER =
-                "SELECT * " +
-                " FROM " + JournalTable.NAME +
-                " WHERE " + Column.CALLER + " LIKE ? " +
-                " OR " + Column.TEXT + " LIKE ? " +
-                " ORDER BY " + Column.TIME +
-                " DESC";
+                "SELECT * "
+                + " FROM " + JournalTable.NAME
+                + " WHERE " + Column.CALLER + " LIKE ? "
+                + " OR " + Column.TEXT + " LIKE ? "
+                + " ORDER BY " + Column.TIME
+                + " DESC";
         }
     }
 
@@ -399,42 +399,42 @@ public class DatabaseAccessHelper extends SQLiteOpenHelper {
 
         static class Statement {
             static final String CREATE =
-                "CREATE TABLE " + ContactNumberTable.NAME +
-                "(" +
-                Column.ID + " INTEGER PRIMARY KEY NOT NULL, " +
-                Column.NUMBER + " TEXT NOT NULL, " +
-                Column.TYPE + " INTEGER NOT NULL, " +
-                Column.CONTACT_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + Column.CONTACT_ID + ") REFERENCES " +
-                ContactTable.NAME + "(" + ContactTable.Column.ID + ")" +
-                " ON DELETE CASCADE " +
-                ")";
+                "CREATE TABLE " + ContactNumberTable.NAME
+                + "("
+                + Column.ID + " INTEGER PRIMARY KEY NOT NULL, "
+                + Column.NUMBER + " TEXT NOT NULL, "
+                + Column.TYPE + " INTEGER NOT NULL, "
+                + Column.CONTACT_ID + " INTEGER NOT NULL, "
+                + "FOREIGN KEY(" + Column.CONTACT_ID + ") REFERENCES "
+                + ContactTable.NAME + "(" + ContactTable.Column.ID + ")"
+                + " ON DELETE CASCADE "
+                + ")";
 
             static final String SELECT_BY_CONTACT_ID =
-                "SELECT * " +
-                " FROM " + ContactNumberTable.NAME +
-                " WHERE " + Column.CONTACT_ID + " = ? " +
-                " ORDER BY " + Column.NUMBER +
-                " ASC";
+                "SELECT * "
+                + " FROM " + ContactNumberTable.NAME
+                + " WHERE " + Column.CONTACT_ID + " = ? "
+                + " ORDER BY " + Column.NUMBER
+                + " ASC";
 
             static final String SELECT_BY_TYPE_AND_NUMBER =
-                "SELECT * " +
-                " FROM " + ContactNumberTable.NAME +
-                " WHERE " + Column.TYPE + " = ? " +
-                " AND " + Column.NUMBER + " = ? ";
+                "SELECT * "
+                + " FROM " + ContactNumberTable.NAME
+                + " WHERE " + Column.TYPE + " = ? "
+                + " AND " + Column.NUMBER + " = ? ";
 
             static final String SELECT_BY_NUMBER =
-                "SELECT * " +
-                " FROM " + ContactNumberTable.NAME +
-                " WHERE (" +
-                Column.TYPE + " = " + ContactNumber.TYPE_EQUALS + " AND " +
-                " ? = " + Column.NUMBER + ") OR (" +
-                Column.TYPE + " = " + ContactNumber.TYPE_STARTS + " AND " +
-                " ? LIKE " + Column.NUMBER + "||'%') OR (" +
-                Column.TYPE + " = " + ContactNumber.TYPE_ENDS + " AND " +
-                " ? LIKE '%'||" + Column.NUMBER + ") OR (" +
-                Column.TYPE + " = " + ContactNumber.TYPE_CONTAINS + " AND " +
-                " ? LIKE '%'||" + Column.NUMBER + "||'%')";
+                "SELECT * "
+                + " FROM " + ContactNumberTable.NAME
+                + " WHERE ("
+                + Column.TYPE + " = " + ContactNumber.TYPE_EQUALS + " AND "
+                + " ? = " + Column.NUMBER + ") OR ("
+                + Column.TYPE + " = " + ContactNumber.TYPE_STARTS + " AND "
+                + " ? LIKE " + Column.NUMBER + "||'%') OR ("
+                + Column.TYPE + " = " + ContactNumber.TYPE_ENDS + " AND "
+                + " ? LIKE '%'||" + Column.NUMBER + ") OR ("
+                + Column.TYPE + " = " + ContactNumber.TYPE_CONTAINS + " AND "
+                + " ? LIKE '%'||" + Column.NUMBER + "||'%')";
         }
     }
 
@@ -573,43 +573,43 @@ public class DatabaseAccessHelper extends SQLiteOpenHelper {
 
         static class Statement {
             static final String CREATE =
-                "CREATE TABLE " + ContactTable.NAME +
-                "(" +
-                Column.ID + " INTEGER PRIMARY KEY NOT NULL, " +
-                Column.NAME + " TEXT NOT NULL, " +
-                Column.TYPE + " INTEGER NOT NULL DEFAULT 0 " +
-                ")";
+                "CREATE TABLE " + ContactTable.NAME
+                + "("
+                + Column.ID + " INTEGER PRIMARY KEY NOT NULL, "
+                + Column.NAME + " TEXT NOT NULL, "
+                + Column.TYPE + " INTEGER NOT NULL DEFAULT 0 "
+                + ")";
 
             static final String SELECT_BY_TYPE =
-                "SELECT * " +
-                " FROM " + ContactTable.NAME +
-                " WHERE " + Column.TYPE + " = ? " +
-                " ORDER BY " + Column.NAME +
-                " ASC";
+                "SELECT * "
+                + " FROM " + ContactTable.NAME
+                + " WHERE " + Column.TYPE + " = ? "
+                + " ORDER BY " + Column.NAME
+                + " ASC";
 
             static final String SELECT_BY_NAME =
-                "SELECT * " +
-                " FROM " + ContactTable.NAME +
-                " WHERE " + Column.NAME + " = ? ";
+                "SELECT * "
+                + " FROM " + ContactTable.NAME
+                + " WHERE " + Column.NAME + " = ? ";
 
             static final String SELECT_BY_TYPE_AND_NAME =
-                "SELECT * " +
-                " FROM " + ContactTable.NAME +
-                " WHERE " + Column.TYPE + " = ? " +
-                " AND " + Column.NAME + " = ? ";
+                "SELECT * "
+                + " FROM " + ContactTable.NAME
+                + " WHERE " + Column.TYPE + " = ? "
+                + " AND " + Column.NAME + " = ? ";
 
             static final String SELECT_BY_ID =
-                "SELECT * " +
-                " FROM " + ContactTable.NAME +
-                " WHERE " + Column.ID + " = ? ";
+                "SELECT * "
+                + " FROM " + ContactTable.NAME
+                + " WHERE " + Column.ID + " = ? ";
 
             static final String SELECT_BY_FILTER =
-                "SELECT * " +
-                " FROM " + ContactTable.NAME +
-                " WHERE " + Column.TYPE + " = ? " +
-                " AND " + Column.NAME + " LIKE ? " +
-                " ORDER BY " + Column.NAME +
-                " ASC";
+                "SELECT * "
+                + " FROM " + ContactTable.NAME
+                + " WHERE " + Column.TYPE + " = ? "
+                + " AND " + Column.NAME + " LIKE ? "
+                + " ORDER BY " + Column.NAME
+                + " ASC";
         }
     }
 
@@ -898,9 +898,9 @@ public class DatabaseAccessHelper extends SQLiteOpenHelper {
 
     // Reverses passed contact type
     private int reverseContactType(int type) {
-        return (type == Contact.TYPE_BLACK_LIST ?
-                Contact.TYPE_WHITE_LIST :
-                Contact.TYPE_BLACK_LIST);
+        return (type == Contact.TYPE_BLACK_LIST
+                ? Contact.TYPE_WHITE_LIST
+                : Contact.TYPE_BLACK_LIST);
     }
 
 //----------------------------------------------------------------
@@ -917,17 +917,17 @@ public class DatabaseAccessHelper extends SQLiteOpenHelper {
 
         static class Statement {
             static final String CREATE =
-                "CREATE TABLE " + SettingsTable.NAME +
-                "(" +
-                Column.ID + " INTEGER PRIMARY KEY NOT NULL, " +
-                Column.NAME + " TEXT NOT NULL, " +
-                Column.VALUE + " TEXT " +
-                ")";
+                "CREATE TABLE " + SettingsTable.NAME
+                + "("
+                + Column.ID + " INTEGER PRIMARY KEY NOT NULL, "
+                + Column.NAME + " TEXT NOT NULL, "
+                + Column.VALUE + " TEXT "
+                + ")";
 
             static final String SELECT_BY_NAME =
-                "SELECT * " +
-                " FROM " + SettingsTable.NAME +
-                " WHERE " + Column.NAME + " = ? ";
+                "SELECT * "
+                + " FROM " + SettingsTable.NAME
+                + " WHERE " + Column.NAME + " = ? ";
         }
     }
 

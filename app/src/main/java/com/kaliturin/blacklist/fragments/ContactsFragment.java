@@ -181,9 +181,9 @@ public class ContactsFragment extends Fragment implements FragmentArguments {
                         }
                     });
                     // add menu item of contact moving to opposite list
-                    String itemTitle = (contact.type == Contact.TYPE_WHITE_LIST ?
-                                        getString(R.string.Move_to_black_list) :
-                                        getString(R.string.Move_to_white_list));
+                    String itemTitle = (contact.type == Contact.TYPE_WHITE_LIST
+                                        ? getString(R.string.Move_to_black_list)
+                                        : getString(R.string.Move_to_white_list));
                     dialog.addItem(itemTitle, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

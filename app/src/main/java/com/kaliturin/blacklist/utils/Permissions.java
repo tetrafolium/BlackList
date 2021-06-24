@@ -172,8 +172,8 @@ public class Permissions {
     private static void notify(@NonNull Context context, @NonNull String permission) {
         String info = getPermissionInfo(context, permission);
         if (info != null) {
-            String message = context.getString(R.string.app_name) + " " +
-                             context.getString(R.string.needs_permission) + ":\n" + info + ";";
+            String message = context.getString(R.string.app_name) + " "
+                             + context.getString(R.string.needs_permission) + ":\n" + info + ";";
             Utils.showToast(context, message, Toast.LENGTH_SHORT);
         }
     }
@@ -209,8 +209,8 @@ public class Permissions {
     public static void onRequestPermissionsResult(int requestCode,
             @NonNull String permissions[],
             @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CODE &&
-                permissions.length == grantResults.length) {
+        if (requestCode == REQUEST_CODE
+                && permissions.length == grantResults.length) {
             for (int i = 0; i < permissions.length; i++) {
                 boolean result = (grantResults[i] == PackageManager.PERMISSION_GRANTED);
                 permissionsResults.put(permissions[i], result);

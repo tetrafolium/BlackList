@@ -99,9 +99,9 @@ public class AddOrEditContactFragment extends Fragment implements FragmentArgume
             @Override
             public void onClick(View v) {
                 if (!Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
-                    int result = (saveContact() ?
-                                  Activity.RESULT_OK :
-                                  Activity.RESULT_CANCELED);
+                    int result = (saveContact()
+                                  ? Activity.RESULT_OK
+                                  : Activity.RESULT_CANCELED);
                     finishActivity(result);
                 }
             }

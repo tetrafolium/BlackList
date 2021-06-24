@@ -141,8 +141,8 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
     private class RowOnLongClickListener implements View.OnLongClickListener {
         @Override
         public boolean onLongClick(View view) {
-            return (outerOnLongClickListener != null &&
-                    outerOnLongClickListener.onLongClick(view));
+            return (outerOnLongClickListener != null
+                    && outerOnLongClickListener.onLongClick(view));
         }
     }
 
@@ -206,9 +206,9 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
             Date date = toDate(model.date);
             calendar.setTimeInMillis(model.date);
             // if current year
-            if(calendar.get(Calendar.YEAR) == currentYear) {
+            if (calendar.get(Calendar.YEAR) == currentYear) {
                 // if current day
-                if(calendar.get(Calendar.DAY_OF_YEAR) == currentDay) {
+                if (calendar.get(Calendar.DAY_OF_YEAR) == currentDay) {
                     // day-less format
                     text = timeFormat.format(date);
                 } else {

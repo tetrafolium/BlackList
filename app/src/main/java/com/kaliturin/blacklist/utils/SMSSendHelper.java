@@ -100,8 +100,8 @@ public class SMSSendHelper {
         long id = -1;
 
         // if older than KITKAT or if app is default
-        if (!DefaultSMSAppHelper.isAvailable() ||
-                DefaultSMSAppHelper.isDefault(context)) {
+        if (!DefaultSMSAppHelper.isAvailable()
+                || DefaultSMSAppHelper.isDefault(context)) {
             // write SMS to the outbox
             ContactsAccessHelper db = ContactsAccessHelper.getInstance(context);
             id = db.writeSMSMessageToOutbox(context, phoneNumber, message);

@@ -251,7 +251,7 @@ public class Utils {
     public static DateFormat getYearLessDateFormat(DateFormat dateFormat) {
         if (dateFormat instanceof SimpleDateFormat) {
             // creating year less date format
-            String fullPattern = ((SimpleDateFormat)dateFormat).toPattern();
+            String fullPattern = ((SimpleDateFormat) dateFormat).toPattern();
             // checking 'de' we omit problems with Spain locale
             String regex = fullPattern.contains("de") ? "[^Mm]*[Yy]+[^Mm]*" : "[^DdMm]*[Yy]+[^DdMm]*";
             String yearLessPattern = fullPattern.replaceAll(regex, "");

@@ -65,8 +65,8 @@ public class SMSProcessService extends IntentService {
         }
 
         // if before API 19
-        if (!DefaultSMSAppHelper.isAvailable() ||
-                // or if not "default SMS app"
+        if (!DefaultSMSAppHelper.isAvailable()
+                || // or if not "default SMS app"
                 !DefaultSMSAppHelper.isDefault(context)) {
             // SMS will be written by default app
             try {

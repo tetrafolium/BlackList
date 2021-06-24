@@ -92,8 +92,8 @@ public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Mode
     public void setRowChecked(String property, boolean checked) {
         for (int i = 0; i < rowsArray.size(); i++) {
             ViewHolder viewHolder = rowsArray.valueAt(i);
-            if (viewHolder.model.property != null &&
-                    viewHolder.model.property.equals(property)) {
+            if (viewHolder.model.property != null
+                    && viewHolder.model.property.equals(property)) {
                 viewHolder.setChecked(checked);
                 break;
             }
@@ -179,8 +179,8 @@ public class SettingsArrayAdapter extends ArrayAdapter<SettingsArrayAdapter.Mode
 
         boolean setChecked(boolean checked) {
             if (this.checked != checked) {
-                if (property != null &&
-                        !Settings.setBooleanValue(getContext(), property, checked)) {
+                if (property != null
+                        && !Settings.setBooleanValue(getContext(), property, checked)) {
                     return false;
                 }
                 this.checked = checked;

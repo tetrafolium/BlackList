@@ -161,8 +161,8 @@ public class JournalCursorAdapter extends CursorAdapter {
     private class OnLongClickListener implements View.OnLongClickListener {
         @Override
         public boolean onLongClick(View view) {
-            return (outerOnLongClickListener != null &&
-                    outerOnLongClickListener.onLongClick(view));
+            return (outerOnLongClickListener != null
+                    && outerOnLongClickListener.onLongClick(view));
         }
     }
 
@@ -249,8 +249,8 @@ public class JournalCursorAdapter extends CursorAdapter {
             timeTextView.setText(timeFormat.format(date));
 
             String sender = record.caller;
-            if (record.number != null &&
-                    !record.caller.equals(record.number)) {
+            if (record.number != null
+                    && !record.caller.equals(record.number)) {
                 sender += "\n" + record.number;
             }
             senderTextView.setText(sender);

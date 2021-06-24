@@ -152,8 +152,8 @@ public class ContactsCursorAdapter extends CursorAdapter {
     private class RowOnLongClickListener implements View.OnLongClickListener {
         @Override
         public boolean onLongClick(View view) {
-            return (outerOnLongClickListener != null &&
-                    outerOnLongClickListener.onLongClick(view));
+            return (outerOnLongClickListener != null
+                    && outerOnLongClickListener.onLongClick(view));
         }
     }
 

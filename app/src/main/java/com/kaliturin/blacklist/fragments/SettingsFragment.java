@@ -443,8 +443,8 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     // Shows the dialog of database file path definition
     private void showFilePathDialog(@StringRes int titleId, final TextView.OnEditorActionListener listener) {
         if (!isAdded()) return;
-        String filePath = Environment.getExternalStorageDirectory().getPath() +
-                          "/Download/" + DatabaseAccessHelper.DATABASE_NAME;
+        String filePath = Environment.getExternalStorageDirectory().getPath()
+                          + "/Download/" + DatabaseAccessHelper.DATABASE_NAME;
 
         @IdRes final int editId = 1;
         // create dialog

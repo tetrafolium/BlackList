@@ -36,9 +36,9 @@ public class MMSBroadcastReceiver extends BroadcastReceiver {
         // check action
         String action = intent.getAction();
         String type = intent.getType();
-        if (action == null || type == null ||
-                !action.equals(getAction()) ||
-                !type.equals(MMS_TYPE)) {
+        if (action == null || type == null
+                || !action.equals(getAction())
+                || !type.equals(MMS_TYPE)) {
             return;
         }
 

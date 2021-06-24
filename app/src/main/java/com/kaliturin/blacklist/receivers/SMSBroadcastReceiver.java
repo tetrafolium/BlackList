@@ -53,9 +53,9 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
 
         // check action
         String action = intent.getAction();
-        if (action == null ||
-                !action.equals(SMS_DELIVER) &&
-                !action.equals(SMS_RECEIVED)) {
+        if (action == null
+                || !action.equals(SMS_DELIVER)
+                && !action.equals(SMS_RECEIVED)) {
             return;
         }
 
@@ -63,8 +63,8 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         boolean isDefaultSmsApp = DefaultSMSAppHelper.isDefault(context);
 
         // if "default SMS app" feature is available and app is default
-        if (DefaultSMSAppHelper.isAvailable() &&
-                isDefaultSmsApp && action.equals(SMS_RECEIVED)) {
+        if (DefaultSMSAppHelper.isAvailable()
+                && isDefaultSmsApp && action.equals(SMS_RECEIVED)) {
             // ignore SMS_RECEIVED action - wait only for SMS_DELIVER
             return;
         }
@@ -127,8 +127,8 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
             String name = context.getString(R.string.Private_number);
             data.put(ContactsAccessHelper.NAME, name);
             // if block private numbers
-            if (Settings.getBooleanValue(context, Settings.BLOCK_PRIVATE_SMS) ||
-                    // or if block all SMS
+            if (Settings.getBooleanValue(context, Settings.BLOCK_PRIVATE_SMS)
+                    || // or if block all SMS
                     Settings.getBooleanValue(context, Settings.BLOCK_ALL_SMS)) {
                 // abort broadcast and notify user
                 abortSMSAndNotify(context, number, name, body);
@@ -183,8 +183,8 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         boolean abort = false;
 
         // if block numbers that are not in the contact list
-        if (Settings.getBooleanValue(context, Settings.BLOCK_SMS_NOT_FROM_CONTACTS) &&
-                Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
+        if (Settings.getBooleanValue(context, Settings.BLOCK_SMS_NOT_FROM_CONTACTS)
+                && Permissions.isGranted(context, Permissions.READ_CONTACTS)) {
             ContactsAccessHelper db = ContactsAccessHelper.getInstance(context);
             if (db.getContact(context, number) != null) {
                 return false;
@@ -195,8 +195,8 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         }
 
         // if block numbers that are not in the SMS content list
-        if (Settings.getBooleanValue(context, Settings.BLOCK_SMS_NOT_FROM_SMS_CONTENT) &&
-                Permissions.isGranted(context, Permissions.READ_SMS)) {
+        if (Settings.getBooleanValue(context, Settings.BLOCK_SMS_NOT_FROM_SMS_CONTENT)
+                && Permissions.isGranted(context, Permissions.READ_SMS)) {
             ContactsAccessHelper db = ContactsAccessHelper.getInstance(context);
             if (db.containsNumberInSMSContent(context, number)) {
                 return false;

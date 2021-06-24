@@ -124,8 +124,8 @@ public class SMSConversationsListFragment extends Fragment implements FragmentAr
             public void onSMSWasWritten(String phoneNumber) {
                 ContactsAccessHelper db = ContactsAccessHelper.getInstance(getContext());
                 int threadId = db.getSMSThreadIdByNumber(getContext(), phoneNumber);
-                if (threadId >= 0 &&
-                        // refresh cached list view items
+                if (threadId >= 0
+                        && // refresh cached list view items
                         cursorAdapter.invalidateCache(threadId)) {
                     cursorAdapter.notifyDataSetChanged();
                 } else {
