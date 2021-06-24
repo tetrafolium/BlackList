@@ -55,7 +55,7 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
 
         // get telephony service
         TelephonyManager telephony = (TelephonyManager)
-                context.getSystemService(Context.TELEPHONY_SERVICE);
+                                     context.getSystemService(Context.TELEPHONY_SERVICE);
         if (telephony.getCallState() != TelephonyManager.CALL_STATE_RINGING) {
             return;
         }
@@ -163,7 +163,7 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
     private void breakCallNougatAndLower(Context context) {
         Log.d(TAG, "Trying to break call for Nougat and lower with TelephonyManager.");
         TelephonyManager telephony = (TelephonyManager)
-                context.getSystemService(Context.TELEPHONY_SERVICE);
+                                     context.getSystemService(Context.TELEPHONY_SERVICE);
         try {
             Class c = Class.forName(telephony.getClass().getName());
             Method m = c.getDeclaredMethod("getITelephony");
@@ -181,7 +181,7 @@ public class CallBroadcastReceiver extends BroadcastReceiver {
     private void breakCallPieAndHigher(Context context) {
         Log.d(TAG, "Trying to break call for Pie and higher with TelecomManager.");
         TelecomManager telecomManager = (TelecomManager)
-                context.getSystemService(Context.TELECOM_SERVICE);
+                                        context.getSystemService(Context.TELECOM_SERVICE);
         try {
             telecomManager.getClass().getMethod("endCall").invoke(telecomManager);
             Log.d(TAG, "Invoked 'endCall' on TelecomManager.");

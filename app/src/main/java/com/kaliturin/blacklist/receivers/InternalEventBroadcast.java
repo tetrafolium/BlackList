@@ -45,27 +45,27 @@ public class InternalEventBroadcast extends BroadcastReceiver {
         }
         // invoke the callback correspondent to the received event
         switch (actionType) {
-            case JOURNAL_WAS_WRITTEN:
-                onJournalWasWritten();
-                break;
-            case SMS_WAS_WRITTEN: {
-                String number = intent.getStringExtra(CONTACT_NUMBER);
-                if (number != null) {
-                    onSMSWasWritten(number);
-                }
-            }
+        case JOURNAL_WAS_WRITTEN:
+            onJournalWasWritten();
             break;
-            case SMS_WAS_DELETED: {
-                String number = intent.getStringExtra(CONTACT_NUMBER);
-                if (number != null) {
-                    onSMSWasDeleted(number);
-                }
+        case SMS_WAS_WRITTEN: {
+            String number = intent.getStringExtra(CONTACT_NUMBER);
+            if (number != null) {
+                onSMSWasWritten(number);
             }
+        }
+        break;
+        case SMS_WAS_DELETED: {
+            String number = intent.getStringExtra(CONTACT_NUMBER);
+            if (number != null) {
+                onSMSWasDeleted(number);
+            }
+        }
+        break;
+        case SMS_WAS_READ:
+            int threadId = intent.getIntExtra(THREAD_ID, 0);
+            onSMSThreadWasRead(threadId);
             break;
-            case SMS_WAS_READ:
-                int threadId = intent.getIntExtra(THREAD_ID, 0);
-                onSMSThreadWasRead(threadId);
-                break;
         }
     }
 

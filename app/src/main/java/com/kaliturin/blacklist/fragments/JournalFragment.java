@@ -108,33 +108,33 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         snackBar = new ButtonsBar(view, R.id.three_buttons_bar);
         // "Cancel" button
         snackBar.setButton(R.id.button_left,
-                getString(R.string.CANCEL),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackBar.dismiss();
-                        clearCheckedItems();
-                    }
-                });
+                           getString(R.string.CANCEL),
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackBar.dismiss();
+                clearCheckedItems();
+            }
+        });
         // "Delete" button
         snackBar.setButton(R.id.button_center,
-                getString(R.string.DELETE),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackBar.dismiss();
-                        deleteCheckedItems();
-                    }
-                });
+                           getString(R.string.DELETE),
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackBar.dismiss();
+                deleteCheckedItems();
+            }
+        });
         // "Select all" button
         snackBar.setButton(R.id.button_right,
-                getString(R.string.SELECT_ALL),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setAllItemsChecked();
-                    }
-                });
+                           getString(R.string.SELECT_ALL),
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setAllItemsChecked();
+            }
+        });
 
         // init internal broadcast event receiver
         internalEventBroadcast = new InternalEventBroadcast() {
@@ -210,18 +210,18 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         // on search cancelling
         // SearchView.OnCloseListener is not calling so use other way...
         MenuItemCompat.setOnActionExpandListener(itemSearch,
-                new MenuItemCompat.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        return true;
-                    }
+        new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
 
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        reloadItems("", false);
-                        return true;
-                    }
-                });
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                reloadItems("", false);
+                return true;
+            }
+        });
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -329,8 +329,8 @@ public class JournalFragment extends Fragment implements FragmentArguments {
         }
         int loaderId = 0;
         JournalItemsLoaderCallbacks callbacks =
-                new JournalItemsLoaderCallbacks(getContext(), cursorAdapter,
-                        itemsFilter, deleteItems, listView, listPosition);
+            new JournalItemsLoaderCallbacks(getContext(), cursorAdapter,
+                                            itemsFilter, deleteItems, listView, listPosition);
         LoaderManager manager = getLoaderManager();
         if (manager.getLoader(loaderId) == null) {
             // init and run the items loader
@@ -386,7 +386,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
                     public void onClick(View v) {
                         if (Utils.copyTextToClipboard(getContext(), record.text)) {
                             Toast.makeText(getContext(), R.string.Copied_to_clipboard,
-                                    Toast.LENGTH_SHORT).show();
+                                           Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -397,7 +397,7 @@ public class JournalFragment extends Fragment implements FragmentArguments {
                 public void onClick(View v) {
                     if (Utils.copyTextToClipboard(getContext(), number)) {
                         Toast.makeText(getContext(), R.string.Copied_to_clipboard,
-                                Toast.LENGTH_SHORT).show();
+                                       Toast.LENGTH_SHORT).show();
                     }
                 }
             });

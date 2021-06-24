@@ -87,9 +87,9 @@ public class CustomFragmentActivity extends AppCompatActivity {
             fragment.setArguments(arguments);
             // put fragment int activity
             getSupportFragmentManager().
-                    beginTransaction().
-                    replace(R.id.frame_layout, fragment).
-                    commit();
+            beginTransaction().
+            replace(R.id.frame_layout, fragment).
+            commit();
         }
     }
 

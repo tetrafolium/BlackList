@@ -142,15 +142,15 @@ public class Utils {
         try {
             if (Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
                 android.text.ClipboardManager clipboard =
-                        (android.text.ClipboardManager) context
-                                .getSystemService(Context.CLIPBOARD_SERVICE);
+                    (android.text.ClipboardManager) context
+                    .getSystemService(Context.CLIPBOARD_SERVICE);
                 clipboard.setText(text);
             } else {
                 android.content.ClipboardManager clipboard =
-                        (android.content.ClipboardManager)
-                                context.getSystemService(Context.CLIPBOARD_SERVICE);
+                    (android.content.ClipboardManager)
+                    context.getSystemService(Context.CLIPBOARD_SERVICE);
                 android.content.ClipData clip =
-                        android.content.ClipData.newPlainText("", text);
+                    android.content.ClipData.newPlainText("", text);
                 clipboard.setPrimaryClip(clip);
             }
             return true;

@@ -55,7 +55,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (action == null ||
                 !action.equals(SMS_DELIVER) &&
-                        !action.equals(SMS_RECEIVED)) {
+                !action.equals(SMS_RECEIVED)) {
             return;
         }
 
@@ -85,7 +85,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
     // Extracts message data
     @Nullable
     private Map<String, String> extractMessageData(Context context,
-                                                   Intent intent, long timeReceive) {
+            Intent intent, long timeReceive) {
         // get messages
         SmsMessage[] messages = getSMSMessages(intent);
         if (messages == null || messages.length == 0) {

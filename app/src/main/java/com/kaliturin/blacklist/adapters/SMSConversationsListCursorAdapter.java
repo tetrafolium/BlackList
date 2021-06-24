@@ -167,10 +167,10 @@ public class SMSConversationsListCursorAdapter extends CursorAdapter {
 
         ViewHolder(View rowView) {
             this(rowView,
-                    (TextView) rowView.findViewById(R.id.address),
-                    (TextView) rowView.findViewById(R.id.snippet),
-                    (TextView) rowView.findViewById(R.id.date),
-                    (TextView) rowView.findViewById(R.id.unread_sms));
+                 (TextView) rowView.findViewById(R.id.address),
+                 (TextView) rowView.findViewById(R.id.snippet),
+                 (TextView) rowView.findViewById(R.id.date),
+                 (TextView) rowView.findViewById(R.id.unread_sms));
         }
 
         ViewHolder(View rowView,

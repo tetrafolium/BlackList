@@ -43,7 +43,8 @@ public class ExampleInstrumentedTest {
         }
 
         String[] normalNumbers = {"-2-2", "-2 -2", "+01234567890", "+0 123 456 78 90", "0 123 456 78 90",
-                "(123) 456 78 90", "(123)-456-78-90", "0 (123)-456-78-90", "-4 (123)-456-78-90"};
+                                  "(123) 456 78 90", "(123)-456-78-90", "0 (123)-456-78-90", "-4 (123)-456-78-90"
+                                 };
         for (String number : normalNumbers) {
             assertFalse("number = {" + number + "} is private", ContactsAccessHelper.isPrivatePhoneNumber(number));
         }
@@ -53,10 +54,11 @@ public class ExampleInstrumentedTest {
     public void normalizePhoneNumber() throws Exception {
         String normalizedNumber = "+01234567890";
         String[] notNormalizedNumbers = {"+0 123 456 78 90", "+0 (123) 456-78-90", "+0-123-456-78-90",
-                "+ 0 (123) 456 78 90", " +0 123 456 78-90 ", "\n+ 0123 456 78 90\n"};
+                                         "+ 0 (123) 456 78 90", " +0 123 456 78-90 ", "\n+ 0123 456 78 90\n"
+                                        };
         for (String number : notNormalizedNumbers) {
             assertEquals("number = {" + number + "} cannot be normalized", normalizedNumber,
-                    ContactsAccessHelper.normalizePhoneNumber(number));
+                         ContactsAccessHelper.normalizePhoneNumber(number));
         }
     }
 

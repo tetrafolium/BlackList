@@ -75,13 +75,13 @@ public class SMSSendHelper {
 
             // pending intent for getting result of SMS sending
             PendingIntent pendingIntent = createPendingIntent(context, SMS_SENT, messageId,
-                    phoneNumber, messagePart, messagePartId, messageParts.size(), delivery);
+                                          phoneNumber, messagePart, messagePartId, messageParts.size(), delivery);
             sentIntents.add(pendingIntent);
 
             if (delivery) {
                 // pending intent for getting result of SMS delivery
                 pendingIntent = createPendingIntent(context, SMS_DELIVERY, messageId,
-                        phoneNumber, messagePart, messagePartId, messageParts.size(), true);
+                                                    phoneNumber, messagePart, messagePartId, messageParts.size(), true);
                 deliveryIntents.add(pendingIntent);
             }
         }
@@ -113,8 +113,8 @@ public class SMSSendHelper {
 
     // Creates pending intent for getting result of SMS sending/delivery
     private PendingIntent createPendingIntent(Context context, String action, long messageId,
-                                              String phoneNumber, String messagePart,
-                                              int messagePartId, int messageParts, boolean delivery) {
+            String phoneNumber, String messagePart,
+            int messagePartId, int messageParts, boolean delivery) {
         // attaches static broadcast receiver for processing the results
         Intent intent = new Intent(context, SMSSendResultBroadcastReceiver.class);
         intent.setAction(action);

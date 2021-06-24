@@ -61,19 +61,19 @@ public class Permissions {
     public static final String ANSWER_PHONE_CALLS = "android.permission.ANSWER_PHONE_CALLS";
 
     private static ArrayList<String> PERMISSIONS = new ArrayList<>(Arrays.asList(
-            WRITE_EXTERNAL_STORAGE,
-            RECEIVE_SMS,
-            WRITE_SMS,
-            READ_SMS,
-            SEND_SMS,
-            CALL_PHONE,
-            READ_PHONE_STATE,
-            READ_CONTACTS,
-            WRITE_CONTACTS,
-            READ_CALL_LOG,
-            WRITE_CALL_LOG,
-            VIBRATE
-    ));
+                WRITE_EXTERNAL_STORAGE,
+                RECEIVE_SMS,
+                WRITE_SMS,
+                READ_SMS,
+                SEND_SMS,
+                CALL_PHONE,
+                READ_PHONE_STATE,
+                READ_CONTACTS,
+                WRITE_CONTACTS,
+                READ_CALL_LOG,
+                WRITE_CALL_LOG,
+                VIBRATE
+            ));
 
     static {
         if (Build.VERSION.SDK_INT >= Constants.PIE_API_VERSION) {
@@ -173,7 +173,7 @@ public class Permissions {
         String info = getPermissionInfo(context, permission);
         if (info != null) {
             String message = context.getString(R.string.app_name) + " " +
-                    context.getString(R.string.needs_permission) + ":\n" + info + ";";
+                             context.getString(R.string.needs_permission) + ":\n" + info + ";";
             Utils.showToast(context, message, Toast.LENGTH_SHORT);
         }
     }
@@ -207,8 +207,8 @@ public class Permissions {
      * Saves the results of permission granting request
      **/
     public static void onRequestPermissionsResult(int requestCode,
-                                                  @NonNull String permissions[],
-                                                  @NonNull int[] grantResults) {
+            @NonNull String permissions[],
+            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE &&
                 permissions.length == grantResults.length) {
             for (int i = 0; i < permissions.length; i++) {

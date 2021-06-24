@@ -100,33 +100,33 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         snackBar = new ButtonsBar(view, R.id.three_buttons_bar);
         // "Cancel button" button
         snackBar.setButton(R.id.button_left,
-                getString(R.string.CANCEL),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finishActivity(Activity.RESULT_CANCELED);
-                    }
-                });
+                           getString(R.string.CANCEL),
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishActivity(Activity.RESULT_CANCELED);
+            }
+        });
         // "Add" button
         snackBar.setButton(R.id.button_center,
-                getString(R.string.ADD),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackBar.dismiss();
-                        // write checked contacts to the DB
-                        addCheckedContacts();
-                    }
-                });
+                           getString(R.string.ADD),
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackBar.dismiss();
+                // write checked contacts to the DB
+                addCheckedContacts();
+            }
+        });
         // "Select all" button
         snackBar.setButton(R.id.button_right,
-                getString(R.string.SELECT_ALL),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setCheckedAllItems();
-                    }
-                });
+                           getString(R.string.SELECT_ALL),
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setCheckedAllItems();
+            }
+        });
 
         // cursor adapter
         cursorAdapter = new ContactsCursorAdapter(getContext());
@@ -193,18 +193,18 @@ public class AddContactsFragment extends Fragment implements FragmentArguments {
         // on search cancelling
         // SearchView.OnCloseListener is not calling so use other way...
         MenuItemCompat.setOnActionExpandListener(itemSearch,
-                new MenuItemCompat.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        return true;
-                    }
+        new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
 
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        reloadItems(null);
-                        return true;
-                    }
-                });
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                reloadItems(null);
+                return true;
+            }
+        });
 
         super.onCreateOptionsMenu(menu, inflater);
     }

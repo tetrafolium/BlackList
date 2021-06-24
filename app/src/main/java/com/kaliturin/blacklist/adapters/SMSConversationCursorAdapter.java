@@ -155,9 +155,9 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
 
         ViewHolder(View rowView) {
             this(rowView,
-                    rowView.findViewById(R.id.content_shape),
-                    (TextView) rowView.findViewById(R.id.body),
-                    (TextView) rowView.findViewById(R.id.date));
+                 rowView.findViewById(R.id.content_shape),
+                 (TextView) rowView.findViewById(R.id.body),
+                 (TextView) rowView.findViewById(R.id.date));
         }
 
         ViewHolder(View rowView,
@@ -183,30 +183,30 @@ public class SMSConversationCursorAdapter extends CursorAdapter {
 
             String text;
             switch (message.type) {
-                case ContactsAccessHelper.MESSAGE_TYPE_OUTBOX:
-                    text = context.getString(R.string.Sending_);
-                    break;
-                case ContactsAccessHelper.MESSAGE_TYPE_FAILED:
-                    text = context.getString(R.string.Not_sent);
-                    break;
-                default:
-                    Date date = toDate(message.date);
-                    calendar.setTimeInMillis(message.date);
-                    // if current year
-                    if (calendar.get(Calendar.YEAR) == currentYear) {
-                        // if current day
-                        if (calendar.get(Calendar.DAY_OF_YEAR) == currentDay) {
-                            // day-less format
-                            text = timeFormat.format(date);
-                        } else {
-                            // year-less format
-                            text = timeFormat.format(date) + ", " + yearLessDateFormat.format(date);
-                        }
+            case ContactsAccessHelper.MESSAGE_TYPE_OUTBOX:
+                text = context.getString(R.string.Sending_);
+                break;
+            case ContactsAccessHelper.MESSAGE_TYPE_FAILED:
+                text = context.getString(R.string.Not_sent);
+                break;
+            default:
+                Date date = toDate(message.date);
+                calendar.setTimeInMillis(message.date);
+                // if current year
+                if (calendar.get(Calendar.YEAR) == currentYear) {
+                    // if current day
+                    if (calendar.get(Calendar.DAY_OF_YEAR) == currentDay) {
+                        // day-less format
+                        text = timeFormat.format(date);
                     } else {
-                        // full format
-                        text = timeFormat.format(date) + ", " + dateFormat.format(date);
+                        // year-less format
+                        text = timeFormat.format(date) + ", " + yearLessDateFormat.format(date);
                     }
-                    break;
+                } else {
+                    // full format
+                    text = timeFormat.format(date) + ", " + dateFormat.format(date);
+                }
+                break;
             }
             dateTextView.setText(text);
 

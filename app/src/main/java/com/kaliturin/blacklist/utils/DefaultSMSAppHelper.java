@@ -45,14 +45,14 @@ public class DefaultSMSAppHelper {
 
     public static void enableSMSReceiving(Context context, boolean enable) {
         int state = (enable ?
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
+                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
         PackageManager packageManager = context.getPackageManager();
         ComponentName componentName = new ComponentName(context, SMSBroadcastReceiver.class);
         packageManager.setComponentEnabledSetting(
-                componentName,
-                state,
-                PackageManager.DONT_KILL_APP);
+            componentName,
+            state,
+            PackageManager.DONT_KILL_APP);
     }
 
     @TargetApi(19)

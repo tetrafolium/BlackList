@@ -180,8 +180,8 @@ public class SMSConversationsListFragment extends Fragment implements FragmentAr
             public boolean onMenuItemClick(MenuItem item) {
                 // open SMS sending activity
                 CustomFragmentActivity.show(getContext(),
-                        getString(R.string.New_message),
-                        SMSSendFragment.class, null);
+                                            getString(R.string.New_message),
+                                            SMSSendFragment.class, null);
                 return true;
             }
         });
@@ -212,7 +212,7 @@ public class SMSConversationsListFragment extends Fragment implements FragmentAr
                 arguments.putInt(THREAD_ID, sms.threadId);
                 arguments.putInt(UNREAD_COUNT, sms.unread);
                 CustomFragmentActivity.show(getContext(), person,
-                        SMSConversationFragment.class, arguments);
+                                            SMSConversationFragment.class, arguments);
             }
         }
     }
@@ -244,7 +244,7 @@ public class SMSConversationsListFragment extends Fragment implements FragmentAr
                         }
                     } else {
                         Toast.makeText(getContext(), R.string.Need_default_SMS_app,
-                                Toast.LENGTH_SHORT).show();
+                                       Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -294,8 +294,8 @@ public class SMSConversationsListFragment extends Fragment implements FragmentAr
         }
         int loaderId = 0;
         ConversationsLoaderCallbacks callbacks =
-                new ConversationsLoaderCallbacks(getContext(), listView,
-                        listPosition, cursorAdapter, markSeen, showProgress);
+            new ConversationsLoaderCallbacks(getContext(), listView,
+                                             listPosition, cursorAdapter, markSeen, showProgress);
 
         LoaderManager manager = getLoaderManager();
         Loader<?> loader = manager.getLoader(loaderId);

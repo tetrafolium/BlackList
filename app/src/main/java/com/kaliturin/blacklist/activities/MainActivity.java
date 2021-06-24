@@ -49,7 +49,7 @@ import com.kaliturin.blacklist.utils.Permissions;
 import com.kaliturin.blacklist.utils.Settings;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+    implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String ACTION_JOURNAL = "com.kaliturin.blacklist.ACTION_JOURNAL";
     public static final String ACTION_SMS_CONVERSATIONS = "com.kaliturin.blacklist.ACTION_SMS_CONVERSATIONS";
@@ -107,33 +107,33 @@ public class MainActivity extends AppCompatActivity
             String action = getIntent().getAction();
             action = (action == null ? "" : action);
             switch (action) {
-                case ACTION_SMS_SEND_TO:
-                    // show SMS sending activity
-                    showSendSMSActivity();
-                    // switch to SMS chat fragment
-                    itemId = R.id.nav_sms;
-                    break;
-                case ACTION_SMS_CONVERSATIONS:
-                    // switch to SMS chat fragment
-                    itemId = R.id.nav_sms;
-                    break;
-                case ACTION_SETTINGS:
-                    // switch to settings fragment
-                    itemId = R.id.nav_settings;
-                    break;
-                case ACTION_JOURNAL:
+            case ACTION_SMS_SEND_TO:
+                // show SMS sending activity
+                showSendSMSActivity();
+                // switch to SMS chat fragment
+                itemId = R.id.nav_sms;
+                break;
+            case ACTION_SMS_CONVERSATIONS:
+                // switch to SMS chat fragment
+                itemId = R.id.nav_sms;
+                break;
+            case ACTION_SETTINGS:
+                // switch to settings fragment
+                itemId = R.id.nav_settings;
+                break;
+            case ACTION_JOURNAL:
+                // switch to journal fragment
+                itemId = R.id.nav_journal;
+                break;
+            default:
+                if (Settings.getBooleanValue(this, Settings.GO_TO_JOURNAL_AT_START)) {
                     // switch to journal fragment
                     itemId = R.id.nav_journal;
-                    break;
-                default:
-                    if (Settings.getBooleanValue(this, Settings.GO_TO_JOURNAL_AT_START)) {
-                        // switch to journal fragment
-                        itemId = R.id.nav_journal;
-                    } else {
-                        // switch to SMS chat fragment
-                        itemId = R.id.nav_sms;
-                    }
-                    break;
+                } else {
+                    // switch to SMS chat fragment
+                    itemId = R.id.nav_sms;
+                }
+                break;
             }
             // switch to chosen fragment
             fragmentSwitcher.switchFragment(itemId);
@@ -242,8 +242,8 @@ public class MainActivity extends AppCompatActivity
 
         boolean onBackPressed() {
             return journalFragment.dismissSnackBar() ||
-                    blackListFragment.dismissSnackBar() ||
-                    whiteListFragment.dismissSnackBar();
+                   blackListFragment.dismissSnackBar() ||
+                   whiteListFragment.dismissSnackBar();
         }
 
         // Switches fragment by navigation menu item
@@ -253,32 +253,32 @@ public class MainActivity extends AppCompatActivity
             Bundle extras = intent.getExtras();
             Bundle arguments = (extras != null ? new Bundle(extras) : new Bundle());
             switch (itemId) {
-                case R.id.nav_journal:
-                    arguments.putString(TITLE, getString(R.string.Journal));
-                    switchFragment(journalFragment, arguments);
-                    break;
-                case R.id.nav_black_list:
-                    arguments.putString(TITLE, getString(R.string.Black_list));
-                    arguments.putInt(CONTACT_TYPE, Contact.TYPE_BLACK_LIST);
-                    switchFragment(blackListFragment, arguments);
-                    break;
-                case R.id.nav_white_list:
-                    arguments.putString(TITLE, getString(R.string.White_list));
-                    arguments.putInt(CONTACT_TYPE, Contact.TYPE_WHITE_LIST);
-                    switchFragment(whiteListFragment, arguments);
-                    break;
-                case R.id.nav_sms:
-                    arguments.putString(TITLE, getString(R.string.Messaging));
-                    switchFragment(smsFragment, arguments);
-                    break;
-                case R.id.nav_settings:
-                    arguments.putString(TITLE, getString(R.string.Settings));
-                    switchFragment(settingsFragment, arguments);
-                    break;
-                default:
-                    arguments.putString(TITLE, getString(R.string.Information));
-                    switchFragment(informationFragment, arguments);
-                    break;
+            case R.id.nav_journal:
+                arguments.putString(TITLE, getString(R.string.Journal));
+                switchFragment(journalFragment, arguments);
+                break;
+            case R.id.nav_black_list:
+                arguments.putString(TITLE, getString(R.string.Black_list));
+                arguments.putInt(CONTACT_TYPE, Contact.TYPE_BLACK_LIST);
+                switchFragment(blackListFragment, arguments);
+                break;
+            case R.id.nav_white_list:
+                arguments.putString(TITLE, getString(R.string.White_list));
+                arguments.putInt(CONTACT_TYPE, Contact.TYPE_WHITE_LIST);
+                switchFragment(whiteListFragment, arguments);
+                break;
+            case R.id.nav_sms:
+                arguments.putString(TITLE, getString(R.string.Messaging));
+                switchFragment(smsFragment, arguments);
+                break;
+            case R.id.nav_settings:
+                arguments.putString(TITLE, getString(R.string.Settings));
+                switchFragment(settingsFragment, arguments);
+                break;
+            default:
+                arguments.putString(TITLE, getString(R.string.Information));
+                switchFragment(informationFragment, arguments);
+                break;
             }
 
             // remove used extras
@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity
             if (current != fragment) {
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction().
-                        replace(R.id.frame_layout, fragment, CURRENT_FRAGMENT).commit();
+                replace(R.id.frame_layout, fragment, CURRENT_FRAGMENT).commit();
             }
         }
 

@@ -194,8 +194,8 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
         arguments.putString(SMS_MESSAGE_BODY, body);
         // open activity with the fragment
         CustomFragmentActivity.show(getContext(),
-                getString(R.string.New_message),
-                SMSSendFragment.class, arguments);
+                                    getString(R.string.New_message),
+                                    SMSSendFragment.class, arguments);
     }
 
     // Loads SMS conversation to the list view and scrolls to passed position
@@ -215,8 +215,8 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
         }
         int loaderId = 0;
         ConversationLoaderCallbacks callbacks =
-                new ConversationLoaderCallbacks(getContext(),
-                        threadId, unreadCount, listView, listPosition, cursorAdapter);
+            new ConversationLoaderCallbacks(getContext(),
+                                            threadId, unreadCount, listView, listPosition, cursorAdapter);
 
         LoaderManager manager = getLoaderManager();
         if (manager.getLoader(loaderId) == null) {
@@ -346,7 +346,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
                 public void onClick(View v) {
                     if (Utils.copyTextToClipboard(getContext(), sms.body)) {
                         Toast.makeText(getContext(), R.string.Copied_to_clipboard,
-                                Toast.LENGTH_SHORT).show();
+                                       Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -356,7 +356,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
                 public void onClick(View v) {
                     if (!DefaultSMSAppHelper.isDefault(getContext())) {
                         Toast.makeText(getContext(), R.string.Need_default_SMS_app,
-                                Toast.LENGTH_SHORT).show();
+                                       Toast.LENGTH_SHORT).show();
                     } else {
                         ContactsAccessHelper db = ContactsAccessHelper.getInstance(getContext());
                         if (db.deleteSMSMessageById(getContext(), sms.id)) {
@@ -432,7 +432,7 @@ public class SMSConversationFragment extends Fragment implements FragmentArgumen
         }
 
         // send SMS message
-        SMSSendService.start(getContext(), message, new String[]{contactNumber});
+        SMSSendService.start(getContext(), message, new String[] {contactNumber});
 
         // clear message edit
         messageEdit.setText("");

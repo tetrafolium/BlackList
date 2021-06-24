@@ -46,10 +46,10 @@ public class Notifications {
         int icon = R.drawable.ic_block;
         String action = MainActivity.ACTION_JOURNAL;
         Uri ringtone = getRingtoneUri(context,
-                Settings.BLOCKED_CALL_SOUND_NOTIFICATION,
-                Settings.BLOCKED_CALL_RINGTONE);
+                                      Settings.BLOCKED_CALL_SOUND_NOTIFICATION,
+                                      Settings.BLOCKED_CALL_RINGTONE);
         boolean vibration = Settings.getBooleanValue(context,
-                Settings.BLOCKED_CALL_VIBRATION_NOTIFICATION);
+                            Settings.BLOCKED_CALL_VIBRATION_NOTIFICATION);
         notify(context, address, message, message, icon, action, ringtone, vibration);
     }
 
@@ -62,10 +62,10 @@ public class Notifications {
         int icon = R.drawable.ic_block;
         String action = MainActivity.ACTION_JOURNAL;
         Uri ringtone = getRingtoneUri(context,
-                Settings.BLOCKED_SMS_SOUND_NOTIFICATION,
-                Settings.BLOCKED_SMS_RINGTONE);
+                                      Settings.BLOCKED_SMS_SOUND_NOTIFICATION,
+                                      Settings.BLOCKED_SMS_RINGTONE);
         boolean vibration = Settings.getBooleanValue(context,
-                Settings.BLOCKED_SMS_VIBRATION_NOTIFICATION);
+                            Settings.BLOCKED_SMS_VIBRATION_NOTIFICATION);
         notify(context, address, message, message, icon, action, ringtone, vibration);
     }
 
@@ -75,10 +75,10 @@ public class Notifications {
         int icon = R.drawable.ic_status_sms;
         String action = MainActivity.ACTION_SMS_CONVERSATIONS;
         Uri ringtone = getRingtoneUri(context,
-                Settings.RECEIVED_SMS_SOUND_NOTIFICATION,
-                Settings.RECEIVED_SMS_RINGTONE);
+                                      Settings.RECEIVED_SMS_SOUND_NOTIFICATION,
+                                      Settings.RECEIVED_SMS_RINGTONE);
         boolean vibration = Settings.getBooleanValue(context,
-                Settings.RECEIVED_SMS_VIBRATION_NOTIFICATION);
+                            Settings.RECEIVED_SMS_VIBRATION_NOTIFICATION);
         notify(context, address, message, smsBody, icon, action, ringtone, vibration);
     }
 
@@ -89,10 +89,10 @@ public class Notifications {
         int icon = R.drawable.ic_status_sms;
         String action = MainActivity.ACTION_SMS_CONVERSATIONS;
         Uri ringtone = getRingtoneUri(context,
-                Settings.RECEIVED_SMS_SOUND_NOTIFICATION,
-                Settings.RECEIVED_SMS_RINGTONE);
+                                      Settings.RECEIVED_SMS_SOUND_NOTIFICATION,
+                                      Settings.RECEIVED_SMS_RINGTONE);
         boolean vibration = Settings.getBooleanValue(context,
-                Settings.RECEIVED_SMS_VIBRATION_NOTIFICATION);
+                            Settings.RECEIVED_SMS_VIBRATION_NOTIFICATION);
         notify(context, address, message, message, icon, action, ringtone, vibration);
     }
 
@@ -103,15 +103,15 @@ public class Notifications {
         // turn off sound and vibration if phone is in silent mode
         AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         switch (am.getRingerMode()) {
-            case AudioManager.RINGER_MODE_SILENT:
-                ringtone = null;
-                vibration = false;
-                break;
-            case AudioManager.RINGER_MODE_VIBRATE:
-                ringtone = null;
-                break;
-            case AudioManager.RINGER_MODE_NORMAL:
-                break;
+        case AudioManager.RINGER_MODE_SILENT:
+            ringtone = null;
+            vibration = false;
+            break;
+        case AudioManager.RINGER_MODE_VIBRATE:
+            ringtone = null;
+            break;
+        case AudioManager.RINGER_MODE_NORMAL:
+            break;
         }
 
         // pending intent for activating app on click in status bar
@@ -135,7 +135,7 @@ public class Notifications {
             builder.setSound(ringtone);
         }
         if (vibration) {
-            builder.setVibrate(new long[]{0, 300, 300, 300});
+            builder.setVibrate(new long[] {0, 300, 300, 300});
         }
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);

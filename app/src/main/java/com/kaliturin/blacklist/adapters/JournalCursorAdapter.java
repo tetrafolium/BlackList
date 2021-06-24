@@ -192,13 +192,13 @@ public class JournalCursorAdapter extends CursorAdapter {
 
         ViewHolder(Context context, View rowView) {
             this(context, (ImageView) rowView.findViewById(R.id.icon),
-                    (TextView) rowView.findViewById(R.id.sender),
-                    (TextView) rowView.findViewById(R.id.text),
-                    (TextView) rowView.findViewById(R.id.date),
-                    (TextView) rowView.findViewById(R.id.time),
-                    (CheckBox) rowView.findViewById(R.id.cb),
-                    rowView.findViewById(R.id.date_layout),
-                    (CheckableLinearLayout) rowView.findViewById(R.id.content_layout));
+                 (TextView) rowView.findViewById(R.id.sender),
+                 (TextView) rowView.findViewById(R.id.text),
+                 (TextView) rowView.findViewById(R.id.date),
+                 (TextView) rowView.findViewById(R.id.time),
+                 (CheckBox) rowView.findViewById(R.id.cb),
+                 rowView.findViewById(R.id.date_layout),
+                 (CheckableLinearLayout) rowView.findViewById(R.id.content_layout));
         }
 
         ViewHolder(Context context, ImageView iconImageView, TextView senderTextView,

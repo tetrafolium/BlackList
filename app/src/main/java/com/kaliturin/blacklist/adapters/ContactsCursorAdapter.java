@@ -187,9 +187,9 @@ public class ContactsCursorAdapter extends CursorAdapter {
 
         ViewHolder(Context context, View row) {
             this(context, (CheckableLinearLayout) row,
-                    (TextView) row.findViewById(R.id.contact_name),
-                    (TextView) row.findViewById(R.id.contact_numbers),
-                    (CheckBox) row.findViewById(R.id.contact_cb));
+                 (TextView) row.findViewById(R.id.contact_name),
+                 (TextView) row.findViewById(R.id.contact_numbers),
+                 (CheckBox) row.findViewById(R.id.contact_cb));
         }
 
         ViewHolder(Context context, CheckableLinearLayout rowView, TextView nameTextView,
@@ -272,12 +272,12 @@ public class ContactsCursorAdapter extends CursorAdapter {
 
     private String getNumberTypeTitle(Context context, int type) {
         switch (type) {
-            case ContactNumber.TYPE_STARTS:
-                return context.getString(R.string.Starts_with) + " ";
-            case ContactNumber.TYPE_ENDS:
-                return context.getString(R.string.Ends_with) + " ";
-            case ContactNumber.TYPE_CONTAINS:
-                return context.getString(R.string.Contains) + " ";
+        case ContactNumber.TYPE_STARTS:
+            return context.getString(R.string.Starts_with) + " ";
+        case ContactNumber.TYPE_ENDS:
+            return context.getString(R.string.Ends_with) + " ";
+        case ContactNumber.TYPE_CONTAINS:
+            return context.getString(R.string.Contains) + " ";
         }
         return "";
     }

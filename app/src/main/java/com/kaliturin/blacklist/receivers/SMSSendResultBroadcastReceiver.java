@@ -49,12 +49,12 @@ public class SMSSendResultBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (action != null) {
             switch (action) {
-                case SMS_SENT:
-                    onSMSSent(context, intent, getResultCode());
-                    break;
-                case SMS_DELIVERY:
-                    onSMSDelivery(context, intent, getResultCode());
-                    break;
+            case SMS_SENT:
+                onSMSSent(context, intent, getResultCode());
+                break;
+            case SMS_DELIVERY:
+                onSMSDelivery(context, intent, getResultCode());
+                break;
             }
         }
     }
@@ -64,22 +64,22 @@ public class SMSSendResultBroadcastReceiver extends BroadcastReceiver {
         boolean failed = true;
         int stringId = R.string.Unknown_error;
         switch (result) {
-            case Activity.RESULT_OK:
-                stringId = R.string.SMS_is_sent;
-                failed = false;
-                break;
-            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                stringId = R.string.Generic_failure;
-                break;
-            case SmsManager.RESULT_ERROR_NO_SERVICE:
-                stringId = R.string.No_service;
-                break;
-            case SmsManager.RESULT_ERROR_NULL_PDU:
-                stringId = R.string.Null_PDU;
-                break;
-            case SmsManager.RESULT_ERROR_RADIO_OFF:
-                stringId = R.string.Radio_off;
-                break;
+        case Activity.RESULT_OK:
+            stringId = R.string.SMS_is_sent;
+            failed = false;
+            break;
+        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+            stringId = R.string.Generic_failure;
+            break;
+        case SmsManager.RESULT_ERROR_NO_SERVICE:
+            stringId = R.string.No_service;
+            break;
+        case SmsManager.RESULT_ERROR_NULL_PDU:
+            stringId = R.string.Null_PDU;
+            break;
+        case SmsManager.RESULT_ERROR_RADIO_OFF:
+            stringId = R.string.Radio_off;
+            break;
         }
 
         // get SMS parameters
@@ -113,13 +113,13 @@ public class SMSSendResultBroadcastReceiver extends BroadcastReceiver {
         boolean failed = true;
         int stringId = R.string.Unknown_error;
         switch (result) {
-            case Activity.RESULT_OK:
-                stringId = R.string.SMS_is_delivered;
-                failed = false;
-                break;
-            case Activity.RESULT_CANCELED:
-                stringId = R.string.SMS_is_not_delivered;
-                break;
+        case Activity.RESULT_OK:
+            stringId = R.string.SMS_is_delivered;
+            failed = false;
+            break;
+        case Activity.RESULT_CANCELED:
+            stringId = R.string.SMS_is_not_delivered;
+            break;
         }
 
         // get SMS parameters

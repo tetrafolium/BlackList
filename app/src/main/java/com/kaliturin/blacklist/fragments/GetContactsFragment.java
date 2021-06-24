@@ -87,22 +87,22 @@ public class GetContactsFragment extends AddContactsFragment {
 
         // open the dialog activity with the fragment
         CustomFragmentActivity.show(context, parent,
-                getTitleId(context, sourceType),
-                GetContactsFragment.class, arguments, 0);
+                                    getTitleId(context, sourceType),
+                                    GetContactsFragment.class, arguments, 0);
     }
 
     private static String getTitleId(Context context, ContactSourceType sourceType) {
         switch (sourceType) {
-            case FROM_CONTACTS:
-                return context.getString(R.string.List_of_contacts);
-            case FROM_CALLS_LOG:
-                return context.getString(R.string.List_of_calls);
-            case FROM_SMS_LIST:
-                return context.getString(R.string.List_of_SMS);
-            case FROM_BLACK_LIST:
-                return context.getString(R.string.Black_list);
-            case FROM_WHITE_LIST:
-                return context.getString(R.string.White_list);
+        case FROM_CONTACTS:
+            return context.getString(R.string.List_of_contacts);
+        case FROM_CALLS_LOG:
+            return context.getString(R.string.List_of_calls);
+        case FROM_SMS_LIST:
+            return context.getString(R.string.List_of_SMS);
+        case FROM_BLACK_LIST:
+            return context.getString(R.string.Black_list);
+        case FROM_WHITE_LIST:
+            return context.getString(R.string.White_list);
         }
         return "";
     }

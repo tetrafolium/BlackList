@@ -126,24 +126,24 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            // default sms app dialog result
-            case DEFAULT_SMS_APP:
-                if (resultCode == Activity.RESULT_OK) {
-                    Permissions.invalidateCache();
-                }
-                // reload list
-                reloadListViewItems();
-                break;
-            // ringtone picker dialog results
-            default:
-                // get ringtone url
-                Uri uri = null;
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-                }
-                // save url as settings property value
-                setRingtoneUri(requestCode, uri);
-                break;
+        // default sms app dialog result
+        case DEFAULT_SMS_APP:
+            if (resultCode == Activity.RESULT_OK) {
+                Permissions.invalidateCache();
+            }
+            // reload list
+            reloadListViewItems();
+            break;
+        // ringtone picker dialog results
+        default:
+            // get ringtone url
+            Uri uri = null;
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            }
+            // save url as settings property value
+            setRingtoneUri(requestCode, uri);
+            break;
         }
     }
 
@@ -167,30 +167,30 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
             // show sms default app switch
             adapter.addTitle(R.string.SMS_default_app);
             adapter.addCheckbox(R.string.Default_SMS_app, R.string.Set_as_default_SMS_app,
-                    isDefaultSmsApp, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            DefaultSMSAppHelper.askForDefaultAppChange(
-                                    SettingsFragment.this, DEFAULT_SMS_APP);
-                        }
-                    });
+            isDefaultSmsApp, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DefaultSMSAppHelper.askForDefaultAppChange(
+                        SettingsFragment.this, DEFAULT_SMS_APP);
+                }
+            });
         }
 
         if (SubscriptionHelper.isAvailable()) {
             // SIM-card
             adapter.addTitle(R.string.SIM_card);
             adapter.addButton(getString(R.string.Chosen_SIM), getCurrentSimName(),
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // check permissions
-                            if (Permissions.notifyIfNotGranted(getContext(), Permissions.READ_PHONE_STATE)) {
-                                return;
-                            }
-                            // open the dialog of SIM choosing
-                            showSimChoosingDialog();
-                        }
-                    });
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // check permissions
+                    if (Permissions.notifyIfNotGranted(getContext(), Permissions.READ_PHONE_STATE)) {
+                        return;
+                    }
+                    // open the dialog of SIM choosing
+                    showSimChoosingDialog();
+                }
+            });
         }
 
         if (isDefaultSmsApp) {
@@ -198,69 +198,69 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
             adapter.addTitle(R.string.SMS_blocking);
             adapter.addCheckbox(R.string.All_SMS, R.string.Block_all_SMS, Settings.BLOCK_ALL_SMS);
             adapter.addCheckbox(R.string.Black_list, R.string.Block_SMS_from_black_list,
-                    Settings.BLOCK_SMS_FROM_BLACK_LIST);
+                                Settings.BLOCK_SMS_FROM_BLACK_LIST);
             adapter.addCheckbox(R.string.Contacts_list, R.string.Block_SMS_not_from_contacts,
-                    Settings.BLOCK_SMS_NOT_FROM_CONTACTS);
+                                Settings.BLOCK_SMS_NOT_FROM_CONTACTS);
             adapter.addCheckbox(R.string.SMS_list, R.string.Block_SMS_not_from_SMS_list,
-                    Settings.BLOCK_SMS_NOT_FROM_SMS_CONTENT);
+                                Settings.BLOCK_SMS_NOT_FROM_SMS_CONTENT);
             adapter.addCheckbox(R.string.Private_numbers, R.string.Block_SMS_from_private,
-                    Settings.BLOCK_PRIVATE_SMS);
+                                Settings.BLOCK_PRIVATE_SMS);
             adapter.addCheckbox(R.string.Journal, R.string.Write_SMS_to_journal,
-                    Settings.WRITE_SMS_JOURNAL);
+                                Settings.WRITE_SMS_JOURNAL);
 
             // sms notifications settings
             adapter.addTitle(R.string.SMS_blocking_notification);
             adapter.addCheckbox(R.string.Status_bar, R.string.Notify_in_status_bar_blocked_SMS,
-                    Settings.BLOCKED_SMS_STATUS_NOTIFICATION, new DependentRowOnClickListener());
+                                Settings.BLOCKED_SMS_STATUS_NOTIFICATION, new DependentRowOnClickListener());
             adapter.addCheckbox(R.string.Sound, R.string.Notify_with_sound_blocked_SMS,
-                    Settings.BLOCKED_SMS_SOUND_NOTIFICATION, new RingtonePickerOnClickListener(BLOCKED_SMS));
+                                Settings.BLOCKED_SMS_SOUND_NOTIFICATION, new RingtonePickerOnClickListener(BLOCKED_SMS));
             adapter.addCheckbox(R.string.Vibration, R.string.Notify_with_vibration_blocked_SMS,
-                    Settings.BLOCKED_SMS_VIBRATION_NOTIFICATION, new DependentRowOnClickListener());
+                                Settings.BLOCKED_SMS_VIBRATION_NOTIFICATION, new DependentRowOnClickListener());
         }
 
         // sms receiving/sending
         adapter.addTitle(R.string.SMS_receiving_notification);
         adapter.addCheckbox(R.string.Sound, R.string.Notify_with_sound_received_SMS,
-                Settings.RECEIVED_SMS_SOUND_NOTIFICATION, new RingtonePickerOnClickListener(RECEIVED_SMS));
+                            Settings.RECEIVED_SMS_SOUND_NOTIFICATION, new RingtonePickerOnClickListener(RECEIVED_SMS));
         adapter.addCheckbox(R.string.Vibration, R.string.Notify_with_vibration_received_SMS,
-                Settings.RECEIVED_SMS_VIBRATION_NOTIFICATION);
+                            Settings.RECEIVED_SMS_VIBRATION_NOTIFICATION);
         adapter.addCheckbox(R.string.SMS_delivery, R.string.Notify_on_SMS_delivery,
-                Settings.DELIVERY_SMS_NOTIFICATION);
+                            Settings.DELIVERY_SMS_NOTIFICATION);
 
         // calls blocking settings
         adapter.addTitle(R.string.Calls_blocking);
         adapter.addCheckbox(R.string.All_calls, R.string.Block_all_calls, Settings.BLOCK_ALL_CALLS);
 
         adapter.addCheckbox(R.string.Black_list, R.string.Block_calls_from_black_list,
-                Settings.BLOCK_CALLS_FROM_BLACK_LIST);
+                            Settings.BLOCK_CALLS_FROM_BLACK_LIST);
         adapter.addCheckbox(R.string.Contacts_list, R.string.Block_calls_not_from_contacts,
-                Settings.BLOCK_CALLS_NOT_FROM_CONTACTS);
+                            Settings.BLOCK_CALLS_NOT_FROM_CONTACTS);
         adapter.addCheckbox(R.string.SMS_list, R.string.Block_calls_not_from_SMS_list,
-                Settings.BLOCK_CALLS_NOT_FROM_SMS_CONTENT);
+                            Settings.BLOCK_CALLS_NOT_FROM_SMS_CONTENT);
         adapter.addCheckbox(R.string.Private_numbers, R.string.Block_calls_from_private,
-                Settings.BLOCK_PRIVATE_CALLS);
+                            Settings.BLOCK_PRIVATE_CALLS);
         adapter.addCheckbox(R.string.Journal, R.string.Write_calls_to_journal,
-                Settings.WRITE_CALLS_JOURNAL);
+                            Settings.WRITE_CALLS_JOURNAL);
         adapter.addCheckbox(R.string.Call_log, R.string.Remove_from_call_log,
-                Settings.REMOVE_FROM_CALL_LOG);
+                            Settings.REMOVE_FROM_CALL_LOG);
 
         // calls notifications settings
         adapter.addTitle(R.string.Calls_blocking_notification);
         adapter.addCheckbox(R.string.Status_bar, R.string.Notify_in_status_bar_blocked_call,
-                Settings.BLOCKED_CALL_STATUS_NOTIFICATION, new DependentRowOnClickListener());
+                            Settings.BLOCKED_CALL_STATUS_NOTIFICATION, new DependentRowOnClickListener());
         adapter.addCheckbox(R.string.Sound, R.string.Notify_with_sound_blocked_call,
-                Settings.BLOCKED_CALL_SOUND_NOTIFICATION, new RingtonePickerOnClickListener(BLOCKED_CALL));
+                            Settings.BLOCKED_CALL_SOUND_NOTIFICATION, new RingtonePickerOnClickListener(BLOCKED_CALL));
         adapter.addCheckbox(R.string.Vibration, R.string.Notify_with_vibration_blocked_call,
-                Settings.BLOCKED_CALL_VIBRATION_NOTIFICATION, new DependentRowOnClickListener());
+                            Settings.BLOCKED_CALL_VIBRATION_NOTIFICATION, new DependentRowOnClickListener());
 
         // app interface
         adapter.addTitle(R.string.App_interface);
         adapter.addCheckbox(R.string.Text_folding, R.string.Journal_SMS_text_folding,
-                Settings.FOLD_SMS_TEXT_IN_JOURNAL);
+                            Settings.FOLD_SMS_TEXT_IN_JOURNAL);
         adapter.addCheckbox(R.string.Journal, R.string.Go_to_Journal_at_start,
-                Settings.GO_TO_JOURNAL_AT_START);
+                            Settings.GO_TO_JOURNAL_AT_START);
         adapter.addCheckbox(R.string.Back_button, R.string.Exit_on_back_pressed,
-                Settings.DONT_EXIT_ON_BACK_PRESSED);
+                            Settings.DONT_EXIT_ON_BACK_PRESSED);
         adapter.addCheckbox(R.string.UI_theme_dark, 0, Settings.UI_THEME_DARK, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -272,48 +272,48 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
         adapter.addTitle(R.string.App_data);
         // export DB file
         adapter.addButton(R.string.Export_data, R.string.Write_data_into_external,
-                new View.OnClickListener() {
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // check permissions
+                if (Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
+                    return;
+                }
+                // open the dialog for getting the exporting DB file path
+                showFilePathDialog(R.string.Export_data, new TextView.OnEditorActionListener() {
                     @Override
-                    public void onClick(View v) {
-                        // check permissions
-                        if (Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
-                            return;
-                        }
-                        // open the dialog for getting the exporting DB file path
-                        showFilePathDialog(R.string.Export_data, new TextView.OnEditorActionListener() {
-                            @Override
-                            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                                // export data file
-                                exportDataFile(textView.getText().toString());
-                                return true;
-                            }
-                        });
+                    public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                        // export data file
+                        exportDataFile(textView.getText().toString());
+                        return true;
                     }
                 });
+            }
+        });
         // import DB file
         adapter.addButton(R.string.Import_data, R.string.Load_data_from_external,
-                new View.OnClickListener() {
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // check permissions
+                if (Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
+                    return;
+                }
+                // open the dialog for getting the importing DB file path
+                showFilePathDialog(R.string.Import_data, new TextView.OnEditorActionListener() {
                     @Override
-                    public void onClick(View v) {
-                        // check permissions
-                        if (Permissions.notifyIfNotGranted(getContext(), Permissions.WRITE_EXTERNAL_STORAGE)) {
-                            return;
+                    public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                        // import data file
+                        if (importDataFile(textView.getText().toString())) {
+                            // import complete - restart
+                            Settings.invalidateCache();
+                            restartApp();
                         }
-                        // open the dialog for getting the importing DB file path
-                        showFilePathDialog(R.string.Import_data, new TextView.OnEditorActionListener() {
-                            @Override
-                            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                                // import data file
-                                if (importDataFile(textView.getText().toString())) {
-                                    // import complete - restart
-                                    Settings.invalidateCache();
-                                    restartApp();
-                                }
-                                return true;
-                            }
-                        });
+                        return true;
                     }
                 });
+            }
+        });
 
         // add adapter to the ListView and scroll list to position
         listView.setAdapter(adapter);
@@ -329,22 +329,22 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     private void setRingtoneUri(int requestCode, @Nullable Uri uri) {
         String ringtoneProperty, soundProperty, statusProperty = null;
         switch (requestCode) {
-            case BLOCKED_CALL:
-                ringtoneProperty = Settings.BLOCKED_CALL_RINGTONE;
-                soundProperty = Settings.BLOCKED_CALL_SOUND_NOTIFICATION;
-                statusProperty = Settings.BLOCKED_CALL_STATUS_NOTIFICATION;
-                break;
-            case BLOCKED_SMS:
-                ringtoneProperty = Settings.BLOCKED_SMS_RINGTONE;
-                soundProperty = Settings.BLOCKED_SMS_SOUND_NOTIFICATION;
-                statusProperty = Settings.BLOCKED_SMS_STATUS_NOTIFICATION;
-                break;
-            case RECEIVED_SMS:
-                ringtoneProperty = Settings.RECEIVED_SMS_RINGTONE;
-                soundProperty = Settings.RECEIVED_SMS_SOUND_NOTIFICATION;
-                break;
-            default:
-                return;
+        case BLOCKED_CALL:
+            ringtoneProperty = Settings.BLOCKED_CALL_RINGTONE;
+            soundProperty = Settings.BLOCKED_CALL_SOUND_NOTIFICATION;
+            statusProperty = Settings.BLOCKED_CALL_STATUS_NOTIFICATION;
+            break;
+        case BLOCKED_SMS:
+            ringtoneProperty = Settings.BLOCKED_SMS_RINGTONE;
+            soundProperty = Settings.BLOCKED_SMS_SOUND_NOTIFICATION;
+            statusProperty = Settings.BLOCKED_SMS_STATUS_NOTIFICATION;
+            break;
+        case RECEIVED_SMS:
+            ringtoneProperty = Settings.RECEIVED_SMS_RINGTONE;
+            soundProperty = Settings.RECEIVED_SMS_SOUND_NOTIFICATION;
+            break;
+        default:
+            return;
         }
 
         if (uri != null) {
@@ -364,15 +364,15 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     private Uri getRingtoneUri(int requestCode) {
         String uriString = null;
         switch (requestCode) {
-            case BLOCKED_CALL:
-                uriString = Settings.getStringValue(getContext(), Settings.BLOCKED_CALL_RINGTONE);
-                break;
-            case BLOCKED_SMS:
-                uriString = Settings.getStringValue(getContext(), Settings.BLOCKED_SMS_RINGTONE);
-                break;
-            case RECEIVED_SMS:
-                uriString = Settings.getStringValue(getContext(), Settings.RECEIVED_SMS_RINGTONE);
-                break;
+        case BLOCKED_CALL:
+            uriString = Settings.getStringValue(getContext(), Settings.BLOCKED_CALL_RINGTONE);
+            break;
+        case BLOCKED_SMS:
+            uriString = Settings.getStringValue(getContext(), Settings.BLOCKED_SMS_RINGTONE);
+            break;
+        case RECEIVED_SMS:
+            uriString = Settings.getStringValue(getContext(), Settings.RECEIVED_SMS_RINGTONE);
+            break;
         }
 
         return (uriString != null ? Uri.parse(uriString) : null);
@@ -416,25 +416,25 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
             if (!checked) {
                 // if row was unchecked - reset dependent rows
                 switch (property) {
-                    case Settings.BLOCKED_SMS_STATUS_NOTIFICATION:
-                        adapter.setRowChecked(Settings.BLOCKED_SMS_SOUND_NOTIFICATION, false);
-                        adapter.setRowChecked(Settings.BLOCKED_SMS_VIBRATION_NOTIFICATION, false);
-                        break;
-                    case Settings.BLOCKED_CALL_STATUS_NOTIFICATION:
-                        adapter.setRowChecked(Settings.BLOCKED_CALL_SOUND_NOTIFICATION, false);
-                        adapter.setRowChecked(Settings.BLOCKED_CALL_VIBRATION_NOTIFICATION, false);
-                        break;
+                case Settings.BLOCKED_SMS_STATUS_NOTIFICATION:
+                    adapter.setRowChecked(Settings.BLOCKED_SMS_SOUND_NOTIFICATION, false);
+                    adapter.setRowChecked(Settings.BLOCKED_SMS_VIBRATION_NOTIFICATION, false);
+                    break;
+                case Settings.BLOCKED_CALL_STATUS_NOTIFICATION:
+                    adapter.setRowChecked(Settings.BLOCKED_CALL_SOUND_NOTIFICATION, false);
+                    adapter.setRowChecked(Settings.BLOCKED_CALL_VIBRATION_NOTIFICATION, false);
+                    break;
                 }
             } else {
                 switch (property) {
-                    case Settings.BLOCKED_SMS_SOUND_NOTIFICATION:
-                    case Settings.BLOCKED_SMS_VIBRATION_NOTIFICATION:
-                        adapter.setRowChecked(Settings.BLOCKED_SMS_STATUS_NOTIFICATION, true);
-                        break;
-                    case Settings.BLOCKED_CALL_SOUND_NOTIFICATION:
-                    case Settings.BLOCKED_CALL_VIBRATION_NOTIFICATION:
-                        adapter.setRowChecked(Settings.BLOCKED_CALL_STATUS_NOTIFICATION, true);
-                        break;
+                case Settings.BLOCKED_SMS_SOUND_NOTIFICATION:
+                case Settings.BLOCKED_SMS_VIBRATION_NOTIFICATION:
+                    adapter.setRowChecked(Settings.BLOCKED_SMS_STATUS_NOTIFICATION, true);
+                    break;
+                case Settings.BLOCKED_CALL_SOUND_NOTIFICATION:
+                case Settings.BLOCKED_CALL_VIBRATION_NOTIFICATION:
+                    adapter.setRowChecked(Settings.BLOCKED_CALL_STATUS_NOTIFICATION, true);
+                    break;
                 }
             }
         }
@@ -444,7 +444,7 @@ public class SettingsFragment extends Fragment implements FragmentArguments {
     private void showFilePathDialog(@StringRes int titleId, final TextView.OnEditorActionListener listener) {
         if (!isAdded()) return;
         String filePath = Environment.getExternalStorageDirectory().getPath() +
-                "/Download/" + DatabaseAccessHelper.DATABASE_NAME;
+                          "/Download/" + DatabaseAccessHelper.DATABASE_NAME;
 
         @IdRes final int editId = 1;
         // create dialog

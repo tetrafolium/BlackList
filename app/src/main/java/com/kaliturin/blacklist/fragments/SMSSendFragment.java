@@ -280,31 +280,31 @@ public class SMSSendFragment extends Fragment implements FragmentArguments {
         // create and show menu dialog for actions with the contact
         DialogBuilder dialog = new DialogBuilder(getContext());
         dialog.setTitle(R.string.Add_number).
-                addItem(R.string.From_contacts_list, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showGetContactsFragment(ContactSourceType.FROM_CONTACTS);
-                    }
-                }).
-                addItem(R.string.From_calls_list, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showGetContactsFragment(ContactSourceType.FROM_CALLS_LOG);
-                    }
-                }).
-                addItem(R.string.From_SMS_list, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showGetContactsFragment(ContactSourceType.FROM_SMS_LIST);
-                    }
-                }).
-                addItem(R.string.From_White_list, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showGetContactsFragment(ContactSourceType.FROM_WHITE_LIST);
-                    }
-                }).
-                show();
+        addItem(R.string.From_contacts_list, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGetContactsFragment(ContactSourceType.FROM_CONTACTS);
+            }
+        }).
+        addItem(R.string.From_calls_list, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGetContactsFragment(ContactSourceType.FROM_CALLS_LOG);
+            }
+        }).
+        addItem(R.string.From_SMS_list, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGetContactsFragment(ContactSourceType.FROM_SMS_LIST);
+            }
+        }).
+        addItem(R.string.From_White_list, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGetContactsFragment(ContactSourceType.FROM_WHITE_LIST);
+            }
+        }).
+        show();
     }
 
     private void showGetContactsFragment(ContactSourceType sourceType) {
